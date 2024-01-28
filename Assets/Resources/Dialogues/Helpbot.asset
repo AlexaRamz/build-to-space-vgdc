@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 340201a1a8c714c4e94e6eebd515beda, type: 3}
+  m_Name: Helpbot
+  m_EditorClassIdentifier: 
+  sentences:
+  - text: Hello! I'm Helpbot. How may I be of assistance today?
+    emotion: 0
+  responses:
+  - description: Make a cheeseburger
+    nextDialogue: {fileID: 11400000, guid: 5448cce0da0ede841a0d947e068ffdf3, type: 2}
+  - description: Build a spaceship
+    nextDialogue: {fileID: 11400000, guid: 935e34f7be2380a418d6f7dc21870aea, type: 2}
+  - description: Quit the game
+    nextDialogue: {fileID: 11400000, guid: 935e34f7be2380a418d6f7dc21870aea, type: 2}

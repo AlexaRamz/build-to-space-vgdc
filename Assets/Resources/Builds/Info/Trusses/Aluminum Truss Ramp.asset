@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af78894f5d8b61844bf9c7a81b822fb3, type: 3}
+  m_Name: Aluminum Truss Ramp
+  m_EditorClassIdentifier: 
+  description: A sturdy building block incline
+  rotations:
+  - sprite: {fileID: 21300000, guid: 27998bc720668874ca123649413a882d, type: 3}
+    Object: {fileID: 0}
+    flipX: 0
+    flipY: 0
+  - sprite: {fileID: 21300000, guid: 27998bc720668874ca123649413a882d, type: 3}
+    Object: {fileID: 0}
+    flipX: 0
+    flipY: 1
+  - sprite: {fileID: 21300000, guid: 27998bc720668874ca123649413a882d, type: 3}
+    Object: {fileID: 0}
+    flipX: 1
+    flipY: 1
+  - sprite: {fileID: 21300000, guid: 27998bc720668874ca123649413a882d, type: 3}
+    Object: {fileID: 0}
+    flipX: 1
+    flipY: 0
+  materials:
+  - resource: 1
+    amount: 1
+  depth: 1
