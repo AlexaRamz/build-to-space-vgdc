@@ -20,7 +20,7 @@ public class DialogueSystem : MonoBehaviour, IMenu
 
     [HideInInspector] public bool talking = false;
     bool typing;
-    bool responding;
+    // bool responding;
     public float typeSpeed = 0.05f;
     public float pauseTime = 0.5f;
     //public int maxLetters = 30;
@@ -120,7 +120,7 @@ public class DialogueSystem : MonoBehaviour, IMenu
                 obj.transform.Find("Text").GetComponent<TMPro.TextMeshProUGUI>().text = currentDialogue.responses[i].description;
                 obj.GetComponent<Button>().onClick.AddListener(delegate { Respond(index); });
             }
-            responding = true;
+            // responding = true;
         }
         //LeanTween.moveLocal(responseContainer, new Vector3(-573, -180, 0), 0.2f).setEase(LeanTweenType.easeInCubic);
     }
@@ -132,7 +132,7 @@ public class DialogueSystem : MonoBehaviour, IMenu
     void ResetResponses()
     {
         responseUI.enabled = false;
-        responding = false;
+        // responding = false;
         foreach (Transform child in responseContainer.transform)
         {
             Destroy(child.gameObject);
