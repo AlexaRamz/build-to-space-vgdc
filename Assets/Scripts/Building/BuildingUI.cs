@@ -11,9 +11,9 @@ public class BuildingUI : MonoBehaviour, IMenu
     public GameObject categoryButtonTemplate, buildButtonTemplate, materialDisplayTemplate;
     public TMPro.TextMeshProUGUI buildName, buildDescription;
 
-    Inventory plr;
-    Canvas canvas;
-    MenuManager menuManager;
+    private Inventory plr;
+    private Canvas canvas;
+    private MenuManager menuManager;
 
     void Start()
     {
@@ -40,7 +40,6 @@ public class BuildingUI : MonoBehaviour, IMenu
         ClearBuilds();
         buildSys.EndBuilding();
     }
-
     public void ChangeBuild(int i)
     {
         SetBuildSelection(i);
