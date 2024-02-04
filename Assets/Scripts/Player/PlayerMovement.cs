@@ -5,16 +5,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public bool plrActive = true;
-    Rigidbody2D rb;
-    Animator anim;
-    float runSpeed = 7f;
-    float jumpSpeed = 7f;
-    bool isGrounded = true;
+    private Rigidbody2D rb;
+    private Animator anim;
+    private float runSpeed = 7f;
+    private float jumpSpeed = 7f;
+    private bool isGrounded = true;
     public float jumpTime = 0.25f;
     public bool inTube = false;
 
     public GameObject jetPack;
-    bool jetPackOn = false;
+    private bool jetPackOn = false;
     public float jetForce = 2f;
     public ParticleSystem smokeParticles;
 
@@ -31,10 +31,10 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.isTrigger == false && col.gameObject.tag != "Collectable" && col.gameObject.tag != "Player" && !inTube)
+        if (!col.isTrigger && col.gameObject.tag != "Collectable" && col.gameObject.tag != "Player" && !inTube)
         {
             isGrounded = true;
-            if (rb.velocity.y < -10f)
+            if (rb.velocity.y < -10f) //Play dust particles if player lands on the ground heavily
             {
                 PlayCrashParticles();
             }
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.isTrigger == false && col.gameObject.tag != "Collectable" && col.gameObject.tag != "Player" && !inTube)
+        if (!col.isTrigger && col.gameObject.tag != "Collectable" && col.gameObject.tag != "Player" && !inTube)
         {
             isGrounded = false;
         }
@@ -100,30 +100,12 @@ public class PlayerMovement : MonoBehaviour
                 wasMoving = true;
             }
 
-            if (dirX > 0f)
-            {
-                anim.SetBool("RunningRight", true);
-                anim.SetBool("RunningLeft", false);
-            }
-            else if (dirX < 0f)
-            {
-                anim.SetBool("RunningRight", false);
-                anim.SetBool("RunningLeft", true);
-            }
-            else
-            {
-                anim.SetBool("RunningRight", false);
-                anim.SetBool("RunningLeft", false);
-            }
-            if (Input.GetKeyDown("up"))
-            {
-                jumpButtonDown = true;
-            }
-            if (Input.GetKeyUp("up"))
-            {
-                jumpButtonDown = false;
+            anim.SetBool("RunningRight", dirX > 0f);
+            anim.SetBool("RunningLeft", dirX < 0f);
+
+            jumpButtonDown = Input.GetKey("up") || Input.GetKey("w");
+            if(!jumpButtonDown)
                 canJump = false;
-            }
 
             if (!inTube)
             {
@@ -132,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (jumpButtonDown)
                     {
-                        if (debounce == false)
+                        if (!debounce)
                         {
                             debounce = true;
                             canJump = true;
@@ -162,16 +144,8 @@ public class PlayerMovement : MonoBehaviour
 
             }
             // Jetpack
-            if (Input.GetKeyDown("space"))
-            {
-                jetPack.GetComponent<Animator>().SetBool("Fly", true);
-                jetPackOn = true;
-            }
-            else if (Input.GetKeyUp("space"))
-            {
-                jetPack.GetComponent<Animator>().SetBool("Fly", false);
-                jetPackOn = false;
-            }
+            jetPackOn = Input.GetKey("space");
+            jetPack.GetComponent<Animator>().SetBool("Fly", jetPackOn);
             if (jetPackOn)
             {
                 rb.AddForce(Vector2.up * jetForce);

@@ -11,38 +11,45 @@ public class Category
 }
 public class BuildingSystem : MonoBehaviour
 {
+    public static BuildingSystem Instance;
     public BuildingUI buildUI;
     public GameObject[,] gridArray; //for getting object
     public BuildInfo[,] infoArray; //for saving
     public List<Category> categories = new List<Category>(); //list of categories of craftable builds
-    Category currentCategory;
+    private Category currentCategory;
 
-    Inventory inv;
-    BuildInfo currentInfo;
+    private Inventory inv;
+    private BuildInfo currentInfo;
     public GameObject placeholder;
     [HideInInspector] public bool building = false;
    
     public Transform buildObjectContainer;
     public GameObject buildTemplate;
     public GameObject backBuildTemplate;
-    int width = 40;
-    int height = 40;
+    private const int width = 40;
+    private const int height = 40;
     public GameObject destroyParticles;
     Vector2Int startCorner = new Vector2Int(-10, -1);
 
-    void Start()
+    private void Start()
     {
+        Instance = this;
         inv = FindObjectOfType<Inventory>();
         gridArray = new GameObject[width, height];
         infoArray = new BuildInfo[width, height];
         currentInfo = new BuildInfo();
+        SetupBuilding();
+    }
+    private void SetupBuilding()
+    {
+        buildUI.SetCategories(categories);
         StartBuilding();
     }
     public void StartBuilding()
     {
-        buildUI.StartBuilding();
-        buildUI.SetCategories(categories);
         buildUI.ChangeCategory(0);
+        buildUI.StartBuilding();
+        buildUI.OpenMenu();
         building = true;
     }
     public void EndBuilding()

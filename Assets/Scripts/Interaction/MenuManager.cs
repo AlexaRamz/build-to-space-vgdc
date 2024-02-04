@@ -1,41 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MenuManager : MonoBehaviour
 {
     // Handles button inputs when within a menu
-    IMenu currentMenu;
-
+    private IMenu selectedMenu;
     public bool IsInMenu()
     {
-        return currentMenu != null;
+        return selectedMenu != null;
     }
     public void OpenMenu(IMenu newMenu)
     {
-        if (newMenu != currentMenu)
+        if (newMenu != selectedMenu)
         {
-            if (currentMenu != null)
+            if (selectedMenu != null)
             {
-                currentMenu.CloseMenu();
+                selectedMenu.CloseMenu();
             }
-            currentMenu = newMenu;
-            currentMenu.OpenMenu();
+            selectedMenu = newMenu;
+            selectedMenu.OpenMenu();
         }
     }
     public void CloseMenu()
     {
         if (IsInMenu())
         {
-            currentMenu.CloseMenu();
-            currentMenu = null;
+            selectedMenu.CloseMenu();
+            selectedMenu = null;
         }
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightShift)) // Back button
+        bool shiftInput = Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift);
+        if (shiftInput) // Back button
         {
             CloseMenu();
+        }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            //Debug.Log(BuildingSystem.Instance.building);
+            if (BuildingSystem.Instance.building)
+            {
+                BuildingSystem.Instance.buildUI.EndBuilding();
+            }
+            else
+            {
+                BuildingSystem.Instance.StartBuilding();
+            }
+            //Debug.Log(BuildingSystem.Instance.building);
         }
     }
 }
