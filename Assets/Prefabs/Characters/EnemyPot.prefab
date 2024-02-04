@@ -174,9 +174,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1.5
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -245,3 +245,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4889b17dd02582e4d99ce454aedee185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pathNodes: []
+  moveState: 0
+  ShouldFly: 1
+  Speed: 1
+  minArriveDist: 0.5
+  minWaitWander: 1
+  maxWaitWander: 2
+  minWaitPatrol: 1
+  maxWaitPatrol: 2
