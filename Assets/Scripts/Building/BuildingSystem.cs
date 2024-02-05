@@ -43,11 +43,11 @@ public class BuildingSystem : MonoBehaviour
     private void SetupBuilding()
     {
         buildUI.SetCategories(categories);
+        buildUI.ChangeCategory(0);
         StartBuilding();
     }
     public void StartBuilding()
     {
-        buildUI.ChangeCategory(0);
         buildUI.StartBuilding();
         buildUI.OpenMenu();
         building = true;

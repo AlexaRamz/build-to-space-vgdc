@@ -36,8 +36,9 @@ public class BuildingUI : MonoBehaviour, IMenu
     public void CloseMenu() // Called only by menu manager
     {
         canvas.enabled = false;
-        ClearInfo();
-        ClearBuilds();
+        ///These don't need to be called when the menu is called. I'm pretty sure it doesn't accomplish anything.
+        ///ClearInfo();
+        ///ClearBuilds();
         buildSys.EndBuilding();
     }
     public void ChangeBuild(int i)
