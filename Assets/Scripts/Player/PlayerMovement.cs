@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public float jetForce = 2f;
     public ParticleSystem smokeParticles;
 
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -76,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
     float jumpTimeCounter;
     bool jumpButtonDown = false;
     bool canJump = false;
+
     void Update()
     {
         if (plrActive)
