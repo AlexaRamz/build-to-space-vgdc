@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 237948064646328497}
   - component: {fileID: 2251078456242487253}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: GroundCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 218045353436933419}
   - component: {fileID: 7792412313742142079}
   - component: {fileID: 598403734551446327}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyPot
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathNodes: []
-  moveState: 0
+  moveState: 1
   ShouldFly: 1
   Speed: 1
   minArriveDist: 0.5
@@ -254,3 +254,5 @@ MonoBehaviour:
   maxWaitWander: 2
   minWaitPatrol: 1
   maxWaitPatrol: 2
+  maxWanderDistance: 10
+  maxChaseDetectDistance: 5

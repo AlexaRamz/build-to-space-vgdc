@@ -18,6 +18,7 @@ public class EnemyMove : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Rigidbody2D rig;
     GameObject player;
+    Vector2 spawnPosition;
 
     private Coroutine last_idlewait;
     [Min(0)]
@@ -36,6 +37,12 @@ public class EnemyMove : MonoBehaviour
 
     [Min(0)]
     public float maxWaitPatrol=2;
+
+
+    [Min(0)]
+    public float maxWanderDistance = 10;
+    [Min(0)]
+    public float maxChaseDetectDistance = 2;
 
     [System.Serializable]
     public class PathNode 
@@ -111,6 +118,7 @@ public class EnemyMove : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rig = GetComponent<Rigidbody2D>();
+        spawnPosition = transform.position;
         tempTarget = null;
         //Replace with a better way to locate the player
         player = GameObject.FindGameObjectWithTag("Player");
@@ -144,6 +152,7 @@ public class EnemyMove : MonoBehaviour
     }
     private IEnumerator WaitIdle(float duration,MoveState nextState) //Waits idle for duration seconds and then sets the movestate to nextState
     {
+        moveState = MoveState.Idle;
         yield return new WaitForSeconds(duration);
         moveState = nextState;
         last_idlewait = null;
@@ -177,22 +186,26 @@ public class EnemyMove : MonoBehaviour
     }
     public bool CheckShouldChase() //Snaps the Enemy into a chase state if it should chase, returns true/false depending on whether or not chasing should be occuring now.
     {
-        //To Do: Implement check if I can see the player.
-        if(!CanReachPosition(new PathNode(player)))
+
+        if(Vector2.Distance(transform.position,player.transform.position) > maxChaseDetectDistance || !CanReachPosition(new PathNode(player)))
         {
+
+            //I did not find the player, and I am chasing, cancel time!
+            if (moveState == MoveState.Chase)
+            {
+                moveState = MoveState.Idle;
+                tempTarget = null;
+                WaitIdleForABit(1, MoveState.Idle);
+                
+            }
             return false;
-        }
-        //I did not find the player, and I am chasing, cancel time!
-        if (moveState==MoveState.Chase)
-        {
-            moveState = MoveState.Idle;
-            WaitIdleForABit(1, MoveState.Idle);
         }
         //I found the player, chase time!
         if (moveState != MoveState.Chase)
         {
             AbortIdleWait();
             moveState = MoveState.Chase;
+            tempTarget=new PathNode(player);
         }
         return true;
     }
@@ -216,20 +229,58 @@ public class EnemyMove : MonoBehaviour
     }
     public bool CanReachPosition(PathNode pos)
     {
-        //ToDo: Implement Me (Returns true if a clear raycast line exists between current positon and pos)
-        return false;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (pos.getPos()-new Vector2(transform.position.x,transform.position.y)).normalized,Vector2.Distance(transform.position,pos.getPos()), ~LayerMask.GetMask("NPC", "Player"));
+
+        if (hit.collider != null)
+        {
+            //Something is in the way!
+            return false;
+        }
+        return true;
     }
     public PathNode genNextWanderPos()
     {
-        //ToDo: Implement Me (So that its not just up right by 5 units but is random and respects flight limits
-       PathNode pos= new PathNode(new Vector2(transform.position.x + 5, transform.position.y + 5));
-
-     /*  while (!CanReachPosition(pos))
+       for (int i = 0; i < 10; i++)
        {
+            PathNode pos=null;
+            if(!ShouldFly)
+            {
+                Vector2 targ = new Vector2(transform.position.x + Random.Range(-maxWanderDistance / 2, maxWanderDistance / 2), transform.position.y );
 
+                if (Vector2.Distance(transform.position, spawnPosition) > maxWanderDistance)
+                {
+                    targ = new Vector2(spawnPosition.x + Random.Range(-maxWanderDistance / 2, maxWanderDistance / 2), spawnPosition.y );
+                }
+
+                RaycastHit2D hit = Physics2D.Raycast(targ,Vector2.down,float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
+
+                if (hit.collider == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    pos = new PathNode(hit.point + new Vector2(0, 0.75f));
+                }
+            }
+            else
+            {
+                Vector2 targ = new Vector2(transform.position.x + Random.Range(-maxWanderDistance / 2, maxWanderDistance / 2), transform.position.y + Random.Range(-maxWanderDistance / 2, maxWanderDistance / 2));
+
+                if (Vector2.Distance(transform.position, spawnPosition) > maxWanderDistance)
+                {
+                    targ = new Vector2(spawnPosition.x + Random.Range(-maxWanderDistance / 2, maxWanderDistance / 2), spawnPosition.y + Random.Range(-maxWanderDistance / 2, maxWanderDistance / 2));
+                }
+
+                pos = new PathNode(targ);
+            }
+
+            if (Vector2.Distance(spawnPosition,pos.getPos())< maxWanderDistance && CanReachPosition(pos))
+            {
+                return pos;
+            }
        }
-     */
-       return pos;
+       return null;
     }
     public void Wander()
     {
@@ -244,8 +295,8 @@ public class EnemyMove : MonoBehaviour
 
 
 
-
-            WaitIdleForABit(Random.Range(minWaitWander, maxWaitPatrol), MoveState.Wander);
+            if(tempTarget!=null)
+                WaitIdleForABit(Random.Range(minWaitWander, maxWaitWander), MoveState.Wander);
         }
         else
         {//tempTarget != null and distance > 1f
@@ -271,7 +322,7 @@ public class EnemyMove : MonoBehaviour
             tempTarget = pathNodes[0];
             pathNodes.RemoveAt(0);
             pathNodes.Add(tempTarget);
-            WaitIdleForABit(Random.Range(minWaitWander, maxWaitPatrol), MoveState.Patrol);
+            WaitIdleForABit(Random.Range(minWaitPatrol, maxWaitPatrol), MoveState.Patrol);
         }
         else
         {//tempTarget != null and distance > 1f
@@ -286,12 +337,19 @@ public class EnemyMove : MonoBehaviour
 
     public void Chase()
     {
-        //ToDo: Implement Me (So that I beeline towards the player, up to a min distance)
 
-        Debug.LogWarning("Chases have not been implemented yet!");
         if (!CheckShouldChase())
             return;
-        
+
+        if(tempTarget==null)
+        {
+            tempTarget = new PathNode(player);
+        }
+
+        Vector2 dir = (tempTarget.getPos() - new Vector2(transform.position.x, transform.position.y)).normalized;
+
+        rig.AddForce(dir * Speed, ForceMode2D.Force);
+
     }
 
 }
