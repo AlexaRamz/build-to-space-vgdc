@@ -9,8 +9,9 @@ public class PlayerAttack : MonoBehaviour
     // Weapon Variables
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firingPoint;
-    // [Range(0.1f,1f)]
-    // [SerializeField] private float firingRate = 0.5f;
+    [Range(0.1f,1f)]
+    [SerializeField] private float firingRate = 0.5f;
+    private float fireTimer;
 
     private void Start()
     {
@@ -24,9 +25,14 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButton(0) && fireTimer <= 0f)
         {
             Shoot();
+            fireTimer = firingRate;
+        }
+        else
+        {
+            fireTimer -= Time.deltaTime;
         }
     }
 }
