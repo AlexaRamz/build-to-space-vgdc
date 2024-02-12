@@ -83,11 +83,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6040590693889318314}
   - component: {fileID: 6040590693889318315}
-  - component: {fileID: 6040590693889318313}
   - component: {fileID: 218045353436933419}
   - component: {fileID: 7792412313742142079}
+  - component: {fileID: 598403734551446327}
   m_Layer: 8
-  m_Name: HelpBot
+  m_Name: EnemyPot
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,7 +150,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 49a5e70e811d263439a36fd16420bf46, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 310d825a965ea2c4d8394c94e457ff50, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -161,19 +161,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6040590693889318313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6040590693889318324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b06e9397622e7d4e99da2379007a355, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speaker: {fileID: 11400000, guid: f9cd9652a484a324297c1a9fd60f3ce7, type: 2}
 --- !u!50 &218045353436933419
 Rigidbody2D:
   serializedVersion: 4
@@ -187,9 +174,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1.5
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -233,16 +220,39 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.49139535}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.2580645}
+    oldSize: {x: 1, y: 1.9375}
     newSize: {x: 1, y: 1.25}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.9827907}
   m_EdgeRadius: 0
+--- !u!114 &598403734551446327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6040590693889318324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4889b17dd02582e4d99ce454aedee185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathNodes: []
+  moveState: 1
+  ShouldFly: 1
+  Speed: 1
+  minArriveDist: 0.5
+  minWaitWander: 1
+  maxWaitWander: 2
+  minWaitPatrol: 1
+  maxWaitPatrol: 2
+  maxWanderDistance: 10
+  maxChaseDetectDistance: 5
