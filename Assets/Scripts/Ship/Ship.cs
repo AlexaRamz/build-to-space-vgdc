@@ -80,6 +80,39 @@ public class Ship : MonoBehaviour
         }
         tiles = newTiles;
     }
+    private void PlaceBlock(int i, int j, Rotation rot)
+    {
+        BuildingSystem bs = BuildingSystem.Instance;
+        Vector3 pos = new Vector3(i, j); //This block placing system needs to be unified with the placement system in BuildingSystem. But to do that would require a TON of refactoring...
+        if (!tiles[i, j].HasTile)
+        {
+            GameObject clone = rot.Object;
+            GameObject obj;
+            if (clone == null)
+            {
+                if (bs.categories[0].builds[0].depth == Build.DepthLevel.MidGround)
+                    clone = bs.buildTemplate;
+                else
+                    clone = bs.backBuildTemplate;
+            }
+            obj = Instantiate(clone, Vector3.zero, gameObject.transform.rotation, gameObject.transform);
+            obj.transform.localPosition = pos;
+            if (rot.sprite != null)
+            {
+                SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>();
+                renderer.sprite = rot.sprite;
+            }
+            tiles[i, j].obj = obj;
+            tiles[i, j].info = new BuildInfo();
+
+            if (bs.categories[0].builds[0].depth == Build.DepthLevel.MidGround)
+            {
+                PolygonCollider2D collider = obj.AddComponent<PolygonCollider2D>();
+                collider.usedByComposite = true;
+            }
+            myObj.Add(obj);
+        }
+    }
     private void Start()
     {
         RB = GetComponent<Rigidbody2D>();
@@ -102,5 +135,18 @@ public class Ship : MonoBehaviour
         {
             AddSize(-1, 0);
         }
+        if(Input.GetMouseButtonDown(1))
+        {
+            ConvertPositionToShipCoordinates();
+        }
+    }
+    private int debugNum = 0;
+    private void ConvertPositionToShipCoordinates()
+    {
+        debugNum++;
+        Vector2 shipPos = (Vector2)gameObject.transform.position - new Vector2(0.5f, 0.5f).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad);
+        Vector2 mousePos = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition)).RotatedBy(-gameObject.transform.eulerAngles.z * Mathf.Deg2Rad, shipPos) - shipPos;
+        Vector2 worldPos = new Vector2(Mathf.FloorToInt(mousePos.x), Mathf.FloorToInt(mousePos.y));
+        Debug.Log(debugNum + ": " + worldPos + "---" + new Vector2(0.5f, 0.5f).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad));
     }
 }
