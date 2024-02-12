@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Rotation
+public class Rotation //essential a variant of sprite for the object
 {
     public Sprite sprite;
     public GameObject Object;
@@ -55,20 +55,12 @@ public class BuildInfo
 {
     public Build build;
     public int rot = 0;
-
     public Rotation GetRotation()
     {
         return build.rotations[rot];
     }
     public void AdvanceRotation()
     {
-        if (rot < (build.rotations.Length - 1))
-        {
-            rot++;
-        }
-        else
-        {
-            rot = 0;
-        }
+        rot = (rot + 1) % build.rotations.Length;
     }
 }

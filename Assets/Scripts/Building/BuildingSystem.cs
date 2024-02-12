@@ -9,12 +9,22 @@ public class Category
     public Sprite image;
     public List<Build> builds = new List<Build>();
 }
+public struct Tile
+{
+    public Tile(bool n)
+    {
+        obj = null;
+        info = null;
+    }
+    public bool HasTile => obj != null;
+    public GameObject obj;
+    public BuildInfo info;
+}
 public class BuildingSystem : MonoBehaviour
 {
     public static BuildingSystem Instance;
     public BuildingUI buildUI;
-    public GameObject[,] gridArray; //for getting object
-    public BuildInfo[,] infoArray; //for saving
+    public Tile[,] world; //for getting object
     public List<Category> categories = new List<Category>(); //list of categories of craftable builds
     private Category currentCategory;
 
@@ -26,7 +36,7 @@ public class BuildingSystem : MonoBehaviour
     public Transform buildObjectContainer;
     public GameObject buildTemplate;
     public GameObject backBuildTemplate;
-    private const int width = 40;
+    private const int width = 40; //This is the size of the world/placeable block area
     private const int height = 40;
     public GameObject destroyParticles;
     Vector2Int startCorner = new Vector2Int(-10, -1);
@@ -35,19 +45,18 @@ public class BuildingSystem : MonoBehaviour
     {
         Instance = this;
         inv = FindObjectOfType<Inventory>();
-        gridArray = new GameObject[width, height];
-        infoArray = new BuildInfo[width, height];
+        world = new Tile[width, height];
         currentInfo = new BuildInfo();
         SetupBuilding();
     }
     private void SetupBuilding()
     {
         buildUI.SetCategories(categories);
+        buildUI.ChangeCategory(0);
         StartBuilding();
     }
     public void StartBuilding()
     {
-        buildUI.ChangeCategory(0);
         buildUI.StartBuilding();
         buildUI.OpenMenu();
         building = true;
@@ -157,15 +166,15 @@ public class BuildingSystem : MonoBehaviour
     }
     GameObject GetGridObject(Vector2Int gridPos)
     {
-        return gridArray[gridPos.x, gridPos.y];
+        return world[gridPos.x, gridPos.y].obj;
     }
     BuildInfo GetGridInfo(Vector2Int gridPos)
     {
-        return infoArray[gridPos.x, gridPos.y];
+        return world[gridPos.x, gridPos.y].info;
     }
-    bool CheckGrid(Vector2Int gridPos)
+    bool HasTile(Vector2Int gridPos)
     {
-        return infoArray[gridPos.x, gridPos.y] != null;
+        return world[gridPos.x, gridPos.y].HasTile;
     }
     bool IsWithinGrid(Vector2Int gridPos)
     {
@@ -173,8 +182,11 @@ public class BuildingSystem : MonoBehaviour
     }
     bool HasAdjacent(Vector2Int gridPos)
     {
-        if (gridPos.y == 0) return true;
-        Vector2Int[] adjShifts = { new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) };
+        if (gridPos.y == 0) 
+            return true;
+        Vector2Int[] adjShifts = { 
+            new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) 
+        };
         foreach (Vector2Int shift in adjShifts)
         {
             Vector2Int adjPos = gridPos + shift;
@@ -187,10 +199,9 @@ public class BuildingSystem : MonoBehaviour
     }
     void SetGrid(GameObject Object, Vector2Int gridPos, BuildInfo info)
     {
-        gridArray[gridPos.x, gridPos.y] = Object;
-        infoArray[gridPos.x, gridPos.y] = info;
+        world[gridPos.x, gridPos.y].obj = Object;
+        world[gridPos.x, gridPos.y].info = info;
     }
-
 
     //***********TEMPLATE************
     void SetTemplate()
@@ -288,7 +299,7 @@ public class BuildingSystem : MonoBehaviour
                     {
                         RotateBuild();
                     }
-                    if (!CheckGrid(gridPos) && HasAdjacent(gridPos))
+                    if (!HasTile(gridPos) && HasAdjacent(gridPos))
                     {
                         if (mouseDown && inv.CheckMaterials(currentInfo.build.materials))
                         {
@@ -309,7 +320,7 @@ public class BuildingSystem : MonoBehaviour
                 if (canDelete && mouseDown)
                 {
                     GameObject obj = null;
-                    if (CheckGrid(gridPos))
+                    if (HasTile(gridPos))
                     {
                         obj = GetGridObject(gridPos);
                     }
