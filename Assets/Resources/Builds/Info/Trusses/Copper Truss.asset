@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af78894f5d8b61844bf9c7a81b822fb3, type: 3}
-  m_Name: Aluminum Truss
+  m_Name: Copper Truss
   m_EditorClassIdentifier: 
   description: A sturdy building block
   rotations:
-  - sprite: {fileID: -993174190, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
+  - sprite: {fileID: 1462754246, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 0
     flipY: 0
   materials:
-  - resource: 1
+  - resource: 0
     amount: 2
   depth: 1
