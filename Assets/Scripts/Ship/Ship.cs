@@ -7,10 +7,9 @@ using UnityEngine.Assertions.Must;
 public class Ship : MonoBehaviour
 {
     private Rigidbody2D RB;
-    private Tile[,] tiles = new Tile[0, 0];
-    private List<GameObject> myObj = new List<GameObject>();
-    private int Width => tiles.GetLength(0);
-    private int Height => tiles.GetLength(1);
+    public BuildArray ship;
+    private int Width => ship.Width;
+    private int Height => ship.Height;
     /// <summary>
     /// Increases the size of the ship. Negative numbers grow the ship to the left/bottom. Positive numbers grow the ship to the right/top
     /// </summary>
@@ -31,91 +30,30 @@ public class Ship : MonoBehaviour
         BuildingSystem bs = BuildingSystem.Instance;
         Rotation rot = bs.categories[0].builds[0].rotations[0];
         Tile[,] newTiles = new Tile[width, height];
-        foreach(GameObject obj in myObj)
-        {
-            obj.transform.localPosition += new Vector3(offsetX, offsetY);
-        }
+        Tile[,] oldTiles = ship.tile;
         gameObject.transform.position -= (Vector3)new Vector2(offsetX, offsetY).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad); //this is a system for readjusting the position of the ship when new blocks are added. Right now it is very finicky
         for(int i = 0; i < newTiles.GetLength(0); i++)
         {
             for(int j = 0; j < newTiles.GetLength(1); j++)
             {
-                if (i < tiles.GetLength(0) + offsetX && i >= offsetX && j < tiles.GetLength(1) + offsetY && j >= offsetY)
+                if (i < oldTiles.GetLength(0) + offsetX && i >= offsetX && j < oldTiles.GetLength(1) + offsetY && j >= offsetY) //Tiles within old boundaries
                 {
-                    newTiles[i, j] = tiles[i - offsetX, j - offsetY];
+                    newTiles[i, j] = oldTiles[i - offsetX, j - offsetY];
+                    if(newTiles[i, j].HasTile)
+                        newTiles[i, j].transform.localPosition += new Vector3(offsetX, offsetY);
                 }
-                else if(i == 0 || j == 0 || i == newTiles.GetLength(0) - 1 || j == newTiles.GetLength(1) - 1)
+                else if(i == 0 || j == 0 || i == newTiles.GetLength(0) - 1 || j == newTiles.GetLength(1) - 1) //New tiles
                 {
-                    Vector3 pos = new Vector3(i, j); //This block placing system needs to be unified with the placement system in BuildingSystem. But to do that would require a TON of refactoring...
-                    if (!newTiles[i, j].HasTile)
-                    {
-                        GameObject clone = rot.Object;
-                        GameObject obj;
-                        if (clone == null)
-                        {
-                            if (bs.categories[0].builds[0].depth == Build.DepthLevel.MidGround)
-                                clone = bs.buildTemplate;
-                            else
-                                clone = bs.backBuildTemplate;
-                        }
-                        obj = Instantiate(clone, Vector3.zero, gameObject.transform.rotation, gameObject.transform);
-                        obj.transform.localPosition = pos;
-                        if (rot.sprite != null)
-                        {
-                            SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>();
-                            renderer.sprite = rot.sprite;
-                        }
-                        newTiles[i, j].obj = obj;
-                        newTiles[i, j].info = new BuildInfo();
-
-                        if (bs.categories[0].builds[0].depth == Build.DepthLevel.MidGround)
-                        {
-                            PolygonCollider2D collider = obj.AddComponent<PolygonCollider2D>();
-                            collider.usedByComposite = true;
-                        }
-                        myObj.Add(obj);
-                    }
+                    ship.PlaceBlock(ref newTiles, i, j, bs.categories[0].builds[0], rot);
                 }
             }
         }
-        tiles = newTiles;
-    }
-    private void PlaceBlock(int i, int j, Rotation rot)
-    {
-        BuildingSystem bs = BuildingSystem.Instance;
-        Vector3 pos = new Vector3(i, j); //This block placing system needs to be unified with the placement system in BuildingSystem. But to do that would require a TON of refactoring...
-        if (!tiles[i, j].HasTile)
-        {
-            GameObject clone = rot.Object;
-            GameObject obj;
-            if (clone == null)
-            {
-                if (bs.categories[0].builds[0].depth == Build.DepthLevel.MidGround)
-                    clone = bs.buildTemplate;
-                else
-                    clone = bs.backBuildTemplate;
-            }
-            obj = Instantiate(clone, Vector3.zero, gameObject.transform.rotation, gameObject.transform);
-            obj.transform.localPosition = pos;
-            if (rot.sprite != null)
-            {
-                SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>();
-                renderer.sprite = rot.sprite;
-            }
-            tiles[i, j].obj = obj;
-            tiles[i, j].info = new BuildInfo();
-
-            if (bs.categories[0].builds[0].depth == Build.DepthLevel.MidGround)
-            {
-                PolygonCollider2D collider = obj.AddComponent<PolygonCollider2D>();
-                collider.usedByComposite = true;
-            }
-            myObj.Add(obj);
-        }
+        ship.tile = newTiles;
     }
     private void Start()
     {
         RB = GetComponent<Rigidbody2D>();
+        ship = new BuildArray(gameObject, 0, 0, 0, 0);
     }
     bool hasSetUp = false;
     void Update()
@@ -137,16 +75,24 @@ public class Ship : MonoBehaviour
         }
         if(Input.GetMouseButtonDown(1))
         {
-            ConvertPositionToShipCoordinates();
+            Vector2Int pos = ConvertPositionToShipCoordinates(Input.mousePosition);
+            if (PositionInBounds(pos))
+            {
+                ship.PlaceBlock(pos.x, pos.y, BuildingSystem.Instance.GetBuild(), BuildingSystem.Instance.currentInfo.GetRotation());
+            }
         }
     }
-    private int debugNum = 0;
-    private void ConvertPositionToShipCoordinates()
+    public bool PositionInBounds(Vector2Int position)
     {
-        debugNum++;
+        return position.x >= 0 && position.y >= 0 && position.x < Width && position.y < Height;
+    }
+    private Vector2Int ConvertPositionToShipCoordinates(Vector2 position)
+    {
+        //debugNum++;
         Vector2 shipPos = (Vector2)gameObject.transform.position - new Vector2(0.5f, 0.5f).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad);
-        Vector2 mousePos = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition)).RotatedBy(-gameObject.transform.eulerAngles.z * Mathf.Deg2Rad, shipPos) - shipPos;
-        Vector2 worldPos = new Vector2(Mathf.FloorToInt(mousePos.x), Mathf.FloorToInt(mousePos.y));
-        Debug.Log(debugNum + ": " + worldPos + "---" + new Vector2(0.5f, 0.5f).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad));
+        Vector2 mousePos = ((Vector2)Camera.main.ScreenToWorldPoint(position)).RotatedBy(-gameObject.transform.eulerAngles.z * Mathf.Deg2Rad, shipPos) - shipPos;
+        Vector2Int worldPos = new Vector2Int(Mathf.FloorToInt(mousePos.x), Mathf.FloorToInt(mousePos.y));
+        //Debug.Log(debugNum + ": " + worldPos + "---" + new Vector2(0.5f, 0.5f).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad));
+        return worldPos;
     }
 }

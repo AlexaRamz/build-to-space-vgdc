@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 [System.Serializable]
@@ -11,6 +12,15 @@ public class Category
 }
 public struct Tile
 {
+    public Transform transform
+    { 
+        get 
+        {
+            if (obj == null)
+                throw new System.Exception("Cannot get transform of an empty tiles");
+            return obj.transform; 
+        }
+    }
     public Tile(bool n)
     {
         obj = null;
@@ -22,14 +32,22 @@ public struct Tile
 }
 public class BuildArray
 {
-    public BuildArray(Vector2Int size, Vector2Int position)
+    public BuildArray(GameObject parent, int width, int height, int x, int y)
     {
+        this.parent = parent;
+        tile = new Tile[width, height];
+        position = new Vector3(x, y);
+    }
+    public BuildArray(GameObject parent, Vector2Int size, Vector3 position)
+    {
+        this.parent = parent;
         tile = new Tile[size.x, size.y];
         this.position = position;
     }
-    public Vector2Int position;
-    private int Width => tile.GetLength(0);
-    private int Height => tile.GetLength(1);
+    public GameObject parent;
+    public Vector3 position;
+    public int Width => tile.GetLength(0);
+    public int Height => tile.GetLength(1);
     public Tile[,] tile; //for getting object
     public Vector3 GetWorldPos(Vector2 mousePos)
     {
@@ -37,7 +55,7 @@ public class BuildArray
     }
     public Vector2Int GetGridPos(Vector2 mousePos)
     {
-        return new Vector2Int(Mathf.FloorToInt(mousePos.x) - position.x, Mathf.FloorToInt(mousePos.y) - position.y);
+        return new Vector2Int(Mathf.FloorToInt(mousePos.x - position.x), Mathf.FloorToInt(mousePos.y - position.y));
     }
     public GameObject GetGridObject(Vector2Int gridPos)
     {
@@ -77,9 +95,65 @@ public class BuildArray
         tile[gridPos.x, gridPos.y].obj = Object;
         tile[gridPos.x, gridPos.y].info = info;
     }
+    public bool PlaceBlock(ref Tile[,] tile, int i, int j, Build build, Rotation rotation)
+    {
+        BuildingSystem bs = BuildingSystem.Instance;
+        Vector3 pos = new Vector3(i, j) + position; //This block placing system needs to be unified with the placement system in BuildingSystem. But to do that would require a TON of refactoring...
+        if (!tile[i, j].HasTile)
+        {
+            GameObject clone = rotation.Object;
+            GameObject obj;
+            if (clone == null)
+            {
+                if (build.depth == Build.DepthLevel.MidGround)
+                    clone = bs.buildTemplate;
+                else
+                    clone = bs.backBuildTemplate;
+            }
+            obj = GameObject.Instantiate(clone, Vector3.zero, parent.transform.rotation, parent.transform);
+            obj.transform.localPosition = pos;
+            if (rotation.sprite != null)
+            {
+                SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>();
+                renderer.sprite = rotation.sprite;
+            }
+            tile[i, j].obj = obj;
+            tile[i, j].info = new BuildInfo();
+
+            if (bs.categories[0].builds[0].depth == Build.DepthLevel.MidGround)
+            {
+                PolygonCollider2D collider = obj.AddComponent<PolygonCollider2D>();
+                collider.usedByComposite = true;
+            }
+
+            if (rotation.flipX)
+            {
+                obj.transform.localScale = new Vector3(-1, obj.transform.localScale.y, 1);
+            }
+            if (rotation.flipY)
+            {
+                obj.transform.localScale = new Vector3(obj.transform.localScale.x, -1, 1);
+            }
+
+            BuildTrigger info = obj.AddComponent<BuildTrigger>();
+            info.build = build;
+            info.gridPos = new Vector2Int(i, j);
+
+            return true;
+        }
+        return false;
+    }
+    public bool PlaceBlock(int i, int j, Build build, Rotation rotation)
+    {
+        return PlaceBlock(ref this.tile, i, j, build, rotation);
+    }
 }
 public class BuildingSystem : MonoBehaviour
 {
+    private const int width = 40; //This is the size of the world/placeable block area
+    private const int height = 40;
+    private Vector2Int startCorner = new Vector2Int(-10, -1);
+
     public BuildArray world;
     public static BuildingSystem Instance;
     public BuildingUI buildUI;
@@ -87,23 +161,19 @@ public class BuildingSystem : MonoBehaviour
     private Category currentCategory;
 
     private Inventory inv;
-    private BuildInfo currentInfo;
+    [HideInInspector] public BuildInfo currentInfo;
     public GameObject placeholder;
     [HideInInspector] public bool building = false;
    
     public Transform buildObjectContainer;
     public GameObject buildTemplate;
     public GameObject backBuildTemplate;
-    private const int width = 40; //This is the size of the world/placeable block area
-    private const int height = 40;
     public GameObject destroyParticles;
-    Vector2Int startCorner = new Vector2Int(-10, -1);
-
     private void Start()
     {
         Instance = this;
         inv = FindObjectOfType<Inventory>();
-        world = new BuildArray(new Vector2Int(width, height), startCorner);
+        world = new BuildArray(gameObject, new Vector2Int(width, height), (Vector2)startCorner);
         currentInfo = new BuildInfo();
         SetupBuilding();
     }
@@ -161,59 +231,12 @@ public class BuildingSystem : MonoBehaviour
         buildUI.SetBuilds(currentCategory);
         EndPlacing();
     }
-    void Place(Vector2Int gridPos, Vector3 worldPos)
+    void Place(Vector2Int gridPos)
     {
-        GameObject Object;
         Rotation rotation = currentInfo.GetRotation();
-        Build build = currentInfo.build;
-        int currentRot = currentInfo.rot;
-
-        if (rotation.Object == null)
-        {
-            if (build.depth == Build.DepthLevel.MidGround)
-            {
-                Object = Instantiate(buildTemplate, worldPos, Quaternion.identity);
-            }
-            else // build.depth == Build.DepthLevel.Background
-            {
-                Object = Instantiate(backBuildTemplate, worldPos, Quaternion.identity);
-            }
-
-            SpriteRenderer renderer = Object.GetComponent<SpriteRenderer>();
-            renderer.sprite = rotation.sprite;
-        }
-        else
-        {
-            Object = Instantiate(rotation.Object, worldPos, Quaternion.identity);
-
-        }
-        Object.name = build.name;
-        Object.transform.SetParent(buildObjectContainer);
-        world.SetGrid(Object, gridPos, new BuildInfo { build = build, rot = currentRot });
-
-        if (build.depth == Build.DepthLevel.MidGround)
-        {
-            PolygonCollider2D collider = Object.AddComponent<PolygonCollider2D>();
-            collider.usedByComposite = true;
-        }
-
-        if (rotation.flipX)
-        {
-            Object.transform.localScale = new Vector3(-1, Object.transform.localScale.y, 1);
-        }
-        if (rotation.flipY)
-        {
-            Object.transform.localScale = new Vector3(Object.transform.localScale.x, -1, 1);
-        }
-        inv.DepleteMaterials(currentInfo.build.materials);
-
-        BuildTrigger info = Object.AddComponent<BuildTrigger>();
-        info.build = build;
-        info.gridPos = gridPos;
+        if(world.PlaceBlock(gridPos.x, gridPos.y, currentInfo.build, rotation))
+            inv.DepleteMaterials(currentInfo.build.materials);
     }
-
-
-    
 
     //***********TEMPLATE************
     void SetTemplate()
@@ -317,7 +340,7 @@ public class BuildingSystem : MonoBehaviour
                         {
                             PlaceHolderOff();
                             canDelete = false;
-                            Place(gridPos, worldPos);
+                            Place(gridPos);
                         }
                         else
                         {
@@ -340,7 +363,8 @@ public class BuildingSystem : MonoBehaviour
                     {
                         Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                         RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero);
-                        if (hit) obj = hit.collider.gameObject;
+                        if (hit)
+                            obj = hit.collider.gameObject;
                     }
                     if (obj != null && obj.GetComponent<BuildTrigger>())
                     {
