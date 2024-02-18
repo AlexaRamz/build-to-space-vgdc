@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Category
@@ -21,7 +24,7 @@ public struct Tile
             return obj.transform; 
         }
     }
-    public Tile(bool n)
+    public Tile(bool n = false)
     {
         obj = null;
         info = null;
@@ -32,17 +35,46 @@ public struct Tile
 }
 public class BuildArray
 {
+    public BuildArray Clone(GameObject parent)
+    {
+        BuildArray ba = new BuildArray(parent, Width, Height, 0, 0);
+        for (int i = 0; i < Width; i++)
+        {
+            for (int j = 0; j < Height; j++)
+            {
+                if (tile[i,j].HasTile)
+                    ba.PlaceBlock(i, j, tile[i, j].info.build, tile[i, j].info.GetRotation());
+                else
+                    ba.tile[i, j] = tile[i, j];
+            }
+        }
+        return ba;
+    }
     public BuildArray(GameObject parent, int width, int height, int x, int y)
     {
         this.parent = parent;
-        tile = new Tile[width, height];
         position = new Vector3(x, y);
+        tile = new Tile[width, height];
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                tile[i, j] = new Tile();
+            }
+        }
     }
     public BuildArray(GameObject parent, Vector2Int size, Vector3 position)
     {
         this.parent = parent;
-        tile = new Tile[size.x, size.y];
         this.position = position;
+        tile = new Tile[size.x, size.y];
+        for (int i = 0; i < size.x; i++)
+        {
+            for (int j = 0; j < size.y; j++)
+            {
+                tile[i, j] = new Tile();
+            }
+        }
     }
     public GameObject parent;
     public Vector3 position;
@@ -83,7 +115,7 @@ public class BuildArray
         foreach (Vector2Int shift in adjShifts)
         {
             Vector2Int adjPos = gridPos + shift;
-            if (IsWithinGrid(adjPos) && GetGridObject(adjPos) != null)
+            if (IsWithinGrid(adjPos) && HasTile(adjPos))
             {
                 return true;
             }
@@ -118,7 +150,8 @@ public class BuildArray
                 renderer.sprite = rotation.sprite;
             }
             tile[i, j].obj = obj;
-            tile[i, j].info = new BuildInfo();
+            tile[i, j].info = new BuildInfo() { build = build };
+            
 
             if (bs.categories[0].builds[0].depth == Build.DepthLevel.MidGround)
             {
@@ -150,9 +183,10 @@ public class BuildArray
 }
 public class BuildingSystem : MonoBehaviour
 {
-    private const int width = 40; //This is the size of the world/placeable block area
-    private const int height = 40;
-    private Vector2Int startCorner = new Vector2Int(-10, -1);
+    public static List<BuildArray> savedShips;
+    public int width = 40; //This is the size of the world/placeable block area
+    public int height = 40;
+    public Vector2Int startCorner = new Vector2Int(-10, -1);
 
     public BuildArray world;
     public static BuildingSystem Instance;
@@ -169,8 +203,14 @@ public class BuildingSystem : MonoBehaviour
     public GameObject buildTemplate;
     public GameObject backBuildTemplate;
     public GameObject destroyParticles;
+    public GameObject shipPrefab;
     private void Start()
     {
+        if(savedShips == null)
+        {
+            Debug.Log("Reset saved ships");
+            savedShips = new List<BuildArray>();
+        }
         Instance = this;
         inv = FindObjectOfType<Inventory>();
         world = new BuildArray(gameObject, new Vector2Int(width, height), (Vector2)startCorner);
@@ -308,6 +348,7 @@ public class BuildingSystem : MonoBehaviour
 
     void Update()
     {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (building)
         {
             if (Input.GetMouseButtonDown(0))
@@ -321,8 +362,6 @@ public class BuildingSystem : MonoBehaviour
                 canBuild = true;
                 canDelete = true;
             }
-
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int gridPos = world.GetGridPos(mousePos);
             Vector3 worldPos = world.GetWorldPos(mousePos);
             placeholder.transform.position = worldPos;
@@ -385,6 +424,25 @@ public class BuildingSystem : MonoBehaviour
             {
                 PlaceHolderOff();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.LeftControl))
+        {
+            Debug.Log("Saved a ship");
+            savedShips.Add(world);
+        }
+        if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftControl))
+        {
+            Debug.Log("Cloned a ship");
+            GameObject newShip = Instantiate(shipPrefab, (Vector2)mousePos, Quaternion.identity);
+            Ship ship = newShip.GetComponent<Ship>();
+            BuildArray save = savedShips.Last();
+            ship.ship = save.Clone(newShip);
+            ship.RB.mass = ship.Width * ship.Height;
+            Debug.Log(save.tile[0, 0]);
+        }
+        if (Input.GetKey(KeyCode.B) && Input.GetKey(KeyCode.LeftControl))
+        {
+            SceneManager.LoadScene(4);
         }
     }
 }

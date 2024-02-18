@@ -6,10 +6,10 @@ using UnityEngine.Assertions.Must;
 
 public class Ship : MonoBehaviour
 {
-    private Rigidbody2D RB;
+    public Rigidbody2D RB;
     public BuildArray ship;
-    private int Width => ship.Width;
-    private int Height => ship.Height;
+    public int Width => ship.Width;
+    public int Height => ship.Height;
     /// <summary>
     /// Increases the size of the ship. Negative numbers grow the ship to the left/bottom. Positive numbers grow the ship to the right/top
     /// </summary>
@@ -30,6 +30,13 @@ public class Ship : MonoBehaviour
         BuildingSystem bs = BuildingSystem.Instance;
         Rotation rot = bs.categories[0].builds[0].rotations[0];
         Tile[,] newTiles = new Tile[width, height];
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                newTiles[i, j] = new Tile();
+            }
+        }
         Tile[,] oldTiles = ship.tile;
         gameObject.transform.position -= (Vector3)new Vector2(offsetX, offsetY).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad); //this is a system for readjusting the position of the ship when new blocks are added. Right now it is very finicky
         for(int i = 0; i < newTiles.GetLength(0); i++)
@@ -55,7 +62,7 @@ public class Ship : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         ship = new BuildArray(gameObject, 0, 0, 0, 0);
     }
-    bool hasSetUp = false;
+    private static bool hasSetUp = false;
     void Update()
     {
         if(!hasSetUp)
@@ -80,6 +87,10 @@ public class Ship : MonoBehaviour
             {
                 ship.PlaceBlock(pos.x, pos.y, BuildingSystem.Instance.GetBuild(), BuildingSystem.Instance.currentInfo.GetRotation());
             }
+        }
+        if(transform.childCount <= 0)
+        {
+            Destroy(gameObject);
         }
     }
     public bool PositionInBounds(Vector2Int position)

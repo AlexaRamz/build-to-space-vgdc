@@ -1410,10 +1410,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6288442931646131618, guid: 9b2f07f307d259b46b38cd8dd27e35b8, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6288442931646131618, guid: 9b2f07f307d259b46b38cd8dd27e35b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
       objectReference: {fileID: 0}
@@ -5932,6 +5928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141876c789a3f824f86b46ae8c9c5edf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RB: {fileID: 0}
 --- !u!50 &1806153935
 Rigidbody2D:
   serializedVersion: 4
