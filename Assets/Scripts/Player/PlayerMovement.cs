@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,24 +11,40 @@ public class PlayerMovement : MonoBehaviour
     private float runSpeed = 7f;
     private float jumpSpeed = 7f;
     private bool isGrounded = true;
-    public float jumpTime = 0.25f;
-    public bool inTube = false;
+    private float jumpTime = 0.25f;
+    private bool inTube = false;
+    [SerializeField] 
+    private GameObject smokePuffsPrefab;
 
-    public GameObject jetPack;
+    // Jetpack
+    [SerializeField] private GameObject jetPack;
     private bool jetPackOn = false;
-    public float jetForce = 2f;
-    public ParticleSystem smokeParticles;
+    private float jetForce;
+    [SerializeField]
+    private Slider fuelSlider;
+    [SerializeField]
+    private float fuel = 100f;
+    [SerializeField]
+    private float fuelBurnRate = 30f;
+    [SerializeField]
+    private float fuelRefillRate = 5f;
+    private float currentFuel;
+    private bool haveFuel = true;
+    private float refillCoolDown = 2f;
+    private float fuelTimer;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        jetForce = rb.gravityScale * 9f * 2f;
+        currentFuel = fuel;
     }
     void PlayCrashParticles()
     {
-        smokeParticles.transform.position = transform.position;
-        smokeParticles.Stop();
-        smokeParticles.Play();
+        GameObject smokePuffs = Instantiate(smokePuffsPrefab, transform.position, Quaternion.Euler(-90, 0, 0));
+        smokePuffs.GetComponent<ParticleSystem>().Play();
     }
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -107,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
             if(!jumpButtonDown)
                 canJump = false;
 
-            if (!inTube)
+            if (!inTube && !jetPackOn)
             {
                 //Jumping
                 if (isGrounded)
@@ -138,22 +155,56 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
             }
+
+            /* JETPACK */
+            if (haveFuel && Input.GetKey("space"))
+            {
+                jetPackOn = true;
+                fuelSlider.transform.parent.GetComponent<Canvas>().enabled = true;
+                anim.SetBool("Jumping", true);
+            }
             else
             {
-                //Up and down moving
-
+                jetPackOn = false;
+                RefillFuel();
             }
-            // Jetpack
-            jetPackOn = Input.GetKey("space");
+            fuelSlider.value = currentFuel / fuel;
             jetPack.GetComponent<Animator>().SetBool("Fly", jetPackOn);
-            if (jetPackOn)
+            if (currentFuel < 0)
             {
-                rb.AddForce(Vector2.up * jetForce);
-                //if (isGrounded)
-                //{
-                    //smokeParticles.Play();
-                //}
+                haveFuel = false;
+                currentFuel = 0;
             }
+            if (!haveFuel)
+            {
+                fuelTimer += Time.deltaTime;
+                if (fuelTimer >= refillCoolDown)
+                {
+                    haveFuel = true;
+                    fuelTimer = 0;
+                } 
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (jetPackOn)
+        {
+            rb.AddForce(Vector2.up * jetForce);
+            currentFuel -= fuelBurnRate * Time.deltaTime;
+        }
+    }
+
+    void RefillFuel()
+    {
+        if (currentFuel < fuel)
+        {
+            currentFuel += fuelRefillRate * Time.deltaTime;
+        }
+        else
+        {
+            fuelSlider.transform.parent.GetComponent<Canvas>().enabled = false;
         }
     }
 }
