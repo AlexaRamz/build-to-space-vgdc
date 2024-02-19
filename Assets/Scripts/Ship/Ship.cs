@@ -25,7 +25,7 @@ public class Ship : MonoBehaviour
             offsetY = Mathf.Abs(j);
         SetBounds(Width + Mathf.Abs(i), Height + Mathf.Abs(j), offsetX, offsetY);
     }
-    private void SetBounds(int width, int height, int offsetX = 0, int offsetY = 0)
+    public void SetBounds(int width, int height, int offsetX = 0, int offsetY = 0)
     {
         BuildingSystem bs = BuildingSystem.Instance;
         Rotation rot = bs.categories[0].builds[0].rotations[0];
@@ -49,7 +49,7 @@ public class Ship : MonoBehaviour
                     if(newTiles[i, j].HasTile)
                         newTiles[i, j].transform.localPosition += new Vector3(offsetX, offsetY);
                 }
-                else if(i == 0 || j == 0 || i == newTiles.GetLength(0) - 1 || j == newTiles.GetLength(1) - 1) //New tiles
+                else if(!hasSetUp && (i == 0 || j == 0 || i == newTiles.GetLength(0) - 1 || j == newTiles.GetLength(1) - 1)) //New tiles
                 {
                     ship.PlaceBlock(ref newTiles, i, j, bs.categories[0].builds[0], rot);
                 }
@@ -60,7 +60,8 @@ public class Ship : MonoBehaviour
     private void Start()
     {
         RB = GetComponent<Rigidbody2D>();
-        ship = new BuildArray(gameObject, 0, 0, 0, 0);
+        if(ship == null)
+            ship = new BuildArray(gameObject, 0, 0, 0, 0);
     }
     private static bool hasSetUp = false;
     void Update()
@@ -83,9 +84,13 @@ public class Ship : MonoBehaviour
         if(Input.GetMouseButtonDown(1))
         {
             Vector2Int pos = ConvertPositionToShipCoordinates(Input.mousePosition);
+            Debug.Log(pos);
+            Debug.Log(Width);
+            Debug.Log(Height);
             if (PositionInBounds(pos))
             {
-                ship.PlaceBlock(pos.x, pos.y, BuildingSystem.Instance.GetBuild(), BuildingSystem.Instance.currentInfo.GetRotation());
+                Debug.Log(ship.PlaceBlock(pos.x, pos.y, BuildingSystem.Instance.GetBuild(), BuildingSystem.Instance.currentInfo.GetRotation()));
+
             }
         }
         if(transform.childCount <= 0)

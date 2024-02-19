@@ -30,11 +30,24 @@ public struct Tile
         info = null;
     }
     public bool HasTile => obj != null;
+    public bool HasInfo => info != null;
     public GameObject obj;
     public BuildInfo info;
 }
 public class BuildArray
 {
+    public BuildArray Copy()
+    {
+        BuildArray ba = new BuildArray(parent, Width, Height, 0, 0);
+        for (int i = 0; i < Width; i++)
+        {
+            for (int j = 0; j < Height; j++)
+            {
+                ba.tile[i, j].info = tile[i, j].info;
+            }
+        }
+        return ba;
+    }
     public BuildArray Clone(GameObject parent)
     {
         BuildArray ba = new BuildArray(parent, Width, Height, 0, 0);
@@ -42,7 +55,7 @@ public class BuildArray
         {
             for (int j = 0; j < Height; j++)
             {
-                if (tile[i,j].HasTile)
+                if (tile[i,j].HasInfo)
                     ba.PlaceBlock(i, j, tile[i, j].info.build, tile[i, j].info.GetRotation());
                 else
                     ba.tile[i, j] = tile[i, j];
@@ -55,26 +68,12 @@ public class BuildArray
         this.parent = parent;
         position = new Vector3(x, y);
         tile = new Tile[width, height];
-        for(int i = 0; i < width; i++)
-        {
-            for(int j = 0; j < height; j++)
-            {
-                tile[i, j] = new Tile();
-            }
-        }
     }
     public BuildArray(GameObject parent, Vector2Int size, Vector3 position)
     {
         this.parent = parent;
         this.position = position;
         tile = new Tile[size.x, size.y];
-        for (int i = 0; i < size.x; i++)
-        {
-            for (int j = 0; j < size.y; j++)
-            {
-                tile[i, j] = new Tile();
-            }
-        }
     }
     public GameObject parent;
     public Vector3 position;
@@ -428,7 +427,7 @@ public class BuildingSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.LeftControl))
         {
             Debug.Log("Saved a ship");
-            savedShips.Add(world);
+            savedShips.Add(world.Copy());
         }
         if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftControl))
         {
@@ -438,7 +437,7 @@ public class BuildingSystem : MonoBehaviour
             BuildArray save = savedShips.Last();
             ship.ship = save.Clone(newShip);
             ship.RB.mass = ship.Width * ship.Height;
-            Debug.Log(save.tile[0, 0]);
+            //Debug.Log(save.tile[0, 0]);
         }
         if (Input.GetKey(KeyCode.B) && Input.GetKey(KeyCode.LeftControl))
         {
