@@ -15,6 +15,8 @@ public class EnemyMove : MonoBehaviour
     
     private PathNode tempTarget=null;//This is our current target that we will work towards getting to.
     [Tooltip("The current AI movement state of the enemy (This changes as the game runs)")]
+
+    public enum MoveState {Idle,Wander,Patrol,Chase}
     public MoveState moveState;
     public enum MovementFlare {Walk,Fly,Hop}
     [Tooltip("The movement type of the enemy. (This does not factor in gravity in the rigidbody!)")]
@@ -47,6 +49,10 @@ public class EnemyMove : MonoBehaviour
     public float maxWanderDistance = 10;
     [Min(0),Tooltip("The distance in which the enemy will detect the player and begin chasing")]
     public float maxChaseDetectDistance = 2;
+
+    [Min(0),Tooltip("The power in which the enemy hops upwards, does not apply if the enemy is not hopping")]
+    public float hopPower=16;
+    private float hopGroundDist = 0.8f;
 
     [System.Serializable]
     public class PathNode 
@@ -83,13 +89,6 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    public enum MoveState
-    {
-        Idle,
-        Wander,
-        Patrol,
-        Chase
-    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -310,7 +309,29 @@ public class EnemyMove : MonoBehaviour
             //Move me towards the target location!
             Vector2 dir = (tempTarget.getPos()-new Vector2(transform.position.x,transform.position.y)).normalized;
 
-            rig.AddForce(dir*Speed,ForceMode2D.Force);
+            if(moveType==MovementFlare.Hop)
+            {
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
+
+                if (hit.collider == null)
+                {
+                    return; //Im over the void, so lets just give up on chasing for this run...
+                }
+                else
+                {
+                    if(Vector2.Distance(hit.point,transform.position)< hopGroundDist && Mathf.Abs(rig.velocity.y)<0.01f)
+                    {//Hopping movement is only allowed when I am on the ground, and not moving downwards.
+
+                        dir.y += 1;
+                        rig.AddForce(new Vector2(dir.x * Speed, dir.y * hopPower), ForceMode2D.Impulse);
+                    }
+                }
+            }
+            else
+            {
+                rig.AddForce(dir * Speed, ForceMode2D.Force);
+            }
+
 
         }
     }
@@ -336,7 +357,28 @@ public class EnemyMove : MonoBehaviour
             //Move me towards the target location!
             Vector2 dir = (tempTarget.getPos() - new Vector2(transform.position.x, transform.position.y)).normalized;
 
-            rig.AddForce(dir * Speed, ForceMode2D.Force);
+            if (moveType == MovementFlare.Hop)
+            {
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
+
+                if (hit.collider == null)
+                {
+                    return; //Im over the void, so lets just give up on chasing for this run...
+                }
+                else
+                {
+                    if (Vector2.Distance(hit.point, transform.position) < hopGroundDist && Mathf.Abs(rig.velocity.y) < 0.01f)
+                    {//Hopping movement is only allowed when I am on the ground, and not moving downwards.
+
+                        dir.y += 1;
+                        rig.AddForce(new Vector2(dir.x * Speed, dir.y * hopPower), ForceMode2D.Impulse);
+                    }
+                }
+            }
+            else
+            {
+                rig.AddForce(dir * Speed, ForceMode2D.Force);
+            }
 
         }
     }
@@ -371,7 +413,28 @@ public class EnemyMove : MonoBehaviour
             }
             Vector2 dir = (targPos - new Vector2(transform.position.x, transform.position.y)).normalized;
 
-            rig.AddForce(dir * Speed, ForceMode2D.Force);
+            if (moveType == MovementFlare.Hop)
+            {
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
+
+                if (hit.collider == null)
+                {
+                    return; //Im over the void, so lets just give up on chasing for this run...
+                }
+                else
+                {
+                    if (Vector2.Distance(hit.point, transform.position) < hopGroundDist && Mathf.Abs(rig.velocity.y) < 0.01f)
+                    {//Hopping movement is only allowed when I am on the ground, and not moving downwards.
+
+                        dir.y += 1;
+                        rig.AddForce(new Vector2(dir.x*Speed,dir.y*hopPower), ForceMode2D.Impulse);
+                    }
+                }
+            }
+            else
+            {
+                rig.AddForce(dir * Speed, ForceMode2D.Force);
+            }
         }
     }
 
