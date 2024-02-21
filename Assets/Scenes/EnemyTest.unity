@@ -2816,13 +2816,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 598403734551446327, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
-      propertyPath: moveState
+    - target: {fileID: 218045353436933419, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
+      propertyPath: m_GravityScale
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 598403734551446327, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
-      propertyPath: maxChaseDetectDistance
-      value: 5
+      propertyPath: moveType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6040590693889318314, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
       propertyPath: m_LocalPosition.x

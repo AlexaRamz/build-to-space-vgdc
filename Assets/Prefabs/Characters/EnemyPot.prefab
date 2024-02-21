@@ -247,12 +247,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathNodes: []
   moveState: 1
-  ShouldFly: 1
-  Speed: 1
+  ShouldFly: 0
+  Speed: 5
   minArriveDist: 0.5
   minWaitWander: 1
   maxWaitWander: 2
   minWaitPatrol: 1
   maxWaitPatrol: 2
-  maxWanderDistance: 10
-  maxChaseDetectDistance: 5
+  maxWanderDistance: 20
+  maxChaseDetectDistance: 10
