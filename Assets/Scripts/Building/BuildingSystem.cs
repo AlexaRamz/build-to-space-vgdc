@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -43,7 +44,14 @@ public class BuildArray
         {
             for (int j = 0; j < Height; j++)
             {
-                ba.tile[i, j].info = tile[i, j].info;
+                if (tile[i, j].HasInfo)
+                {
+                    ba.tile[i, j].info = new BuildInfo()
+                    {
+                        build = tile[i, j].info.build,
+                        rot = tile[i, j].info.rot
+                    };
+                }
             }
         }
         return ba;
@@ -56,7 +64,9 @@ public class BuildArray
             for (int j = 0; j < Height; j++)
             {
                 if (tile[i,j].HasInfo)
+                {
                     ba.PlaceBlock(i, j, tile[i, j].info.build, tile[i, j].info.GetRotation());
+                }
                 else
                     ba.tile[i, j] = tile[i, j];
             }
@@ -149,7 +159,18 @@ public class BuildArray
                 renderer.sprite = rotation.sprite;
             }
             tile[i, j].obj = obj;
-            tile[i, j].info = new BuildInfo() { build = build };
+            int myRot = 0;
+            for(int a = 0; a < build.rotations.Length; a++)
+            {
+                if (build.rotations[a] == rotation)
+                {
+                    myRot = a;
+                }
+            }
+            tile[i, j].info = new BuildInfo()
+            {
+                build = build, rot = myRot
+            };
             
 
             if (bs.categories[0].builds[0].depth == Build.DepthLevel.MidGround)
@@ -361,6 +382,7 @@ public class BuildingSystem : MonoBehaviour
             Vector2Int gridPos = world.GetGridPos(mousePos);
             Vector3 worldPos = world.GetWorldPos(mousePos);
             placeholder.transform.position = worldPos;
+            placeholder.transform.rotation = Quaternion.identity;
             int totalShips = Ship.LoadedShips.Count;
             // Debug.Log(totalShips);
             BuildArray selectedBuildArray = world;
@@ -373,8 +395,9 @@ public class BuildingSystem : MonoBehaviour
                 {
                     selectedBuildArray = ship.ship;
                     gridPos = shipGridPos;
-                    placeholder.transform.position = new Vector3(mousePos.x, mousePos.y, placeholder.transform.position.z);
-                    PlaceHolderOn();
+                    Vector2 shipWorldPos = ship.ConvertShipCoordinatesToPosition(shipGridPos);
+                    placeholder.transform.position = new Vector3(shipWorldPos.x, shipWorldPos.y, placeholder.transform.position.z);
+                    placeholder.transform.rotation = ship.transform.rotation;
                     break;
                 }
             }

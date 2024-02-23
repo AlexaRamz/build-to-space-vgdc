@@ -83,8 +83,8 @@ public class Ship : MonoBehaviour
         {
             AddSize(-1, 0);
         }
-        if(Input.GetMouseButtonDown(1))
-        {
+        /*if(Input.GetMouseButtonDown(1))
+        { 
             Vector2Int pos = ConvertPositionToShipCoordinates(Input.mousePosition, true);
             Debug.Log(pos);
             Debug.Log(Width);
@@ -94,7 +94,7 @@ public class Ship : MonoBehaviour
                 Debug.Log(ship.PlaceBlock(pos.x, pos.y, BuildingSystem.Instance.GetBuild(), BuildingSystem.Instance.currentInfo.GetRotation()));
 
             }
-        }
+        }*/
         if(transform.childCount <= 0)
         {
             Destroy(gameObject);
@@ -120,5 +120,9 @@ public class Ship : MonoBehaviour
         Vector2Int worldPos = new Vector2Int(Mathf.FloorToInt(mousePos.x), Mathf.FloorToInt(mousePos.y));
         //Debug.Log(debugNum + ": " + worldPos + "---" + new Vector2(0.5f, 0.5f).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad));
         return worldPos;
+    }
+    public Vector2 ConvertShipCoordinatesToPosition(Vector2Int gridPosition)
+    {
+        return (Vector2)transform.position + new Vector2(gridPosition.x, gridPosition.y).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad);
     }
 }
