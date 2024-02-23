@@ -504,12 +504,12 @@ public class BuildingSystem : MonoBehaviour
                 PlaceHolderOff();
             }
         }
-        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.LeftControl)) //CTRL C to clone a ship
         {
             Debug.Log("Saved a ship");
             savedShips.Add(world.Copy());
         }
-        if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftControl)) //CTRL V to paste a ship
         {
             Debug.Log("Cloned a ship");
             GameObject newShip = Instantiate(shipPrefab, (Vector2)mousePos, Quaternion.identity);
@@ -519,13 +519,13 @@ public class BuildingSystem : MonoBehaviour
             int minHeight;
             Vector2Int offset;
             ship.ship = save.Clone(newShip, out offset, out minWidth, out minHeight);
-            ship.RB.mass = ship.Width * ship.Height;
+            newShip.transform.position -= new Vector3(ship.Width / 2, 0);
             ship.SetBounds(minWidth, minHeight, -offset.x, -offset.y); //Clamp the ship size to the size of the cloned blocks
             ship.AddSize(1, 1); //Expand the ship size by 1 in each direction to allow placing around the ship
             ship.AddSize(-1, -1);
             //Debug.Log(save.tile[0, 0]);
         }
-        if (Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.LeftControl)) //CTRL G to swap scenes to the shipbuilding scene
         {
             SceneManager.LoadScene(4);
         }

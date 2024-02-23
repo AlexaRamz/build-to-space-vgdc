@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using UnityEngine.UIElements;
 
 public class Ship : MonoBehaviour
 {
+    private GameObject player => PlayerMovement.Instance.gameObject;
     public static List<Ship> LoadedShips = new List<Ship>();
     public Rigidbody2D RB;
     public BuildArray ship;
@@ -77,7 +79,6 @@ public class Ship : MonoBehaviour
                 SetBounds(5, 5);
                 AddSize(-2, -2);
                 AddSize(2, 2);
-                RB.mass = transform.childCount;
                 hasSetUp = true;
             }
         }
@@ -85,21 +86,27 @@ public class Ship : MonoBehaviour
         {
             AddSize(-1, 0);
         }
-        /*if(Input.GetMouseButtonDown(1))
-        { 
-            Vector2Int pos = ConvertPositionToShipCoordinates(Input.mousePosition, true);
-            Debug.Log(pos);
-            Debug.Log(Width);
-            Debug.Log(Height);
-            if (PositionInBounds(pos))
-            {
-                Debug.Log(ship.PlaceBlock(pos.x, pos.y, BuildingSystem.Instance.GetBuild(), BuildingSystem.Instance.currentInfo.GetRotation()));
-
-            }
-        }*/
         if(transform.childCount <= 0)
         {
             Destroy(gameObject);
+        }
+    }
+    private void FixedUpdate()
+    {
+        RB.mass = transform.childCount;
+        if (player != null)
+        {
+            Vector2Int playerInShip = ConvertPositionToShipCoordinates(player.transform.position, false);
+            if (PositionInBounds(playerInShip)) //Player can hold right click to fly the ship while inside of it
+            {
+                if (Input.GetMouseButton(1))
+                {
+                    Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Vector2 toMouse = position - (Vector2)player.transform.position;
+                    toMouse = toMouse.normalized;
+                    RB.AddForce(toMouse * 0.5f * RB.mass, ForceMode2D.Impulse);
+                }
+            }
         }
     }
     private void OnDestroy()
