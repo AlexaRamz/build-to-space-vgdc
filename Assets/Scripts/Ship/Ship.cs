@@ -77,7 +77,7 @@ public class Ship : MonoBehaviour
                 SetBounds(5, 5);
                 AddSize(-2, -2);
                 AddSize(2, 2);
-                RB.mass = Width * Height;
+                RB.mass = transform.childCount;
                 hasSetUp = true;
             }
         }

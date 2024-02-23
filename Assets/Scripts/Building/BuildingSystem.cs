@@ -366,6 +366,10 @@ public class BuildingSystem : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         Destroy(particles);
     }
+    /// <summary>
+    /// Ideally, this should be unified with the build array in some way in order to make shrinking the ship possible when blocks are broken (and make sure there are no memory leaks from the tile array)
+    /// </summary>
+    /// <param name="obj"></param>
     void DestroyObject(GameObject obj)
     {
         BuildTrigger info = obj.GetComponent<BuildTrigger>();
@@ -418,6 +422,8 @@ public class BuildingSystem : MonoBehaviour
             bool PlaceOnFlatFloor = true;
             BuildArray selectedBuildArray = world;
             Ship selectedShip = null;
+            ///This searches for ships that might be where the cursor is located, allowing the player to build on them instead.
+            ///This should be reworked to let the play place on the closest ship to the mouse, just in case too many ships/builds are competing for player placement attention
             for(int i = 0; i < totalShips; i++)
             {
                 Ship ship = Ship.LoadedShips[i];
