@@ -24,6 +24,12 @@ public class Gun : MonoBehaviour, ITool
             readyToUse = true;
         }
     }
+    Transform bulletOrigin;
+
+    private void Start()
+    {
+        bulletOrigin = transform.Find("BulletOrigin");
+    }
 
     IEnumerator useDelay()
     {
@@ -43,6 +49,13 @@ public class Gun : MonoBehaviour, ITool
 
     public void Shoot()
     {
-        Instantiate(gunData.bulletPrefab, transform.position, Quaternion.identity);
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) * Mathf.Rad2Deg;
+        transform.localRotation = Quaternion.Euler(0, 0, angle);
+
+        Bullet bullet = Instantiate(gunData.bulletPrefab, bulletOrigin.position, Quaternion.Euler(0, 0, angle - 90)).GetComponent<Bullet>();
+        bullet.speed = gunData.bulletSpeed;
+        bullet.lifeTime = gunData.bulletLifetime;
+        bullet.damage = gunData.bulletDamage;
     }
 }

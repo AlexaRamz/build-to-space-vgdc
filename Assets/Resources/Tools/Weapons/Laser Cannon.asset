@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Laser Cannon
   m_EditorClassIdentifier: 
   Name: Laser Cannon
-  sprite: {fileID: 21300000, guid: 492b9988436bd45049a9a6bc52ac8fb0, type: 3}
+  sprite: {fileID: 21300000, guid: 7f26a42610ccfde40b7c042d1bd36f9f, type: 3}
   holdPosition: {x: 0, y: 0}
   prefab: {fileID: 956604068018005096, guid: 18bc7c8705e5d394d955090d8babc214, type: 3}
-  bulletDamage: 4
   fireCoolDown: 0.5
+  bulletDamage: 4
+  bulletSpeed: 10
+  bulletLifetime: 3
   bulletPrefab: {fileID: 6563951063878213689, guid: 80e14fde4c29f8c49975897e1219269b, type: 3}

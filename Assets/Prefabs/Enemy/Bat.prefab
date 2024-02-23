@@ -16,9 +16,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bat
       objectReference: {fileID: 0}
+    - target: {fileID: 1667692070742612889, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361038564699116075, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Size.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361038564699116075, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Size.y
+      value: 0.5625
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361038564699116075, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361038564699116075, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.03125
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361038564699116075, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Direction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2473200858717578837, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: m_Offset.y
       value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648269364622787934, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: maxHealth
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7089861542472946787, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: m_Size.x
@@ -90,6 +118,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7525539465578679617, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: moveType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8663267884846849393, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Size.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8663267884846849393, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Size.y
+      value: 0.5625
+      objectReference: {fileID: 0}
+    - target: {fileID: 8663267884846849393, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8663267884846849393, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.03125
+      objectReference: {fileID: 0}
+    - target: {fileID: 8663267884846849393, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Direction
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
