@@ -56,21 +56,44 @@ public class BuildArray
         }
         return ba;
     }
-    public BuildArray Clone(GameObject parent)
+    public BuildArray Clone(GameObject parent, out Vector2Int offset, out int width, out int height)
     {
         BuildArray ba = new BuildArray(parent, Width, Height, 0, 0);
+        int startX = Width;
+        int startY = Height;
+        int endX = 0;
+        int endY = 0;
         for (int i = 0; i < Width; i++)
         {
             for (int j = 0; j < Height; j++)
             {
                 if (tile[i,j].HasInfo)
                 {
+                    if(i < startX)
+                    {
+                        startX = i;
+                    }
+                    if (j < startY)
+                    {
+                        startY = j;
+                    }
+                    if(i > endX)
+                    {
+                        endX = i;
+                    }
+                    if (j > endY)
+                    {
+                        endY = j;
+                    }
                     ba.PlaceBlock(i, j, tile[i, j].info.build, tile[i, j].info.GetRotation());
                 }
                 else
                     ba.tile[i, j] = tile[i, j];
             }
         }
+        offset = new Vector2Int(startX, startY);
+        width = endX - startX + 1;
+        height = endY - startY + 1;
         return ba;
     }
     public BuildArray(GameObject parent, int width, int height, int x, int y)
@@ -116,8 +139,6 @@ public class BuildArray
     }
     public bool HasAdjacent(Vector2Int gridPos)
     {
-        if (gridPos.y == 0)
-            return true;
         Vector2Int[] adjShifts = {
             new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1)
         };
@@ -136,7 +157,7 @@ public class BuildArray
         tile[gridPos.x, gridPos.y].obj = Object;
         tile[gridPos.x, gridPos.y].info = info;
     }
-    public bool PlaceBlock(ref Tile[,] tile, int i, int j, Build build, Rotation rotation)
+    public bool PlaceBlock(ref Tile[,] tile, int i, int j, Build build, Rotation rotation, Ship ship = null)
     {
         BuildingSystem bs = BuildingSystem.Instance;
         Vector3 pos = new Vector3(i, j) + position; //This block placing system needs to be unified with the placement system in BuildingSystem. But to do that would require a TON of refactoring...
@@ -191,14 +212,23 @@ public class BuildArray
             BuildTrigger info = obj.AddComponent<BuildTrigger>();
             info.build = build;
             info.gridPos = new Vector2Int(i, j);
-
+            
+            if(ship != null)
+            {
+                ship.AddSize(
+                    i == 0 ? -1 : 0, 
+                    j == 0 ? -1 : 0);
+                ship.AddSize(
+                    i >= ship.Width - 1 ? 1 : 0, 
+                    j >= ship.Height - 1 ?  1 : 0);
+            }
             return true;
         }
         return false;
     }
-    public bool PlaceBlock(int i, int j, Build build, Rotation rotation)
+    public bool PlaceBlock(int i, int j, Build build, Rotation rotation, Ship ship = null)
     {
-        return PlaceBlock(ref this.tile, i, j, build, rotation);
+        return PlaceBlock(ref this.tile, i, j, build, rotation, ship);
     }
 }
 public class BuildingSystem : MonoBehaviour
@@ -291,10 +321,10 @@ public class BuildingSystem : MonoBehaviour
         buildUI.SetBuilds(currentCategory);
         EndPlacing();
     }
-    void Place(BuildArray bArray, Vector2Int gridPos)
+    void Place(BuildArray bArray, Vector2Int gridPos, Ship ship)
     {
         Rotation rotation = currentInfo.GetRotation();
-        if(bArray.PlaceBlock(gridPos.x, gridPos.y, currentInfo.build, rotation))
+        if(bArray.PlaceBlock(gridPos.x, gridPos.y, currentInfo.build, rotation, ship))
             inv.DepleteMaterials(currentInfo.build.materials);
     }
 
@@ -385,7 +415,9 @@ public class BuildingSystem : MonoBehaviour
             placeholder.transform.rotation = Quaternion.identity;
             int totalShips = Ship.LoadedShips.Count;
             // Debug.Log(totalShips);
+            bool PlaceOnFlatFloor = true;
             BuildArray selectedBuildArray = world;
+            Ship selectedShip = null;
             for(int i = 0; i < totalShips; i++)
             {
                 Ship ship = Ship.LoadedShips[i];
@@ -393,12 +425,17 @@ public class BuildingSystem : MonoBehaviour
                 bool withinBounds = ship.PositionInBounds(shipGridPos);
                 if(withinBounds)
                 {
-                    selectedBuildArray = ship.ship;
-                    gridPos = shipGridPos;
-                    Vector2 shipWorldPos = ship.ConvertShipCoordinatesToPosition(shipGridPos);
-                    placeholder.transform.position = new Vector3(shipWorldPos.x, shipWorldPos.y, placeholder.transform.position.z);
-                    placeholder.transform.rotation = ship.transform.rotation;
-                    break;
+                    if(ship.ship.HasAdjacent(shipGridPos) || ship.ship.HasTile(shipGridPos))
+                    {
+                        PlaceOnFlatFloor = false;
+                        selectedBuildArray = ship.ship;
+                        gridPos = shipGridPos;
+                        Vector2 shipWorldPos = ship.ConvertShipCoordinatesToPosition(shipGridPos);
+                        placeholder.transform.position = new Vector3(shipWorldPos.x, shipWorldPos.y, placeholder.transform.position.z);
+                        placeholder.transform.rotation = ship.transform.rotation;
+                        selectedShip = ship;
+                        break;
+                    }
                 }
             }
             if (selectedBuildArray.IsWithinGrid(gridPos) && !buildUI.IsOnUI())
@@ -409,13 +446,13 @@ public class BuildingSystem : MonoBehaviour
                     {
                         RotateBuild();
                     }
-                    if (!selectedBuildArray.HasTile(gridPos) && selectedBuildArray.HasAdjacent(gridPos))
+                    if (!selectedBuildArray.HasTile(gridPos) && (selectedBuildArray.HasAdjacent(gridPos) || (PlaceOnFlatFloor && gridPos.y == 0)))
                     {
                         if (mouseDown && inv.CheckMaterials(currentInfo.build.materials))
                         {
                             PlaceHolderOff();
                             canDelete = false;
-                            Place(selectedBuildArray, gridPos);
+                            Place(selectedBuildArray, gridPos, selectedShip);
                         }
                         else
                         {
@@ -472,8 +509,14 @@ public class BuildingSystem : MonoBehaviour
             GameObject newShip = Instantiate(shipPrefab, (Vector2)mousePos, Quaternion.identity);
             Ship ship = newShip.GetComponent<Ship>();
             BuildArray save = savedShips.Last();
-            ship.ship = save.Clone(newShip);
+            int minWidth;
+            int minHeight;
+            Vector2Int offset;
+            ship.ship = save.Clone(newShip, out offset, out minWidth, out minHeight);
             ship.RB.mass = ship.Width * ship.Height;
+            ship.SetBounds(minWidth, minHeight, -offset.x, -offset.y); //Clamp the ship size to the size of the cloned blocks
+            ship.AddSize(1, 1); //Expand the ship size by 1 in each direction to allow placing around the ship
+            ship.AddSize(-1, -1);
             //Debug.Log(save.tile[0, 0]);
         }
         if (Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.LeftControl))
