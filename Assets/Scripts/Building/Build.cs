@@ -57,6 +57,11 @@ public class BuildInfo
     public int rot = 0;
     public Rotation GetRotation()
     {
+        if (build.rotations == null || build.rotations.Length <= 0)
+        {
+            Debug.Log("No rotations saved");
+            return null;
+        }
         return build.rotations[rot];
     }
     public void AdvanceRotation()

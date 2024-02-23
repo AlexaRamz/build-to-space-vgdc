@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance;
     public bool plrActive = true;
     private Rigidbody2D rb;
     private Animator anim;
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        Instance = this;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
