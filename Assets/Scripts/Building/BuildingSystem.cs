@@ -270,10 +270,10 @@ public class BuildingSystem : MonoBehaviour
         buildUI.SetBuilds(currentCategory);
         EndPlacing();
     }
-    void Place(Vector2Int gridPos)
+    void Place(BuildArray bArray, Vector2Int gridPos)
     {
         Rotation rotation = currentInfo.GetRotation();
-        if(world.PlaceBlock(gridPos.x, gridPos.y, currentInfo.build, rotation))
+        if(bArray.PlaceBlock(gridPos.x, gridPos.y, currentInfo.build, rotation))
             inv.DepleteMaterials(currentInfo.build.materials);
     }
 
@@ -309,8 +309,6 @@ public class BuildingSystem : MonoBehaviour
         renderer.enabled = false;
         renderer.sprite = null;
     }
-
-
     //***********DESTROYING************
     IEnumerator DestroyParticles(GameObject particles)
     {
@@ -330,7 +328,6 @@ public class BuildingSystem : MonoBehaviour
         world.SetGrid(null, info.gridPos, null);
         Destroy(obj);
     }
-
 
     //***********ROTATING************
     void RotateBuild()
@@ -364,7 +361,24 @@ public class BuildingSystem : MonoBehaviour
             Vector2Int gridPos = world.GetGridPos(mousePos);
             Vector3 worldPos = world.GetWorldPos(mousePos);
             placeholder.transform.position = worldPos;
-            if (world.IsWithinGrid(gridPos) && !buildUI.IsOnUI())
+            int totalShips = Ship.LoadedShips.Count;
+            // Debug.Log(totalShips);
+            BuildArray selectedBuildArray = world;
+            for(int i = 0; i < totalShips; i++)
+            {
+                Ship ship = Ship.LoadedShips[i];
+                Vector2Int shipGridPos = ship.ConvertPositionToShipCoordinates(mousePos);
+                bool withinBounds = ship.PositionInBounds(shipGridPos);
+                if(withinBounds)
+                {
+                    selectedBuildArray = ship.ship;
+                    gridPos = shipGridPos;
+                    placeholder.transform.position = new Vector3(mousePos.x, mousePos.y, placeholder.transform.position.z);
+                    PlaceHolderOn();
+                    break;
+                }
+            }
+            if (selectedBuildArray.IsWithinGrid(gridPos) && !buildUI.IsOnUI())
             {
                 if (canBuild && currentInfo != null && currentInfo.build != null)
                 {
@@ -372,13 +386,13 @@ public class BuildingSystem : MonoBehaviour
                     {
                         RotateBuild();
                     }
-                    if (!world.HasTile(gridPos) && world.HasAdjacent(gridPos))
+                    if (!selectedBuildArray.HasTile(gridPos) && selectedBuildArray.HasAdjacent(gridPos))
                     {
                         if (mouseDown && inv.CheckMaterials(currentInfo.build.materials))
                         {
                             PlaceHolderOff();
                             canDelete = false;
-                            Place(gridPos);
+                            Place(selectedBuildArray, gridPos);
                         }
                         else
                         {
@@ -393,9 +407,9 @@ public class BuildingSystem : MonoBehaviour
                 if (canDelete && mouseDown)
                 {
                     GameObject obj = null;
-                    if (world.HasTile(gridPos))
+                    if (selectedBuildArray.HasTile(gridPos))
                     {
-                        obj = world.GetGridObject(gridPos);
+                        obj = selectedBuildArray.GetGridObject(gridPos);
                     }
                     else
                     {
@@ -439,7 +453,7 @@ public class BuildingSystem : MonoBehaviour
             ship.RB.mass = ship.Width * ship.Height;
             //Debug.Log(save.tile[0, 0]);
         }
-        if (Input.GetKey(KeyCode.B) && Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.LeftControl))
         {
             SceneManager.LoadScene(4);
         }

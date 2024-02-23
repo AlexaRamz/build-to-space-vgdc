@@ -6,6 +6,7 @@ using UnityEngine.Assertions.Must;
 
 public class Ship : MonoBehaviour
 {
+    public static List<Ship> LoadedShips = new List<Ship>();
     public Rigidbody2D RB;
     public BuildArray ship;
     public int Width => ship.Width;
@@ -62,6 +63,7 @@ public class Ship : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         if(ship == null)
             ship = new BuildArray(gameObject, 0, 0, 0, 0);
+        LoadedShips.Add(this);
     }
     private static bool hasSetUp = false;
     void Update()
@@ -83,7 +85,7 @@ public class Ship : MonoBehaviour
         }
         if(Input.GetMouseButtonDown(1))
         {
-            Vector2Int pos = ConvertPositionToShipCoordinates(Input.mousePosition);
+            Vector2Int pos = ConvertPositionToShipCoordinates(Input.mousePosition, true);
             Debug.Log(pos);
             Debug.Log(Width);
             Debug.Log(Height);
@@ -98,15 +100,23 @@ public class Ship : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void OnDestroy()
+    {
+        LoadedShips.Remove(this);
+    }
     public bool PositionInBounds(Vector2Int position)
     {
         return position.x >= 0 && position.y >= 0 && position.x < Width && position.y < Height;
     }
-    private Vector2Int ConvertPositionToShipCoordinates(Vector2 position)
+    public Vector2Int ConvertPositionToShipCoordinates(Vector2 position, bool fromScreenPosition = false)
     {
+        if(fromScreenPosition)
+        {
+            position = Camera.main.ScreenToWorldPoint(position);
+        } 
         //debugNum++;
         Vector2 shipPos = (Vector2)gameObject.transform.position - new Vector2(0.5f, 0.5f).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad);
-        Vector2 mousePos = ((Vector2)Camera.main.ScreenToWorldPoint(position)).RotatedBy(-gameObject.transform.eulerAngles.z * Mathf.Deg2Rad, shipPos) - shipPos;
+        Vector2 mousePos = ((Vector2)position).RotatedBy(-gameObject.transform.eulerAngles.z * Mathf.Deg2Rad, shipPos) - shipPos;
         Vector2Int worldPos = new Vector2Int(Mathf.FloorToInt(mousePos.x), Mathf.FloorToInt(mousePos.y));
         //Debug.Log(debugNum + ": " + worldPos + "---" + new Vector2(0.5f, 0.5f).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad));
         return worldPos;
