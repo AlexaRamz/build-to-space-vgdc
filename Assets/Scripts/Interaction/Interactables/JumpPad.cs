@@ -18,7 +18,7 @@ public class JumpPad : MonoBehaviour
         if (!Debounce && col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Collectable"))
         {
             Debounce = true;
-            col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * bounce, ForceMode2D.Impulse);
+            col.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up.RotatedBy(transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * bounce, ForceMode2D.Impulse);
             StartCoroutine(DebounceDelay());
         }
     }

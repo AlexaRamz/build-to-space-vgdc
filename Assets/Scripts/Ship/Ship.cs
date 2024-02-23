@@ -16,8 +16,10 @@ public class Ship : MonoBehaviour
     /// </summary>
     /// <param name="i"></param>
     /// <param name="j"></param>
-    private void AddSize(int i = 0, int j = 0)
+    public void AddSize(int i = 0, int j = 0)
     {
+        if (i == 0 && j == 0) //Don't do anything weird if we are not growing at all
+            return;
         int offsetX = 0;
         int offsetY = 0;
         if (i < 0)

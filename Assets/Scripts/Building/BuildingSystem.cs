@@ -157,7 +157,7 @@ public class BuildArray
         tile[gridPos.x, gridPos.y].obj = Object;
         tile[gridPos.x, gridPos.y].info = info;
     }
-    public bool PlaceBlock(ref Tile[,] tile, int i, int j, Build build, Rotation rotation, Ship ship = null)
+    public bool PlaceBlock(ref Tile[,] tile, int i, int j, Build myBuild, Rotation rotation, Ship ship = null)
     {
         BuildingSystem bs = BuildingSystem.Instance;
         Vector3 pos = new Vector3(i, j) + position; //This block placing system needs to be unified with the placement system in BuildingSystem. But to do that would require a TON of refactoring...
@@ -167,7 +167,7 @@ public class BuildArray
             GameObject obj;
             if (clone == null)
             {
-                if (build.depth == Build.DepthLevel.MidGround)
+                if (myBuild.depth == Build.DepthLevel.MidGround)
                     clone = bs.buildTemplate;
                 else
                     clone = bs.backBuildTemplate;
@@ -181,20 +181,20 @@ public class BuildArray
             }
             tile[i, j].obj = obj;
             int myRot = 0;
-            for(int a = 0; a < build.rotations.Length; a++)
+            for(int a = 0; a < myBuild.rotations.Length; a++)
             {
-                if (build.rotations[a] == rotation)
+                if (myBuild.rotations[a] == rotation)
                 {
                     myRot = a;
                 }
             }
             tile[i, j].info = new BuildInfo()
             {
-                build = build, rot = myRot
+                build = myBuild, rot = myRot //This should be turned into a constructor for more readability
             };
             
 
-            if (bs.categories[0].builds[0].depth == Build.DepthLevel.MidGround)
+            if (myBuild.depth == Build.DepthLevel.MidGround)
             {
                 PolygonCollider2D collider = obj.AddComponent<PolygonCollider2D>();
                 collider.usedByComposite = true;
@@ -210,7 +210,7 @@ public class BuildArray
             }
 
             BuildTrigger info = obj.AddComponent<BuildTrigger>();
-            info.build = build;
+            info.build = myBuild;
             info.gridPos = new Vector2Int(i, j);
             
             if(ship != null)
