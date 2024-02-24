@@ -530,5 +530,9 @@ public class BuildingSystem : MonoBehaviour
         {
             SceneManager.LoadScene(4); //Go to the virtual hangar
         }
+        if (Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftControl)) //CTRL G to swap scenes to the shipbuilding scene
+        {
+            SceneManager.LoadScene(0); //Go to the virtual hangar
+        }
     }
 }
