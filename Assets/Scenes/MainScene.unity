@@ -238,13 +238,21 @@ PrefabInstance:
       propertyPath: buildObjectContainer
       value: 
       objectReference: {fileID: 24946845}
+    - target: {fileID: 1898635066493691071, guid: 7f9fcaf27a926a04c9d6a7fedfe707b1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1898635066493691071, guid: 7f9fcaf27a926a04c9d6a7fedfe707b1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1898635067911381101, guid: 7f9fcaf27a926a04c9d6a7fedfe707b1, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1898635067911381101, guid: 7f9fcaf27a926a04c9d6a7fedfe707b1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -439277.1
+      value: -439753.94
       objectReference: {fileID: 0}
     - target: {fileID: 4448097690971002316, guid: 7f9fcaf27a926a04c9d6a7fedfe707b1, type: 3}
       propertyPath: m_LocalPosition.x

@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
-using Unity.PlasticSCM.Editor.WebApi;
-using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
