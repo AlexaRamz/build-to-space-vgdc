@@ -526,7 +526,11 @@ public class BuildingSystem : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.LeftControl)) //CTRL G to swap scenes to the shipbuilding scene
         {
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(1); //Go to the main scene
+        }
+        if (Input.GetKey(KeyCode.H) && Input.GetKey(KeyCode.LeftControl)) //CTRL G to swap scenes to the shipbuilding scene
+        {
+            SceneManager.LoadScene(4); //Go to the virtual hangar
         }
     }
 }
