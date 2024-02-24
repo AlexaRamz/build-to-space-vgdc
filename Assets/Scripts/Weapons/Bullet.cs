@@ -5,17 +5,20 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     // How fast projectile travels
-    [Range (1,10)]
-    [SerializeField] private float speed = 10f;
+    [Range(1, 10)]
+    public float speed = 10f;
 
     // Lifetime of projectile (disappears after 3 seconds)
-    [Range (1,10)]
-    [SerializeField] private float lifeTime = 3f;
+    [Range(1, 10)]
+    public float lifeTime = 3f;
+
+    // Damage of projectile
+    public int damage = 1;
 
     private Rigidbody2D rb;
 
 
-    private void Start() 
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, lifeTime);
@@ -26,22 +29,17 @@ public class Bullet : MonoBehaviour
     {
         rb.velocity = transform.up * speed;
     }
-
-
+    
     // Handle bullet collisions
     private void OnTriggerEnter2D(Collider2D other)
     {
-        tag = other.gameObject.tag;
-
-        if(tag == "Enemy")
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
         {
+            if (other.gameObject.tag == "Enemy")
+            {
+                other.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
+            }
             Destroy(gameObject);
         }
-        else if(tag == "Build" || tag == "Tube")
-        {
-            Debug.Log("Tube or block hit");
-            // Destroy(gameObject);
-        }
     }
-    
 }

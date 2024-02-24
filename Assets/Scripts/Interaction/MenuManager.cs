@@ -40,16 +40,7 @@ public class MenuManager : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            //Debug.Log(BuildingSystem.Instance.building);
-            if (BuildingSystem.Instance.building)
-            {
-                BuildingSystem.Instance.buildUI.EndBuilding();
-            }
-            else
-            {
-                BuildingSystem.Instance.StartBuilding();
-            }
-            //Debug.Log(BuildingSystem.Instance.building);
+            BuildingSystem.Instance.StartBuilding();
         }
     }
 }

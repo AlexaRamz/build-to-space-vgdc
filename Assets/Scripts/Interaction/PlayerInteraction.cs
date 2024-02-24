@@ -9,6 +9,7 @@ public class PlayerInteraction : MonoBehaviour
     bool interactablesInRange = false;
     Interactable currentInteract;
     MenuManager menuManager;
+    public bool canInteract = true;
 
     private void Start()
     {
@@ -82,9 +83,10 @@ public class PlayerInteraction : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && !menuManager.IsInMenu() && currentInteract != null)
+        if (canInteract && Input.GetKeyDown(KeyCode.Return) && currentInteract != null)
         {
             currentInteract.Interact();
         }
+        canInteract = !menuManager.IsInMenu();
     }
 }

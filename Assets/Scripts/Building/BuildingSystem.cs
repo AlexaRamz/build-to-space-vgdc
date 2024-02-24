@@ -271,7 +271,6 @@ public class BuildingSystem : MonoBehaviour
     {
         buildUI.SetCategories(categories);
         buildUI.ChangeCategory(0);
-        StartBuilding();
     }
     public void StartBuilding()
     {
