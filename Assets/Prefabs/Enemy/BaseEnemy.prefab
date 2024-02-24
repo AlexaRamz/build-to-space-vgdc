@@ -177,14 +177,14 @@ MonoBehaviour:
   pathNodes: []
   moveState: 1
   moveType: 0
-  Speed: 3
+  Speed: 2
   minArriveDist: 0.5
   minWaitWander: 1
   maxWaitWander: 2
   minWaitPatrol: 1
   maxWaitPatrol: 2
   maxWanderDistance: 10
-  maxChaseDetectDistance: 20
+  maxChaseDetectDistance: 8
   hopPower: 15
 --- !u!114 &6799214208123682920
 MonoBehaviour:
@@ -247,5 +247,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf7d09da5fba67b47bfb2e058e8ec701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 4
+  maxHealth: 10
   currentHealth: 0

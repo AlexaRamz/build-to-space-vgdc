@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: moveType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7525539465578679617, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: moveState
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
