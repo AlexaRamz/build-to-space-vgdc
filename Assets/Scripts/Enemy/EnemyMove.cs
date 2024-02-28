@@ -131,11 +131,12 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         Animate();
-
-
+    }
+    private void FixedUpdate()
+    {
         switch (moveState)
         {
             case MoveState.Idle:
@@ -152,6 +153,7 @@ public class EnemyMove : MonoBehaviour
                 break;
         }
     }
+
     private IEnumerator WaitIdle(float duration,MoveState nextState) //Waits idle for duration seconds and then sets the movestate to nextState
     {
         moveState = MoveState.Idle;
