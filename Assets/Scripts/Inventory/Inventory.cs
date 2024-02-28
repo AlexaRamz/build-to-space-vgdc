@@ -218,7 +218,7 @@ public class Inventory : MonoBehaviour
     public void Equip(int index)
     {
         ClearEquip();
-        if (index >= 0 && index < tools.Count)
+        if (index >= 0 && index < tools.Count && tools[index] != null)
         {
             ToolData data = tools[index];
             //Debug.Log(data.Name);

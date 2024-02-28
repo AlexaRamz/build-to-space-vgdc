@@ -177,7 +177,7 @@ MonoBehaviour:
   pathNodes: []
   moveState: 1
   moveType: 0
-  Speed: 2
+  Speed: 15
   minArriveDist: 0.5
   minWaitWander: 1
   maxWaitWander: 2

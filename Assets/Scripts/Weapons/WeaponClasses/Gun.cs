@@ -6,6 +6,8 @@ public class Gun : MonoBehaviour, ITool
 {
     private bool readyToUse = false;
     private GunData gunData;
+    Transform bulletOrigin;
+
     public ToolData data
     {
         get
@@ -21,14 +23,9 @@ public class Gun : MonoBehaviour, ITool
             }
             gunData = (GunData)value;
             GetComponent<SpriteRenderer>().sprite = gunData.sprite;
+            bulletOrigin = transform.Find("BulletOrigin");
             readyToUse = true;
         }
-    }
-    Transform bulletOrigin;
-
-    private void Start()
-    {
-        bulletOrigin = transform.Find("BulletOrigin");
     }
 
     IEnumerator useDelay()

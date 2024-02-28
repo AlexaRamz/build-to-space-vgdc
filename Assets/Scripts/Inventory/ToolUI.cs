@@ -60,24 +60,45 @@ public class ToolUI : MonoBehaviour, IMenu
     }
     void HoverOn(int i)
     {
-        hoveringOn = i;
-        slots[hoveringOn].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        if (i != hoveringOn)
+        {
+            ClearHover();
+            hoveringOn = i;
+            slots[hoveringOn].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        }
     }
+    int current = -1;
     int hoveringOn = -1;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            menuManager.OpenMenu(this);
-        }
-        else if (open)
-        {
-            if (Input.GetKeyUp(KeyCode.Tab))
+            if (open)
             {
-                if (hoveringOn >= 0)
+                open = false;
+                menuManager.CloseMenu();
+            }
+            else
+            {
+                open = true;
+                menuManager.OpenMenu(this);
+            }
+        }
+        if (open)
+        {
+            if (Input.GetMouseButtonUp(0))
+            {
+                if (hoveringOn != current)
                 {
                     plrInv.Equip(hoveringOn);
+                    current = hoveringOn;
                 }
+                else
+                {
+                    plrInv.Equip(-1);
+                    current = -1;
+                }
+                open = false;
                 menuManager.CloseMenu();
             }
             Vector2 mousePos = Input.mousePosition;
@@ -94,7 +115,6 @@ public class ToolUI : MonoBehaviour, IMenu
                     smallestDistance = distance;
                 }
             }
-            ClearHover();
             HoverOn(closest);
         }
     }
