@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cc62ab6a72a26841ba296e33ecd24fb, type: 3}
-  m_Name: Base Gun
+  m_Name: Laser Gun
   m_EditorClassIdentifier: 
-  Name: Base Gun
+  image: {fileID: 21300000, guid: 7f26a42610ccfde40b7c042d1bd36f9f, type: 3}
+  description: A basic gun
+  cost: 10
   sprite: {fileID: 21300000, guid: 7f26a42610ccfde40b7c042d1bd36f9f, type: 3}
   holdPosition: {x: 0, y: 0}
-  timeBetweenUses: 1
   prefab: {fileID: 956604068018005096, guid: 18bc7c8705e5d394d955090d8babc214, type: 3}
-  bulletDamage: 1
   fireCoolDown: 0.25
+  bulletDamage: 1
+  bulletSpeed: 10
+  bulletLifetime: 3
   bulletPrefab: {fileID: 7313138036470043198, guid: 3daf8bbb12359164eae501405601d02c, type: 3}
