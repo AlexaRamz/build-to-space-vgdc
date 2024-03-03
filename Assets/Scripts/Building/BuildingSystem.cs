@@ -252,6 +252,10 @@ public class BuildingSystem : MonoBehaviour
     public GameObject backBuildTemplate;
     public GameObject destroyParticles;
     public GameObject shipPrefab;
+
+    [SerializeField] private GameObject HangarSaveButton;
+    [SerializeField] private TMPro.TextMeshProUGUI HangarShipButton;
+    [SerializeField] private TMPro.TextMeshProUGUI HangarTransportButton;
     private void Start()
     {
         if(savedShips == null)
@@ -503,36 +507,94 @@ public class BuildingSystem : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.LeftControl)) //CTRL C to clone a ship
         {
-            Debug.Log("Saved a ship");
-            savedShips.Add(world.Copy());
+            SaveCurrentShip();
         }
         if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftControl)) //CTRL V to paste a ship
         {
-            Debug.Log("Cloned a ship");
-            GameObject newShip = Instantiate(shipPrefab, (Vector2)mousePos, Quaternion.identity);
-            Ship ship = newShip.GetComponent<Ship>();
-            BuildArray save = savedShips.Last();
-            int minWidth;
-            int minHeight;
-            Vector2Int offset;
-            ship.ship = save.Clone(newShip, out offset, out minWidth, out minHeight);
-            newShip.transform.position -= new Vector3(ship.Width / 2, 0);
-            ship.SetBounds(minWidth, minHeight, -offset.x, -offset.y); //Clamp the ship size to the size of the cloned blocks
-            ship.AddSize(1, 1); //Expand the ship size by 1 in each direction to allow placing around the ship
-            ship.AddSize(-1, -1);
-            //Debug.Log(save.tile[0, 0]);
+            PasteSavedShip(true);
         }
         if (Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.LeftControl)) //CTRL G to swap scenes to the shipbuilding scene
         {
-            SceneManager.LoadScene(1); //Go to the main scene
+            LoadMainScene();
         }
-        if (Input.GetKey(KeyCode.H) && Input.GetKey(KeyCode.LeftControl)) //CTRL G to swap scenes to the shipbuilding scene
+        if (Input.GetKey(KeyCode.H) && Input.GetKey(KeyCode.LeftControl))
         {
-            SceneManager.LoadScene(4); //Go to the virtual hangar
+            LoadVirtualHangar();
         }
-        if (Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftControl)) //CTRL G to swap scenes to the shipbuilding scene
+        if (Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftControl)) 
         {
-            SceneManager.LoadScene(0); //Go to the virtual hangar
+            LoadCharacterSelect();
         }
+        if(InVirtualHangar)
+        {
+            HangarShipButton.text = "Save Ship";
+            HangarTransportButton.text = "Exit Hangar";
+        }
+        else
+        {
+            HangarShipButton.text = "Paste Ship";
+            HangarTransportButton.text = "Enter Hangar";
+        }
+        HangarSaveButton.SetActive(savedShips.Count > 0 || InVirtualHangar);
+    }
+    public static bool InVirtualHangar => SceneManager.GetActiveScene().buildIndex == 2;
+    public void SaveOrPasteShip()
+    {
+        if(InVirtualHangar) //The scene is currently the virtual hangar
+        {
+            SaveCurrentShip();
+        }
+        else
+        {
+            PasteSavedShip(false);
+        }
+    }
+    public void EnterOrExitHangar()
+    {
+        if (InVirtualHangar) //The scene is currently the virtual hangar
+        {
+            LoadMainScene();
+        }
+        else
+        {
+            LoadVirtualHangar();
+        }
+    }
+    private void SaveCurrentShip()
+    {
+        //Debug.Log("Saved a ship");
+        savedShips.Add(world.Copy());
+    }
+    private void PasteSavedShip(bool onMouse = true)
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 spawnPos = mousePos;
+        if(!onMouse)
+        {
+            spawnPos = Camera.main.transform.position;
+        }
+        GameObject newShip = Instantiate(shipPrefab, (Vector2)spawnPos, Quaternion.identity);
+        Ship ship = newShip.GetComponent<Ship>();
+        BuildArray save = savedShips.Last();
+        int minWidth;
+        int minHeight;
+        Vector2Int offset;
+        ship.ship = save.Clone(newShip, out offset, out minWidth, out minHeight);
+        newShip.transform.position -= new Vector3(ship.Width / 2, 0);
+        ship.SetBounds(minWidth, minHeight, -offset.x, -offset.y); //Clamp the ship size to the size of the cloned blocks
+        ship.AddSize(1, 1); //Expand the ship size by 1 in each direction to allow placing around the ship
+        ship.AddSize(-1, -1);
+    }
+    private void LoadVirtualHangar()
+    {
+        SceneManager.LoadScene(2); //Go to the virtual hangar
+    }
+    private void LoadMainScene()
+    {
+        SceneManager.LoadScene(1); //Go to the main scene
+    }
+    private void LoadCharacterSelect()
+    {
+        SceneManager.LoadScene(0);
     }
 }
