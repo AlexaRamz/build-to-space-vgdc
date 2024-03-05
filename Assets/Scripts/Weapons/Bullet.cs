@@ -8,23 +8,22 @@ public class Bullet : MonoBehaviour
     public DamageOrigin BulletOrigin = DamageOrigin.Player;
     // How fast projectile travels
     [Range (1,10)]
-    [SerializeField] private float speed = 10f;
+    [SerializeField] public float speed = 10f;
 
     // Lifetime of projectile (disappears after 3 seconds)
     [Range (1,10)]
-    [SerializeField] private float lifeTime = 3f;
+    [SerializeField] public float lifeTime = 3f;
 
+
+    [SerializeField]
+    public int damage = 2;
     private Rigidbody2D rb;
 
-<<<<<<< Updated upstream
-    private void Start() 
-=======
     public bool ConstantVelocity = true;
     public bool OnlyDespawnWhenNotVisible;
 
 
     private void Start()
->>>>>>> Stashed changes
     {
         rb = GetComponent<Rigidbody2D>();
         StartCoroutine(DelayedDeath());
@@ -53,9 +52,6 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-<<<<<<< Updated upstream
-        rb.velocity = transform.up * speed;
-=======
         if (ConstantVelocity)
         {
             rb.velocity = transform.up * speed;
@@ -89,6 +85,5 @@ public class Bullet : MonoBehaviour
             }
 
         }
->>>>>>> Stashed changes
     }
 }

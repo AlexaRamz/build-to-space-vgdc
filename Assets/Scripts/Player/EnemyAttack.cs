@@ -14,6 +14,8 @@ public class EnemyAttack : MonoBehaviour
 
     [Tooltip("The object to spawn when the enemy dies.")]
     public GameObject createOnDeath;
+    [Tooltip("Requires the death object to only spawn on the ground.")]
+    public bool snapOnDeathCreationToGround;
 
 
     [Header("Ranged")]
@@ -48,6 +50,8 @@ public class EnemyAttack : MonoBehaviour
 
     private bool canDamage = true;
     private bool canShoot = true;
+
+
 
     int shotsFired;
     private void Start()
