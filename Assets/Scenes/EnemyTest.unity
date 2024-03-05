@@ -2806,8 +2806,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3460180136717524060, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1571320922}
   m_SourcePrefab: {fileID: 100100000, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+--- !u!1 &1571320921 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3460180136717524060, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+  m_PrefabInstance: {fileID: 1571320920}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1571320922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571320921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa219b6168f19d24bb0116ad714e1a22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  maxHealth: 10
 --- !u!1001 &1713937192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2819,10 +2841,6 @@ PrefabInstance:
     - target: {fileID: 218045353436933419, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
       propertyPath: m_GravityScale
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 598403734551446327, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
-      propertyPath: moveType
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6040590693889318314, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2868,6 +2886,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyPot
       objectReference: {fileID: 0}
+    - target: {fileID: 6230567565005225037, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
+      propertyPath: shootDelay
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230567565005225037, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
+      propertyPath: shootRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230567565005225037, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 7313138036470043198, guid: bf5aa99e4b076af4095b5ed846614440, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
