@@ -9,6 +9,14 @@ public class EnemyAttack : MonoBehaviour
 {
 
     //All null attributes will be ignored.
+    [Header("Birth")]
+    [Tooltip("The object to spawn when the enemy spawns")]
+    public GameObject CreateOnStart;
+    [Tooltip("The time to wait to spawn when the enemy spawns")]
+    public float CreationDelay;
+
+    [Tooltip("The recursive amount allowed to spawn when the enemy spawns")]
+    public int CreationsAllowed;
 
     [Header("Death")]
 
@@ -36,6 +44,11 @@ public class EnemyAttack : MonoBehaviour
     [Tooltip("Where the bullets emerge from when fired.")]
     public Transform firingPoint;
 
+    [Tooltip("If true, the enemy will only fire if they are at rest.")]
+    public bool mustBeRestingToFire;
+    [Tooltip("Will force bullets to be the child of the enemy.")]
+    public bool bulletsAreChildren;
+
     [Header("Collision")]
 
 
@@ -61,6 +74,42 @@ public class EnemyAttack : MonoBehaviour
         {
             firingPoint = transform;
         }
+        if(CreationsAllowed > 0&& CreateOnStart != null) {
+            StartCoroutine(DelayedCreate());
+        }
+    }
+    public IEnumerator DelayedCreate()
+    {
+        yield return new WaitForSeconds(CreationDelay);
+
+        if (CreationsAllowed > 0&&Vector2.Distance(transform.position, player.transform.position+ new Vector3(0,0.75f,0))>0.1f&& HasClearShot())
+        {
+            var tempRot = transform.localRotation;
+
+            transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y+0.75f - transform.position.y, player.transform.position.x - transform.position.x) * Mathf.Rad2Deg);
+
+            GameObject g;
+            if (bulletsAreChildren)
+            {
+                g = Instantiate(CreateOnStart, firingPoint.position, firingPoint.rotation, firingPoint);
+            }
+            else
+                g = Instantiate(CreateOnStart, firingPoint.position, firingPoint.rotation,transform.parent);
+
+
+            if (g.GetComponent<EnemyAttack>() != null)
+            {
+                g.GetComponent<EnemyAttack>().CreationsAllowed= CreationsAllowed-1;
+            }
+
+            if (g.GetComponent<DestroyMeOverTime>() != null&&GetComponent<DestroyMeOverTime>()!=null)
+            {
+                g.GetComponent<DestroyMeOverTime>().DelayTime = GetComponent<DestroyMeOverTime>().DelayTime*0.99f;
+            }
+
+            transform.localRotation = tempRot;
+        }
+
     }
 
     public bool HasClearShot()
@@ -82,30 +131,39 @@ public class EnemyAttack : MonoBehaviour
         {
             if (canShoot && Vector2.Distance(transform.position, player.transform.position) <= shootRange && HasClearShot())
             {
-
-
-                var tempRot = transform.localRotation;
-
-                transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y - transform.position.y, player.transform.position.x - transform.position.x) * Mathf.Rad2Deg);
-
-                Instantiate(bulletPrefab, firingPoint.position, firingPoint.rotation);
-
-
-                canShoot = false;
-                shotsFired++;
-
-                if (shotsFired >= burstSize)
+                if (!mustBeRestingToFire || GetComponent<Rigidbody2D>().velocity.sqrMagnitude < 0.25f)
                 {
-                    shotsFired = 0;
-                    StartCoroutine(ShootDelay(shootDelay));
-                }
-                else
-                {
-                    StartCoroutine(ShootDelay(0.1f));
-                }
-                
 
-                transform.localRotation = tempRot;
+
+
+                    var tempRot = transform.localRotation;
+
+                    transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y + 0.75f - transform.position.y, player.transform.position.x - transform.position.x) * Mathf.Rad2Deg);
+
+                    if (bulletsAreChildren)
+                    {
+                        Instantiate(bulletPrefab, firingPoint.position, firingPoint.rotation, firingPoint);
+                    }
+                    else
+                        Instantiate(bulletPrefab, firingPoint.position, firingPoint.rotation, transform.parent);
+
+
+                    canShoot = false;
+                    shotsFired++;
+
+                    if (shotsFired >= burstSize)
+                    {
+                        shotsFired = 0;
+                        StartCoroutine(ShootDelay(shootDelay));
+                    }
+                    else
+                    {
+                        StartCoroutine(ShootDelay(0.1f));
+                    }
+
+
+                    transform.localRotation = tempRot;
+                }
             }
         }
     }

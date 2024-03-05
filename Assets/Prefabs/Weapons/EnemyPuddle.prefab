@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 7315966168906821740}
   - component: {fileID: 7479466578178206986}
   - component: {fileID: 8232593815284455917}
+  - component: {fileID: 8835032471944495820}
   m_Layer: 0
-  m_Name: Puddle
+  m_Name: EnemyPuddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,5 +169,20 @@ MonoBehaviour:
   burstSize: 1
   shootDelay: 1
   firingPoint: {fileID: 0}
+  bulletsAreChildren: 0
   damage: 2
   attackDelay: 1
+--- !u!114 &8835032471944495820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7313138036470043198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef2a775ac34f7cb4086b7e15a322e94f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CreateOnDestroy: {fileID: 0}
+  DelayTime: 60
