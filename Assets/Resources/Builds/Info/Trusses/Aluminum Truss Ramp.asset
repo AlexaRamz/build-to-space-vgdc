@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: A sturdy building block incline
   rotations:
-  - sprite: {fileID: 21300000, guid: 27998bc720668874ca123649413a882d, type: 3}
+  - sprite: {fileID: 465734048, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 0
     flipY: 0
-  - sprite: {fileID: 21300000, guid: 27998bc720668874ca123649413a882d, type: 3}
+  - sprite: {fileID: 465734048, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 0
     flipY: 1
-  - sprite: {fileID: 21300000, guid: 27998bc720668874ca123649413a882d, type: 3}
+  - sprite: {fileID: 465734048, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 1
     flipY: 1
-  - sprite: {fileID: 21300000, guid: 27998bc720668874ca123649413a882d, type: 3}
+  - sprite: {fileID: 465734048, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 1
     flipY: 0

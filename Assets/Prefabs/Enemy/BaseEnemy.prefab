@@ -35,8 +35,7 @@ Transform:
   m_LocalPosition: {x: 2.71, y: 3.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8852431541269970434}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &376925176366556424
@@ -199,11 +198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088e05500f392d04789125af98dcf919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createOnDeath: {fileID: 0}
-  bulletPrefab: {fileID: 0}
-  shootRange: 0
-  shootDelay: 1
-  firingPoint: {fileID: 8852431541269970434}
   damage: 2
   attackDelay: 1
 --- !u!70 &2361038564699116075
@@ -255,34 +249,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 0
---- !u!1 &7585777696821910768
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8852431541269970434}
-  m_Layer: 3
-  m_Name: FiringPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8852431541269970434
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7585777696821910768}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7125592696367360446}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}

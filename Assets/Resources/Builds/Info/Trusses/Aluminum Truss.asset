@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: A sturdy building block
   rotations:
-  - sprite: {fileID: 21300000, guid: dac249c0ec71dce449e87802b8d9dd44, type: 3}
+  - sprite: {fileID: -993174190, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 0
     flipY: 0

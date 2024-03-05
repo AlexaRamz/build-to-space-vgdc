@@ -23,7 +23,7 @@ public class CharacterSelect : MonoBehaviour
     public void SaveChar()
     {
         Save();
-        SceneManager.LoadScene("DialogueTest");
+        SceneManager.LoadScene("MainScene");
     }
     public void UpdateChar()
     {

@@ -6,11 +6,20 @@ public class Inventory : MonoBehaviour
 {
     public List<ResourceInfo> resources = new List<ResourceInfo>();
 
+    [SerializeField] private List<ToolData> tools = new List<ToolData>();
+    ITool currentTool;
+    PlayerInteraction plrInt;
+
     private void Start()
     {
         plrMove = GetComponent<PlayerMovement>();
         buildSys = FindObjectOfType<BuildingSystem>();
         invUI.plrInv = this;
+        plrInt = GetComponent<PlayerInteraction>();
+
+        tools.Add((ToolData)Resources.Load("Tools/Weapons/Base Gun"));
+        tools.Add((ToolData)Resources.Load("Tools/Weapons/Laser Cannon"));
+        ToolUI.Instance.DisplayTools(tools);
     }
     // Inventory managing
     public void Collect(ResourceType thisResource)
@@ -180,5 +189,76 @@ public class Inventory : MonoBehaviour
         {
             Drop();
         }
+
+        /* TOOLS-WEAPONS */
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Equip(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Equip(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Equip(2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            Equip(3);
+        }
+
+        if (plrInt.canInteract && currentTool != null && Input.GetMouseButton(0))
+        {
+            currentTool.Use();
+        }
+    }
+
+    /* TOOLS-WEAPONS */
+    public void Equip(int index)
+    {
+        ClearEquip();
+        if (index >= 0 && index < tools.Count && tools[index] != null)
+        {
+            ToolData data = tools[index];
+            //Debug.Log(data.Name);
+            if (InitializeTool(data, holdOrigin.transform))
+            {
+                plrMove.HoldAnim();
+            }
+            else
+            {
+                Debug.Log("Failed to equip!");
+            }
+        }
+        else
+        {
+            plrMove.CancelHoldAnim();
+        }
+    }
+    void ClearEquip()
+    {
+        foreach (Transform child in holdOrigin.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        currentTool = null;
+    }
+    bool InitializeTool(ToolData data, Transform origin)
+    {
+        if (data.prefab != null)
+        {
+            GameObject obj = Instantiate(data.prefab, origin.position, Quaternion.identity);
+            obj.transform.parent = origin;
+            obj.name = data.Name;
+            ITool tool = obj.GetComponent<ITool>();
+            if (tool != null) 
+            {
+                tool.data = data;
+                currentTool = tool;
+            }
+            return true;
+        }
+        return false;
     }
 }
