@@ -14,7 +14,7 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -33,7 +33,7 @@ public class EnemyHealth : MonoBehaviour
 
                 if (hit.collider != null)
                 { 
-                    Instantiate(GetComponent<EnemyAttack>().createOnDeath, hit.point+new Vector2(0,0.75f), transform.rotation, transform.parent);
+                    Instantiate(GetComponent<EnemyAttack>().createOnDeath, hit.point+new Vector2(0,0.05f), transform.rotation, transform.parent);
                 }
             }
             else
