@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     public enum DamageOrigin { Player, Enemy };
     public DamageOrigin BulletOrigin = DamageOrigin.Player;
     // How fast projectile travels
-    [Range (1,10)]
+    [Range (1,25)]
     [SerializeField] public float speed = 10f;
 
     // Lifetime of projectile (disappears after 3 seconds)

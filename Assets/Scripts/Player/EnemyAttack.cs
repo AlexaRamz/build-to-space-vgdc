@@ -49,6 +49,9 @@ public class EnemyAttack : MonoBehaviour
     [Tooltip("Will force bullets to be the child of the enemy.")]
     public bool bulletsAreChildren;
 
+    [Tooltip("The offset from which the enemy will shoot towards.")]
+    public Vector2 aimOffset;
+
     [Header("Collision")]
 
 
@@ -65,10 +68,11 @@ public class EnemyAttack : MonoBehaviour
     private bool canShoot = true;
 
 
-
+    float timeCreated;
     int shotsFired;
     private void Start()
     {
+        timeCreated = Time.timeSinceLevelLoad;
         player = GameObject.FindGameObjectWithTag("Player");
         if(firingPoint==null)
         {
@@ -78,15 +82,24 @@ public class EnemyAttack : MonoBehaviour
             StartCoroutine(DelayedCreate());
         }
     }
+    [HideInInspector]
+    public bool hasCreatedStart;
     public IEnumerator DelayedCreate()
     {
-        yield return new WaitForSeconds(CreationDelay);
-
+        if(CreationDelay!=0)
+            yield return new WaitForSeconds(CreationDelay);
+        hasCreatedStart = true;
         if (CreationsAllowed > 0&&Vector2.Distance(transform.position, player.transform.position+ new Vector3(0,0.75f,0))>0.1f&& HasClearShot())
         {
             var tempRot = transform.localRotation;
 
-            transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y+0.75f - transform.position.y, player.transform.position.x - transform.position.x) * Mathf.Rad2Deg);
+            float tempOffsetX = aimOffset.x;
+            if (transform.position.x > player.transform.position.x)
+            {
+                tempOffsetX *= -1;
+            }
+
+            transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y+0.75f+ aimOffset.y - transform.position.y, player.transform.position.x+ tempOffsetX - transform.position.x) * Mathf.Rad2Deg);
 
             GameObject g;
             if (bulletsAreChildren)
@@ -104,7 +117,12 @@ public class EnemyAttack : MonoBehaviour
 
             if (g.GetComponent<DestroyMeOverTime>() != null&&GetComponent<DestroyMeOverTime>()!=null)
             {
-                g.GetComponent<DestroyMeOverTime>().DelayTime = GetComponent<DestroyMeOverTime>().DelayTime*0.99f;
+                g.GetComponent<DestroyMeOverTime>().DelayTime =Mathf.Max(0, (GetComponent<DestroyMeOverTime>().DelayTime*0.99f)- (Time.timeSinceLevelLoad- timeCreated));
+
+                if(g.GetComponent<DestroyMeOverTime>().DelayTime<=0)
+                {
+                    g.GetComponent<EnemyAttack>().CreationsAllowed = 0;
+                }
             }
 
             transform.localRotation = tempRot;
@@ -137,8 +155,12 @@ public class EnemyAttack : MonoBehaviour
 
 
                     var tempRot = transform.localRotation;
-
-                    transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y + 0.75f - transform.position.y, player.transform.position.x - transform.position.x) * Mathf.Rad2Deg);
+                    float tempOffsetX = aimOffset.x;
+                    if(transform.position.x>player.transform.position.x)
+                    {
+                        tempOffsetX *= -1;
+                    }
+                    transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y + 0.75f+ aimOffset.y - transform.position.y, player.transform.position.x+ tempOffsetX - transform.position.x) * Mathf.Rad2Deg);
 
                     if (bulletsAreChildren)
                     {

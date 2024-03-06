@@ -196,6 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreateOnDestroy: {fileID: 0}
   DelayTime: 0.75
+  RequireStartCreationFinished: 1
 --- !u!114 &2135242651153345649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,7 +211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreateOnStart: {fileID: 7313138036470043198}
   CreationDelay: 0
-  CreationsAllowed: 64
+  CreationsAllowed: 32
   createOnDeath: {fileID: 0}
   snapOnDeathCreationToGround: 0
   bulletPrefab: {fileID: 0}
@@ -220,5 +221,7 @@ MonoBehaviour:
   firingPoint: {fileID: 7423362272658643833}
   mustBeRestingToFire: 0
   bulletsAreChildren: 0
+  aimOffset: {x: 0, y: 0}
   damage: 1
   attackDelay: 2
+  hasCreatedStart: 0

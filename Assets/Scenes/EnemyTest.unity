@@ -2900,7 +2900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6040590693889318324, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6230567565005225037, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
       propertyPath: burstSize
@@ -3017,6 +3017,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6230567565005225037, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
       propertyPath: shootDelay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230567565005225037, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
+      propertyPath: aimOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230567565005225037, guid: 0a20279cbcf052c4d8ad370525f43b44, type: 3}
+      propertyPath: aimOffset.y
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []

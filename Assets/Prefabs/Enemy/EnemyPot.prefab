@@ -82,7 +82,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5846524628645102998}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: FiringPoint
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
@@ -98,7 +98,7 @@ Transform:
   m_GameObject: {fileID: 5907932026007116820}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -289,6 +289,7 @@ MonoBehaviour:
   minWaitPatrol: 1
   maxWaitPatrol: 2
   maxWanderDistance: 20
+  minChaseDetectDistance: 4
   maxChaseDetectDistance: 10
   hopPower: 16
 --- !u!114 &6230567565005225037
@@ -303,6 +304,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088e05500f392d04789125af98dcf919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CreateOnStart: {fileID: 0}
+  CreationDelay: 0
+  CreationsAllowed: 0
   createOnDeath: {fileID: 7313138036470043198, guid: 1c6d6d87cae19944e9ea8aaa7f25449c, type: 3}
   snapOnDeathCreationToGround: 1
   bulletPrefab: {fileID: 7313138036470043198, guid: bf5aa99e4b076af4095b5ed846614440, type: 3}
@@ -310,9 +314,12 @@ MonoBehaviour:
   burstSize: 5
   shootDelay: 0.2
   firingPoint: {fileID: 5846524628645102998}
+  mustBeRestingToFire: 0
   bulletsAreChildren: 0
+  aimOffset: {x: 3, y: 4}
   damage: 2
   attackDelay: 1
+  hasCreatedStart: 0
 --- !u!114 &3504956070199138113
 MonoBehaviour:
   m_ObjectHideFlags: 0

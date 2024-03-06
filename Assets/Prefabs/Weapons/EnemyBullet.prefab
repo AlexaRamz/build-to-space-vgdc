@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7315966168906821740}
   - component: {fileID: 7479466578178206986}
   - component: {fileID: 5488326143074078325}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,3 +165,7 @@ MonoBehaviour:
   speed: 10
   lifeTime: 3
   damage: 1
+  ConstantVelocity: 1
+  DoesntDespawn: 0
+  OnlyDespawnWhenNotVisible: 0
+  ChasePlayers: 0

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7479466578178206986}
   - component: {fileID: 8232593815284455917}
   - component: {fileID: 8835032471944495820}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyPuddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,6 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088e05500f392d04789125af98dcf919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CreateOnStart: {fileID: 0}
+  CreationDelay: 0
+  CreationsAllowed: 0
   createOnDeath: {fileID: 0}
   snapOnDeathCreationToGround: 0
   bulletPrefab: {fileID: 0}
@@ -169,9 +172,12 @@ MonoBehaviour:
   burstSize: 1
   shootDelay: 1
   firingPoint: {fileID: 0}
+  mustBeRestingToFire: 0
   bulletsAreChildren: 0
+  aimOffset: {x: 0, y: 0}
   damage: 2
   attackDelay: 1
+  hasCreatedStart: 0
 --- !u!114 &8835032471944495820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,3 +192,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreateOnDestroy: {fileID: 0}
   DelayTime: 60
+  RequireStartCreationFinished: 0
