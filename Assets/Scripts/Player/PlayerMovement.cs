@@ -162,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
             if (haveFuel && Input.GetKey("space"))
             {
                 jetPackOn = true;
-                fuelSlider.transform.parent.GetComponent<Canvas>().enabled = true;
+                fuelSlider.gameObject.SetActive(true);
                 anim.SetBool("Jumping", true);
             }
             else
@@ -206,7 +206,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            fuelSlider.transform.parent.GetComponent<Canvas>().enabled = false;
+            fuelSlider.gameObject.SetActive(false);
         }
     }
 }
