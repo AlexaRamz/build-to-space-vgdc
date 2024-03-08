@@ -49,10 +49,12 @@ public class EnemyAttack : MonoBehaviour
     [Tooltip("Will force bullets to be the child of the enemy.")]
     public bool bulletsAreChildren;
 
+    [Tooltip("If true, causes the enemy to shoot upwards.")]
+    public bool hasNoAim;
     [Tooltip("The offset from which the enemy will shoot towards.")]
     public Vector2 aimOffset;
 
-    [Tooltip("The randomized offset deviation range from which the enemy will shoot towards.")]
+    [Tooltip("The randomized offset deviation range to which the enemy will shoot towards.")]
     public Vector2 aimRandomOffset;
 
     [Header("Collision")]
@@ -102,8 +104,14 @@ public class EnemyAttack : MonoBehaviour
                 tempOffsetX *= -1;
             }
 
-            transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y+0.75f+ aimOffset.y+Random.Range(-aimRandomOffset.y, aimRandomOffset.y) - transform.position.y, player.transform.position.x+ tempOffsetX + Random.Range(-aimRandomOffset.x, aimRandomOffset.x) - transform.position.x) * Mathf.Rad2Deg);
-
+            if (!hasNoAim)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y + 0.75f + aimOffset.y + Random.Range(-aimRandomOffset.y, aimRandomOffset.y) - transform.position.y, player.transform.position.x + tempOffsetX + Random.Range(-aimRandomOffset.x, aimRandomOffset.x) - transform.position.x) * Mathf.Rad2Deg);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y + Random.Range(-aimRandomOffset.y, aimRandomOffset.y) + aimOffset.y - transform.position.y, transform.position.x + tempOffsetX + Random.Range(-aimRandomOffset.x, aimRandomOffset.x) - transform.position.x) * Mathf.Rad2Deg);
+            }
             GameObject g;
             if (bulletsAreChildren)
             {
@@ -163,8 +171,14 @@ public class EnemyAttack : MonoBehaviour
                     {
                         tempOffsetX *= -1;
                     }
-                    transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y + 0.75f + Random.Range(-aimRandomOffset.y, aimRandomOffset.y) + aimOffset.y - transform.position.y, player.transform.position.x+ tempOffsetX + Random.Range(-aimRandomOffset.x, aimRandomOffset.x) - transform.position.x) * Mathf.Rad2Deg);
-
+                    if (!hasNoAim)
+                    {
+                        transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y + 0.75f + Random.Range(-aimRandomOffset.y, aimRandomOffset.y) + aimOffset.y - transform.position.y, player.transform.position.x + tempOffsetX + Random.Range(-aimRandomOffset.x, aimRandomOffset.x) - transform.position.x) * Mathf.Rad2Deg);
+                    }
+                    else
+                    {
+                        transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(transform.position.y + Random.Range(-aimRandomOffset.y, aimRandomOffset.y) + aimOffset.y - transform.position.y, transform.position.x + tempOffsetX + Random.Range(-aimRandomOffset.x, aimRandomOffset.x) - transform.position.x) * Mathf.Rad2Deg);
+                    }
                     if (bulletsAreChildren)
                     {
                         Instantiate(bulletPrefab, firingPoint.position, firingPoint.rotation, firingPoint);

@@ -311,13 +311,14 @@ MonoBehaviour:
   snapOnDeathCreationToGround: 1
   bulletPrefab: {fileID: 7313138036470043198, guid: bf5aa99e4b076af4095b5ed846614440, type: 3}
   shootRange: 10
-  burstSize: 8
+  burstSize: 5
   shootDelay: 2
   firingPoint: {fileID: 5846524628645102998}
   mustBeRestingToFire: 0
   bulletsAreChildren: 0
+  hasNoAim: 0
   aimOffset: {x: 0, y: 2}
-  aimRandomOffset: {x: 0, y: -0.5}
+  aimRandomOffset: {x: -2, y: 0}
   damage: 2
   attackDelay: 1
   hasCreatedStart: 0
