@@ -52,6 +52,9 @@ public class EnemyAttack : MonoBehaviour
     [Tooltip("The offset from which the enemy will shoot towards.")]
     public Vector2 aimOffset;
 
+    [Tooltip("The randomized offset deviation range from which the enemy will shoot towards.")]
+    public Vector2 aimRandomOffset;
+
     [Header("Collision")]
 
 
@@ -99,7 +102,7 @@ public class EnemyAttack : MonoBehaviour
                 tempOffsetX *= -1;
             }
 
-            transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y+0.75f+ aimOffset.y - transform.position.y, player.transform.position.x+ tempOffsetX - transform.position.x) * Mathf.Rad2Deg);
+            transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y+0.75f+ aimOffset.y+Random.Range(-aimRandomOffset.y, aimRandomOffset.y) - transform.position.y, player.transform.position.x+ tempOffsetX + Random.Range(-aimRandomOffset.x, aimRandomOffset.x) - transform.position.x) * Mathf.Rad2Deg);
 
             GameObject g;
             if (bulletsAreChildren)
@@ -160,7 +163,7 @@ public class EnemyAttack : MonoBehaviour
                     {
                         tempOffsetX *= -1;
                     }
-                    transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y + 0.75f+ aimOffset.y - transform.position.y, player.transform.position.x+ tempOffsetX - transform.position.x) * Mathf.Rad2Deg);
+                    transform.localRotation = Quaternion.Euler(0, 0, Mathf.Atan2(player.transform.position.y + 0.75f + Random.Range(-aimRandomOffset.y, aimRandomOffset.y) + aimOffset.y - transform.position.y, player.transform.position.x+ tempOffsetX + Random.Range(-aimRandomOffset.x, aimRandomOffset.x) - transform.position.x) * Mathf.Rad2Deg);
 
                     if (bulletsAreChildren)
                     {
