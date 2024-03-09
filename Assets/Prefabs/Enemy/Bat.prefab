@@ -44,6 +44,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 4699389680718928952, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7089861542472946787, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: m_Size.x
       value: 1.75
@@ -111,6 +115,10 @@ PrefabInstance:
     - target: {fileID: 7125592696367360446, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525539465578679617, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: Speed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7525539465578679617, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: moveType
