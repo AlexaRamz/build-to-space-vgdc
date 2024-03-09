@@ -25,7 +25,7 @@ public class EnemyHealth : MonoBehaviour
     }
     public void Die()
     {
-        if(GetComponent<EnemyAttack>()!= null)
+        if(GetComponent<EnemyAttack>()!= null&& GetComponent<EnemyAttack>().createOnDeath!=null)
         {
             if (GetComponent<EnemyAttack>().snapOnDeathCreationToGround)
             {
