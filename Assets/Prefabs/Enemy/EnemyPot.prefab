@@ -73,6 +73,37 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!1 &5907932026007116820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5846524628645102998}
+  m_Layer: 8
+  m_Name: FiringPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5846524628645102998
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5907932026007116820}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6040590693889318314}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
 --- !u!1 &6040590693889318324
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,6 +117,8 @@ GameObject:
   - component: {fileID: 218045353436933419}
   - component: {fileID: 7792412313742142079}
   - component: {fileID: 598403734551446327}
+  - component: {fileID: 6230567565005225037}
+  - component: {fileID: 3504956070199138113}
   m_Layer: 8
   m_Name: EnemyPot
   m_TagString: NPC
@@ -107,6 +140,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 237948064646328497}
+  - {fileID: 5846524628645102998}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6040590693889318315
@@ -247,7 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathNodes: []
   moveState: 1
-  moveType: 0
+  moveType: 2
   Speed: 5
   minArriveDist: 0.5
   minWaitWander: 1
@@ -255,5 +289,50 @@ MonoBehaviour:
   minWaitPatrol: 1
   maxWaitPatrol: 2
   maxWanderDistance: 20
+  minChaseDetectDistance: 4
   maxChaseDetectDistance: 10
   hopPower: 16
+--- !u!114 &6230567565005225037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6040590693889318324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 088e05500f392d04789125af98dcf919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CreateOnStart: {fileID: 0}
+  CreationDelay: 0
+  CreationsAllowed: 0
+  createOnDeath: {fileID: 7313138036470043198, guid: 1c6d6d87cae19944e9ea8aaa7f25449c, type: 3}
+  snapOnDeathCreationToGround: 1
+  bulletPrefab: {fileID: 7313138036470043198, guid: bf5aa99e4b076af4095b5ed846614440, type: 3}
+  shootRange: 10
+  burstSize: 5
+  shootDelay: 2
+  firingPoint: {fileID: 5846524628645102998}
+  mustBeRestingToFire: 0
+  bulletsAreChildren: 0
+  hasNoAim: 0
+  aimOffset: {x: 0, y: 2}
+  aimRandomOffset: {x: -2, y: 0}
+  damage: 2
+  attackDelay: 1
+  hasCreatedStart: 0
+--- !u!114 &3504956070199138113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6040590693889318324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7d09da5fba67b47bfb2e058e8ec701, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 15
+  currentHealth: 15

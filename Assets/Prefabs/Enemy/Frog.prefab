@@ -16,6 +16,26 @@ PrefabInstance:
       propertyPath: m_GravityScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6799214208123682920, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: shootDelay
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799214208123682920, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: shootRange
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799214208123682920, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 7313138036470043198, guid: 4569e4e844f6665468cbf01177640219, type: 3}
+    - target: {fileID: 6799214208123682920, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: bulletsAreChildren
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799214208123682920, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: mustBeRestingToFire
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7125592696367360446, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -63,6 +83,14 @@ PrefabInstance:
     - target: {fileID: 7525539465578679617, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: moveState
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525539465578679617, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: maxChaseDetectDistance
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525539465578679617, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: minChaseDetectDistance
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

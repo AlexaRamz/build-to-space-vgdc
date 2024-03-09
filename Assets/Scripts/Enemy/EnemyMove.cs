@@ -45,6 +45,8 @@ public class EnemyMove : MonoBehaviour
 
     [Min(0),Tooltip("The maximum distance that the enemy will try to wander too")]
     public float maxWanderDistance = 10;
+    [Min(0), Tooltip("The distance in which the enemy will be too close to the player and stop chasing")]
+    public float minChaseDetectDistance = 0;
     [Min(0),Tooltip("The distance in which the enemy will detect the player and begin chasing")]
     public float maxChaseDetectDistance = 2;
 
@@ -192,7 +194,7 @@ public class EnemyMove : MonoBehaviour
     public bool CheckShouldChase() //Snaps the Enemy into a chase state if it should chase, returns true/false depending on whether or not chasing should be occuring now.
     {
 
-        if(Vector2.Distance(transform.position,player.transform.position) > maxChaseDetectDistance || !CanReachPosition(new PathNode(player)))
+        if(((Vector2.Distance(transform.position,player.transform.position) > maxChaseDetectDistance && Vector2.Distance(transform.position, player.transform.position) <=  minChaseDetectDistance) || !CanReachPosition(new PathNode(player))))
         {
 
             //I did not find the player, and I am chasing, cancel time!
@@ -394,7 +396,7 @@ public class EnemyMove : MonoBehaviour
             tempTarget = new PathNode(player);
         }
 
-        if (Vector2.Distance(tempTarget.getPos(), transform.position) > 1) //Dont get too close, we just want them to hit the player
+        if (Vector2.Distance(tempTarget.getPos(), transform.position) > minChaseDetectDistance+1) //Dont get too close, we just want them to hit the player
         {
             Vector2 targPos = tempTarget.getPos();
             if(moveType!=MovementFlare.Fly)
