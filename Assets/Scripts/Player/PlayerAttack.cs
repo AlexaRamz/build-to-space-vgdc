@@ -36,6 +36,14 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        // Gun Rotation
+        Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        // Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = rotation;
+
+        // Shooting Cooldown Timer
         if(Input.GetMouseButton(0) && fireTimer <= 0f)
         {
             Shoot();
