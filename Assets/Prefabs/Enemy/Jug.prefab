@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2648269364622787934, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: createOnDeath
+      value: 
+      objectReference: {fileID: 7313138036470043198, guid: 1c6d6d87cae19944e9ea8aaa7f25449c, type: 3}
     - target: {fileID: 4699389680718928952, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -198,8 +202,6 @@ MonoBehaviour:
   CreateOnStart: {fileID: 0}
   CreationDelay: 0
   CreationsAllowed: 0
-  createOnDeath: {fileID: 7313138036470043198, guid: 1c6d6d87cae19944e9ea8aaa7f25449c, type: 3}
-  snapOnDeathCreationToGround: 1
   bulletPrefab: {fileID: 7313138036470043198, guid: bf5aa99e4b076af4095b5ed846614440, type: 3}
   shootRange: 10
   burstSize: 5

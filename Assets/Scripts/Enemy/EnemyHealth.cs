@@ -7,7 +7,12 @@ using static UnityEditor.PlayerSettings;
 public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 15;
-    public int currentHealth; 
+    public int currentHealth;
+    [Tooltip("The object to spawn when the enemy dies.")]
+    public GameObject createOnDeath;
+    [Tooltip("Requires the death object to only spawn on the ground.")]
+    public bool snapOnDeathCreationToGround;
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,19 +30,19 @@ public class EnemyHealth : MonoBehaviour
     }
     public void Die()
     {
-        if(GetComponent<EnemyAttack>()!= null&& GetComponent<EnemyAttack>().createOnDeath!=null)
+        if (createOnDeath != null)
         {
-            if (GetComponent<EnemyAttack>().snapOnDeathCreationToGround)
+            if (snapOnDeathCreationToGround)
             {
+                Debug.Log("cheese");
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
-
                 if (hit.collider != null)
                 { 
-                    Instantiate(GetComponent<EnemyAttack>().createOnDeath, hit.point+new Vector2(0,0.05f), transform.rotation, transform.parent);
+                    Instantiate(createOnDeath, hit.point+new Vector2(0,0.05f), transform.rotation, transform.parent);
                 }
             }
             else
-                Instantiate(GetComponent<EnemyAttack>().createOnDeath, transform.position, transform.rotation, transform.parent);
+                Instantiate(createOnDeath, transform.position, transform.rotation, transform.parent);
         }
         Destroy(gameObject);
     }

@@ -1290,7 +1290,7 @@ GameObject:
   - component: {fileID: 8557051816041389994}
   - component: {fileID: 4384125531762382992}
   - component: {fileID: 9106437474689780939}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: InteractTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

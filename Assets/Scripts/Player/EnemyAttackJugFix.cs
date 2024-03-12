@@ -20,12 +20,6 @@ public class EnemyAttackJugFix : MonoBehaviour
 
     [Header("Death")]
 
-    [Tooltip("The object to spawn when the enemy dies.")]
-    public GameObject createOnDeath;
-    [Tooltip("Requires the death object to only spawn on the ground.")]
-    public bool snapOnDeathCreationToGround;
-
-
     [Header("Ranged")]
 
     [Tooltip("The object the enemy will attempt to shoot at the player.")]
