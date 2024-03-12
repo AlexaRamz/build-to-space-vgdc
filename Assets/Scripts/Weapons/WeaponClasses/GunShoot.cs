@@ -6,7 +6,10 @@ public class GunShoot : MonoBehaviour, ITool
 {
     private bool readyToUse = false;
     private GunData gunData;
-    Transform bulletOrigin;
+    [SerializeField]
+    private Transform bulletOrigin;
+    SpriteRenderer spriteRender;
+    Transform plr;
 
     public ToolData data
     {
@@ -22,8 +25,9 @@ public class GunShoot : MonoBehaviour, ITool
                 return;
             }
             gunData = (GunData)value;
-            GetComponent<SpriteRenderer>().sprite = gunData.sprite;
-            bulletOrigin = transform.Find("BulletOrigin");
+            spriteRender = GetComponent<SpriteRenderer>();
+            spriteRender.sprite = gunData.sprite;
+            plr = GameObject.Find("Player").transform;
             readyToUse = true;
         }
     }
@@ -44,15 +48,19 @@ public class GunShoot : MonoBehaviour, ITool
         }
     }
 
+    float angle;
     public void Shoot()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) * Mathf.Rad2Deg;
-        transform.localRotation = Quaternion.Euler(0, 0, angle);
-
         Bullet bullet = Instantiate(gunData.bulletPrefab, bulletOrigin.position, Quaternion.Euler(0, 0, angle - 90)).GetComponent<Bullet>();
         bullet.speed = gunData.bulletSpeed;
         bullet.lifeTime = gunData.bulletLifetime;
         bullet.damage = gunData.bulletDamage;
+    }
+
+    void Update()
+    {
+        Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - plr.position).normalized;
+        angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }

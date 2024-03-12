@@ -13,7 +13,6 @@ public class MenuManager : MonoBehaviour
     }
     public void OpenMenu(IMenu newMenu)
     {
-        Debug.Log(newMenu);
         if (newMenu != selectedMenu)
         {
             if (selectedMenu != null)

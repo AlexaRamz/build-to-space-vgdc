@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    GameObject plr;
+    Transform target;
     public float minValueY;
+
     private void Start()
     {
-        plr = GameObject.Find("Player");
+        target = GameObject.Find("Player").transform;
     }
-    private void Update()
+    private void LateUpdate()
     {
-        transform.position = new Vector3(plr.transform.position.x, Mathf.Clamp(plr.transform.position.y, minValueY, Mathf.Infinity), transform.position.z);
-        
-
+        if (target != null)
+        {
+            transform.position = new Vector3(target.position.x, Mathf.Clamp(target.position.y, minValueY, Mathf.Infinity), transform.position.z);
+        }
     }
 }

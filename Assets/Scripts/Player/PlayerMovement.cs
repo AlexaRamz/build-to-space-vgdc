@@ -33,6 +33,9 @@ public class PlayerMovement : MonoBehaviour
     private bool haveFuel = true;
     private float refillCoolDown = 2f;
     private float fuelTimer;
+    private bool holding;
+
+    Inventory plrInv;
 
     private void Start()
     {
@@ -42,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
         jetForce = rb.gravityScale * 9f * 2f;
         currentFuel = fuel;
+        plrInv = GetComponent<Inventory>();
     }
     void PlayCrashParticles()
     {
@@ -70,10 +74,12 @@ public class PlayerMovement : MonoBehaviour
     public void HoldAnim()
     {
         anim.SetBool("Holding", true);
+        holding = true;
     }
     public void CancelHoldAnim()
     {
         anim.SetBool("Holding", false);
+        holding = false;
     }
     public void InTube()
     {
@@ -95,6 +101,9 @@ public class PlayerMovement : MonoBehaviour
     float jumpTimeCounter;
     bool jumpButtonDown = false;
     bool canJump = false;
+
+    int faceDirection = 1;
+
     void Update()
     {
         if (plrActive)
@@ -117,10 +126,25 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = new Vector2(dirX * runSpeed, rb.velocity.y);
                 wasMoving = true;
+                if (!holding)
+                {
+                    if (dirX > 0) faceDirection = 1;
+                    else faceDirection = -1;
+                }
             }
 
-            anim.SetBool("RunningRight", dirX > 0f);
-            anim.SetBool("RunningLeft", dirX < 0f);
+            if (holding)
+            {
+                float distance = Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x;
+                if (Mathf.Abs(distance) > 0.25f)
+                {
+                    if (distance > 0) faceDirection = 1;
+                    else faceDirection = -1;
+                    plrInv.holdOrigin.localScale = new Vector3(1, faceDirection, 1);
+                }
+            }
+            anim.SetFloat("Horizontal", faceDirection);
+            anim.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
 
             jumpButtonDown = Input.GetKey("up") || Input.GetKey("w");
             if(!jumpButtonDown)

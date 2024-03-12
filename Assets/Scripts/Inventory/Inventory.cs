@@ -102,7 +102,7 @@ public class Inventory : MonoBehaviour
     }
 
     // Holding
-    public SpriteRenderer holdOrigin;
+    public Transform holdOrigin;
     PlayerMovement plrMove;
 
     public ResourceDisplay holdDisplay;
@@ -132,22 +132,23 @@ public class Inventory : MonoBehaviour
     void UpdateHold()
     {
         ResourceInfo holding = GetHolding();
+        SpriteRenderer sr = holdOrigin.GetComponent<SpriteRenderer>();
         if (holding != null)
         {
-            holdOrigin.sprite = GetHolding().resource.image;
+            sr.sprite = GetHolding().resource.image;
             if (holding.amount > 0f)
             {
-                holdOrigin.color = new Color32(255, 255, 255, 255);
+                sr.color = new Color32(255, 255, 255, 255);
             }
             else
             {
-                holdOrigin.color = new Color32(255, 255, 255, 128);
+                sr.color = new Color32(255, 255, 255, 128);
             }
             plrMove.HoldAnim();
         }
         else
         {
-            holdOrigin.sprite = null;
+            sr.sprite = null;
             plrMove.CancelHoldAnim();
         }
     }
@@ -171,7 +172,7 @@ public class Inventory : MonoBehaviour
             UpdateDisplays();
             Debug.Log("new");
 
-            holdOrigin.color = new Color32(255, 255, 255, 128);
+            holdOrigin.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 128);
             if (currentDelay != null)
             {
                 StopCoroutine(currentDelay);
@@ -224,7 +225,7 @@ public class Inventory : MonoBehaviour
         {
             ToolData data = tools[index];
             //Debug.Log(data.Name);
-            if (InitializeTool(data, holdOrigin.transform))
+            if (InitializeTool(data, holdOrigin))
             {
                 plrMove.HoldAnim();
             }
@@ -253,6 +254,7 @@ public class Inventory : MonoBehaviour
             GameObject obj = Instantiate(data.prefab, origin.position, Quaternion.identity);
             obj.transform.parent = origin;
             obj.name = data.name;
+            obj.transform.localScale = new Vector3(1, 1, 1);
             ITool tool = obj.GetComponent<ITool>();
             if (tool != null) 
             {

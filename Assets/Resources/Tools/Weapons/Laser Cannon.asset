@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc62ab6a72a26841ba296e33ecd24fb, type: 3}
   m_Name: Laser Cannon
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: 7f26a42610ccfde40b7c042d1bd36f9f, type: 3}
+  image: {fileID: 21300000, guid: 4d8441ffb5854b54bbe864b233a1473e, type: 3}
   description: Push away enemies with a powerful blast
   cost: 20
-  sprite: {fileID: 21300000, guid: 7f26a42610ccfde40b7c042d1bd36f9f, type: 3}
+  sprite: {fileID: 21300000, guid: 4d8441ffb5854b54bbe864b233a1473e, type: 3}
   holdPosition: {x: 0, y: 0}
   prefab: {fileID: 956604068018005096, guid: 18bc7c8705e5d394d955090d8babc214, type: 3}
   fireCoolDown: 0.5
