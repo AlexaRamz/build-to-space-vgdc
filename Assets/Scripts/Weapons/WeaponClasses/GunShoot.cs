@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour, ITool
+public class GunShoot : MonoBehaviour, ITool
 {
     private bool readyToUse = false;
     private GunData gunData;
@@ -16,7 +16,7 @@ public class Gun : MonoBehaviour, ITool
         }
         set
         {
-            if (value.GetType() != typeof(GunData))
+            if (!(value is GunData))
             {
                 Debug.Log("Incorrect data type!");
                 return;

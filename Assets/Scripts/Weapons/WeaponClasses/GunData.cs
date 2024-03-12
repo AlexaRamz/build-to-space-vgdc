@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Gun", menuName = "Tool/Gun")]
+[CreateAssetMenu(fileName = "New Gun", menuName = "Scriptable Objects/Tool/Gun")]
 public class GunData : ToolData
 {
     public float fireCoolDown = 0.25f;

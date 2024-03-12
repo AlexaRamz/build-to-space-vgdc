@@ -6,8 +6,11 @@ public class Inventory : MonoBehaviour
 {
     public List<ResourceInfo> resources = new List<ResourceInfo>();
 
-    [SerializeField] private List<ToolData> tools = new List<ToolData>();
+    public List<ToolData> tools = new List<ToolData>();
     ITool currentTool;
+
+    public int money = 100;
+
     PlayerInteraction plrInt;
 
     private void Start()
@@ -17,9 +20,8 @@ public class Inventory : MonoBehaviour
         invUI.plrInv = this;
         plrInt = GetComponent<PlayerInteraction>();
 
-        tools.Add((ToolData)Resources.Load("Tools/Weapons/Base Gun"));
+        tools.Add((ToolData)Resources.Load("Tools/Weapons/Laser Gun"));
         tools.Add((ToolData)Resources.Load("Tools/Weapons/Laser Cannon"));
-        ToolUI.Instance.DisplayTools(tools);
     }
     // Inventory managing
     public void Collect(ResourceType thisResource)
@@ -250,7 +252,7 @@ public class Inventory : MonoBehaviour
         {
             GameObject obj = Instantiate(data.prefab, origin.position, Quaternion.identity);
             obj.transform.parent = origin;
-            obj.name = data.Name;
+            obj.name = data.name;
             ITool tool = obj.GetComponent<ITool>();
             if (tool != null) 
             {
@@ -260,5 +262,20 @@ public class Inventory : MonoBehaviour
             return true;
         }
         return false;
+    }
+    void AddTool(ToolData tool)
+    {
+        tools.Add(tool);
+    }
+
+    /* SHOP ITEMS */
+    public void ApplyShopItem(ShopItem item)
+    {
+        Debug.Log(item.GetType());
+        if (item is ToolData)
+        {
+            AddTool((ToolData)item);
+        }
+        // Future: powerups
     }
 }

@@ -23,7 +23,7 @@ public class CharacterSelect : MonoBehaviour
     public void SaveChar()
     {
         Save();
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     public void UpdateChar()
     {

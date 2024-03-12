@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,15 +27,21 @@ public class DialogueSystem : MonoBehaviour, IMenu
     //public int maxLetters = 30;
 
     MenuManager menuManager;
+    private Action _actionOnEnd;
 
-    void Start()
+    void Awake()
     {
+        menuManager = transform.parent.Find("MenuManager").GetComponent<MenuManager>();
         sentences = new Queue<TextIconSet>();
-        menuManager = GameObject.Find("MenuManager").GetComponent<MenuManager>();
         textBox.transform.localScale = new Vector3(0, 0, 0);
     }
-    public void StartDialogue(Dialogue dialogue, NPC speaker)
+    void Start()
     {
+
+    }
+    public void StartDialogue(Dialogue dialogue, NPC speaker, Action actionOnEnd=null)
+    {
+        _actionOnEnd = actionOnEnd;
         currentDialogue = dialogue;
         currentSpeaker = speaker;
         StartCoroutine(StartDelay());
@@ -81,6 +88,7 @@ public class DialogueSystem : MonoBehaviour, IMenu
     {
         yield return new WaitForSeconds(0.1f);
         talking = false;
+        if (_actionOnEnd != null) _actionOnEnd();
     }
     List<char> pauseChars = new List<char>{ '.', ',', '!', '?' };
     IEnumerator TypeText(string sentence)

@@ -139,7 +139,7 @@ TextureImporter:
       name: grass terrain tile_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 16
         y: 16
         width: 16
         height: 16
@@ -147,10 +147,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -8, y: 8}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
+        - {x: 8, y: 8}
       tessellationDetail: 0
       bones: []
-      spriteID: b122bd95ca4469c42a04a97c6280be3b
+      spriteID: 4c63f841ed8e9594fbe52bde5b9c9477
       internalID: 1922829527
       vertices: []
       indices: 
@@ -160,7 +164,7 @@ TextureImporter:
       name: grass terrain tile_1
       rect:
         serializedVersion: 2
-        x: 16
+        x: 32
         y: 16
         width: 16
         height: 16
@@ -169,13 +173,13 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -8, y: -8}
-        - {x: -8, y: 8}
+      - - {x: -8, y: 8}
+        - {x: -8, y: -8}
         - {x: 8, y: -8}
         - {x: 8, y: -8}
       tessellationDetail: 0
       bones: []
-      spriteID: dcc74e987c32eea47a80e024e0944d79
+      spriteID: b48f6cfe4aaab3149adff60ab9fb59ef
       internalID: -1005442125
       vertices: []
       indices: 
@@ -185,27 +189,6 @@ TextureImporter:
       name: grass terrain tile_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6b9f3fd9df90bc44996b7e84f692ddea
-      internalID: 1320563337
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: grass terrain tile_3
-      rect:
-        serializedVersion: 2
         x: 16
         y: 0
         width: 16
@@ -215,13 +198,38 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -8, y: -8}
-        - {x: 8, y: 8}
-        - {x: 8, y: 8}
+      - - {x: -8, y: 8}
+        - {x: -8, y: -8}
         - {x: 8, y: -8}
+        - {x: 8, y: 8}
       tessellationDetail: 0
       bones: []
-      spriteID: f71b887b72335dc46840fd654b0b1a25
+      spriteID: f5c7a0bfa38f4a6428d385e781394b68
+      internalID: 1320563337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grass terrain tile_3
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -8, y: 8}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
+        - {x: 8, y: 8}
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9ee8dc7d762c2b4ea1d599e9b475a7f
       internalID: 465368708
       vertices: []
       indices: 

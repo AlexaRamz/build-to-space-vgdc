@@ -106,7 +106,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 1.5
   m_AngularDrag: 0
-  m_GravityScale: 0
+  m_GravityScale: 1.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -186,7 +186,7 @@ MonoBehaviour:
   maxWaitPatrol: 2
   maxWanderDistance: 10
   minChaseDetectDistance: 0
-  maxChaseDetectDistance: 8
+  maxChaseDetectDistance: 6
   hopPower: 15
 --- !u!114 &6799214208123682920
 MonoBehaviour:
@@ -212,8 +212,12 @@ MonoBehaviour:
   firingPoint: {fileID: 4699389680718928952}
   mustBeRestingToFire: 0
   bulletsAreChildren: 0
+  hasNoAim: 0
+  aimOffset: {x: 0, y: 0}
+  aimRandomOffset: {x: 0, y: 0}
   damage: 2
   attackDelay: 1
+  hasCreatedStart: 0
 --- !u!70 &2361038564699116075
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

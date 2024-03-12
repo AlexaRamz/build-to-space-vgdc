@@ -7,7 +7,7 @@ public class ToolUI : MonoBehaviour, IMenu
 {
     Canvas canvas;
     bool open;
-    List<Transform> slots = new List<Transform>();
+    public Transform[] slots;
     Inventory plrInv;
     MenuManager menuManager;
     public static ToolUI Instance;
@@ -15,10 +15,6 @@ public class ToolUI : MonoBehaviour, IMenu
     void Awake()
     {
         Instance = this;
-        foreach (Transform child in transform)
-        {
-            slots.Add(child);
-        }
     }
     void Start()
     {
@@ -30,6 +26,7 @@ public class ToolUI : MonoBehaviour, IMenu
     public void OpenMenu()
     {
         open = canvas.enabled = true;
+        DisplayTools(plrInv.tools);
     }
 
     public void CloseMenu()
@@ -39,21 +36,25 @@ public class ToolUI : MonoBehaviour, IMenu
     
     public void DisplayTools(List<ToolData> tools)
     {
-        for (int i = 0; i < slots.Count; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
-            if (i < tools.Count)
+            Image img = slots[i].transform.Find("Image").GetComponent<Image>();
+            if (i < tools.Count && tools[i] != null)
             {
-                Image img = slots[i].transform.Find("Image").GetComponent<Image>();
                 img.sprite = tools[i].sprite;
                 img.color = new Color32(255, 255, 255, 255);
             }
-            else return;
+            else
+            {
+                img.sprite = null;
+                img.color = new Color32(255, 255, 255, 0);
+            }
         }
     }
 
     void ClearHover()
     {
-        for (int i = 0; i < slots.Count; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             slots[i].GetComponent<Image>().color = new Color32(90, 90, 90, 255); 
         }
@@ -106,7 +107,7 @@ public class ToolUI : MonoBehaviour, IMenu
             float smallestDistance = Mathf.Infinity;
             int closest = -1;
 
-            for (int i = 0; i < slots.Count; i++)
+            for (int i = 0; i < slots.Length; i++)
             {
                 float distance = Vector2.Distance(mousePos, slots[i].position);
                 if (distance < smallestDistance)

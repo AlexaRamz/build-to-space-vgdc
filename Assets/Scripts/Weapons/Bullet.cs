@@ -72,14 +72,14 @@ public class Bullet : MonoBehaviour
         }
     }
 
-        // Handle bullet collisions
-        private void OnTriggerEnter2D(Collider2D other)
+    // Handle bullet collisions
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (damage != 0)
+        if (other.isTrigger == false)
         {
             if (BulletOrigin == DamageOrigin.Player)
             {
-                if (other.gameObject.layer != LayerMask.NameToLayer("Player"))
+                if (other.gameObject.layer != LayerMask.NameToLayer("Player") && other.gameObject.tag != "Player")
                 {
                     if (other.gameObject.tag == "Enemy")
                     {
@@ -90,8 +90,8 @@ public class Bullet : MonoBehaviour
 
             }
             else
-            {//Enemy shot this bullet 
-                if (other.gameObject.layer != LayerMask.NameToLayer("NPC"))
+            { // Enemy shot this bullet 
+                if (other.gameObject.tag != "Enemy")
                 {
                     if (other.gameObject.tag == "Player")
                     {
@@ -99,7 +99,6 @@ public class Bullet : MonoBehaviour
                     }
                     Destroy(gameObject);
                 }
-
             }
         }
     }
