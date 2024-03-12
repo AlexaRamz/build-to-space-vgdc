@@ -17,9 +17,12 @@ public class PlayerAttack : MonoBehaviour
     Vector2 mousePos;
     float angle;
 
+    private SpriteRenderer spriteRender;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRender = GetComponent<SpriteRenderer>();
     }
 
     private void Shoot()
@@ -36,6 +39,22 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        // Gun Rotation
+        Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = rotation;
+
+        if(angle < 89 && angle > -89)
+        {
+            spriteRender.flipY = false;
+        }
+        else
+        {
+            spriteRender.flipY = true;
+        }
+
+        // Shooting Cooldown Timer
         if(Input.GetMouseButton(0) && fireTimer <= 0f)
         {
             Shoot();
