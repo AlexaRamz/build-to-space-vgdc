@@ -104,7 +104,25 @@ public class Ship : MonoBehaviour
                     Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     Vector2 toMouse = position - (Vector2)player.transform.position;
                     toMouse = toMouse.normalized;
-                    RB.AddForce(toMouse * 0.5f * RB.mass, ForceMode2D.Impulse);
+                    RB.AddForce(toMouse * 0.1f * RB.mass, ForceMode2D.Impulse);
+
+                    ///Searches for thrusters to apply force using
+                    ///This should be done with a tile-entity system in the future, instead of checking all tiles in the array
+                    for (int i = 0; i < ship.tile.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < ship.tile.GetLength(1); j++)
+                        {
+                            if (ship.tile[i, j].HasTile &&
+                                ship.tile[i, j].info.build.description == "Propells a ship opposite the ejection direction")
+                            {
+                                Debug.Log("Found a thruster: " + "(" + i + ", " + j + ")");
+                                Rotation rotation = ship.tile[i, j].info.GetRotation();
+                                Vector2 initialVector = Vector2.up * 3;
+                                RB.AddForceAtPosition(initialVector.RotatedBy((transform.rotation.eulerAngles.z + rotation.DegRotation) * Mathf.Deg2Rad), 
+                                    ConvertShipCoordinatesToPosition(new Vector2Int(i, j)), ForceMode2D.Impulse);
+                            }
+                        }
+                    }
                 }
             }
         }

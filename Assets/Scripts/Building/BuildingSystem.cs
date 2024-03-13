@@ -172,6 +172,7 @@ public class BuildArray
             }
             obj = GameObject.Instantiate(clone, Vector3.zero, parent.transform.rotation, parent.transform);
             obj.transform.localPosition = pos;
+            obj.transform.localEulerAngles = new Vector3(0, 0, rotation.DegRotation);
             if (rotation.sprite != null)
             {
                 SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>();
@@ -330,9 +331,11 @@ public class BuildingSystem : MonoBehaviour
     }
 
     //***********TEMPLATE************
+    private float placeholderRotation;
     void SetTemplate()
     {
         Rotation thisRotation = currentInfo.GetRotation();
+        placeholderRotation = thisRotation.DegRotation;
         SpriteRenderer renderer = placeholder.GetComponent<SpriteRenderer>();
         if (thisRotation.sprite == null && thisRotation.Object != null)
         {
@@ -417,7 +420,7 @@ public class BuildingSystem : MonoBehaviour
             Vector2Int gridPos = world.GetGridPos(mousePos);
             Vector3 worldPos = world.GetWorldPos(mousePos);
             placeholder.transform.position = worldPos;
-            placeholder.transform.rotation = Quaternion.identity;
+            placeholder.transform.rotation = Quaternion.Euler(0, 0, placeholderRotation);
             int totalShips = Ship.LoadedShips.Count;
             // Debug.Log(totalShips);
             bool PlaceOnFlatFloor = true;
@@ -439,7 +442,7 @@ public class BuildingSystem : MonoBehaviour
                         gridPos = shipGridPos;
                         Vector2 shipWorldPos = ship.ConvertShipCoordinatesToPosition(shipGridPos);
                         placeholder.transform.position = new Vector3(shipWorldPos.x, shipWorldPos.y, placeholder.transform.position.z);
-                        placeholder.transform.rotation = ship.transform.rotation;
+                        placeholder.transform.rotation = Quaternion.Euler(0, 0, ship.transform.rotation.eulerAngles.z + placeholderRotation);
                         selectedShip = ship;
                         break;
                     }
@@ -537,7 +540,7 @@ public class BuildingSystem : MonoBehaviour
         }
         HangarSaveButton.SetActive(savedShips.Count > 0 || InVirtualHangar);
     }
-    public static bool InVirtualHangar => SceneManager.GetActiveScene().buildIndex == 2;
+    public static bool InVirtualHangar => SceneManager.GetActiveScene().name == "VirtualHangar";
     public void SaveOrPasteShip()
     {
         if(InVirtualHangar) //The scene is currently the virtual hangar
@@ -587,11 +590,11 @@ public class BuildingSystem : MonoBehaviour
     }
     private void LoadVirtualHangar()
     {
-        SceneManager.LoadScene(2); //Go to the virtual hangar
+        SceneManager.LoadScene("VirtualHangar"); //Go to the virtual hangar
     }
     private void LoadMainScene()
     {
-        SceneManager.LoadScene(1); //Go to the main scene
+        SceneManager.LoadScene("TutorialScene"); //Go to the main scene
     }
     private void LoadCharacterSelect()
     {

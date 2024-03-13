@@ -9,6 +9,7 @@ public class Rotation //essential a variant of sprite for the object
     public GameObject Object;
     public bool flipX = false;
     public bool flipY = false;
+    public float DegRotation;
     //public Vector2Int size = new Vector2Int(1, 1);
 
     public Sprite GetSprite()

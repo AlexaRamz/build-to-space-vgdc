@@ -5977,7 +5977,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0004986562}
+  m_AnchoredPosition: {x: 0, y: -91.71637}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &6288442930916272497
@@ -6128,7 +6128,7 @@ Transform:
   m_GameObject: {fileID: 6288442931646131620}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6149,9 +6149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d81ae72a8b952745aa5f391f186e263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 40
-  height: 40
-  startCorner: {x: -10, y: -1}
+  width: 9
+  height: 9
+  startCorner: {x: -6, y: -1}
   buildUI: {fileID: 7433815916881925374}
   categories:
   - name: Trusses
@@ -6172,6 +6172,10 @@ MonoBehaviour:
     image: {fileID: 21300000, guid: 310d825a965ea2c4d8394c94e457ff50, type: 3}
     builds:
     - {fileID: 11400000, guid: e4e90c0ac238bd445831942fb73ccc31, type: 2}
+  - name: Ship
+    image: {fileID: 21300000, guid: 93d8b7bd8f1707947a1330c777e8709e, type: 3}
+    builds:
+    - {fileID: 11400000, guid: 64cd0bd27d7c5aa468fa0d430c143ed5, type: 2}
   currentInfo:
     build: {fileID: 0}
     rot: 0
@@ -6738,7 +6742,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8014681438907469772}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6764,14 +6768,14 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
-  m_OverrideSorting: 0
+  m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: -1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &5859829631790056889
 MonoBehaviour:
