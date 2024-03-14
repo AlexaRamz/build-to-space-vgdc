@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool wasMoving;
     float jumpTimeCounter;
-    bool jumpButtonDown = false;
+    bool jumpButton = false;
     bool canJump = false;
 
     int faceDirection = 1;
@@ -146,16 +146,15 @@ public class PlayerMovement : MonoBehaviour
             anim.SetFloat("Horizontal", faceDirection);
             anim.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
 
-            jumpButtonDown = Input.GetKey("up") || Input.GetKey("w");
-            if(!jumpButtonDown)
-                canJump = false;
+            jumpButton = Input.GetKey("up") || Input.GetKey("w");
+            if (!jumpButton) canJump = false;
 
             if (!inTube && !jetPackOn)
             {
                 //Jumping
                 if (isGrounded)
                 {
-                    if (jumpButtonDown)
+                    if (Input.GetKeyDown("up") || Input.GetKeyDown("w"))
                     {
                         if (!debounce)
                         {
@@ -174,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     anim.SetBool("Jumping", true);
-                    if (canJump && jumpButtonDown && jumpTimeCounter < jumpTime)
+                    if (canJump && jumpButton && jumpTimeCounter < jumpTime)
                     {
                         rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
                         jumpTimeCounter += Time.deltaTime;
@@ -211,6 +210,18 @@ public class PlayerMovement : MonoBehaviour
                 } 
             }
         }
+        else // player not active
+        {
+            if (Input.GetKey("up") || Input.GetKey("w") || Input.GetKey("down") || Input.GetKey("s"))
+            {
+                Unsit();
+            }
+            if (sitting)
+            {
+                transform.position = seat.seatPoint.position;
+                transform.rotation = seat.seatPoint.rotation;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -232,5 +243,27 @@ public class PlayerMovement : MonoBehaviour
         {
             fuelSlider.gameObject.SetActive(false);
         }
+    }
+
+    bool sitting;
+    Seat seat;
+    public void Sit(Seat thisSeat)
+    {
+        if (seat) Unsit();
+        sitting = true;
+        seat = thisSeat;
+        seat.beingUsed = true;
+        plrActive = false;
+        rb.gravityScale = 0;
+    }
+
+    public void Unsit()
+    {
+        sitting = false;
+        seat.beingUsed = false;
+        seat = null;
+        plrActive = true;
+        rb.gravityScale = 1.5f;
+        transform.rotation = Quaternion.identity;
     }
 }

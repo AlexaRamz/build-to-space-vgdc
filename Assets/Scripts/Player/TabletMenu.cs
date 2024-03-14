@@ -44,7 +44,6 @@ public class TabletMenu : MonoBehaviour, IMenu
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-            Debug.Log(open);
             if (!open) menuManager.OpenMenu(this);
             else menuManager.CloseMenu();
         }

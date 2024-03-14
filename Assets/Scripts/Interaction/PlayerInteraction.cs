@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -10,23 +11,24 @@ public class PlayerInteraction : MonoBehaviour
     Interactable currentInteract;
     MenuManager menuManager;
     public bool canInteract = true;
+    public GameObject arrowPrefab;
+    GameObject arrow;
+    const float updateRate = 6; // updates per second
+    bool pointing;
 
-    private void Start()
+    private void Awake()
     {
         menuManager = GameObject.Find("MenuManager").GetComponent<MenuManager>();
+        arrow = Instantiate(arrowPrefab);
     }
-    IEnumerator currentCoroutine;
-    public void UpdateCurrentInteract() // Called on trigger enter
+    private void Start()
     {
-        UpdateInteract();
-        if (currentCoroutine != null) StopCoroutine(currentCoroutine);
-        currentCoroutine = Repeat_UpdateCurrentInteract();
-        StartCoroutine(currentCoroutine); // Update as long as there are interactables in range
+        StartCoroutine(Repeat_UpdateInteract());
     }
-    const float updateRate = 10; // updates per second
-    IEnumerator Repeat_UpdateCurrentInteract()
+
+    IEnumerator Repeat_UpdateInteract()
     {
-        while (interactablesInRange)
+        while (true)
         {
             UpdateInteract();
             yield return new WaitForSeconds(1 / updateRate);
@@ -45,6 +47,18 @@ public class PlayerInteraction : MonoBehaviour
     }
     Interactable GetInteractingWith()
     {
+        GameObject pointerOn = GetPointerOn();
+        if (pointerOn != null)
+        {
+            Interactable newInteract = pointerOn.GetComponent<Interactable>();
+            if (newInteract && !newInteract.beingUsed)
+            {
+                pointing = true;
+                return newInteract;
+            }
+        }
+        pointing = false; 
+
         //RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, new Vector2(1.5f, 1.5f), 0, Vector2.zero);
         List<GameObject> objectsInRange = interactTrigger.GetObjectsInRange();
         Interactable closestObject = null;
@@ -53,7 +67,8 @@ public class PlayerInteraction : MonoBehaviour
         foreach (GameObject obj in objectsInRange)
         {
             //GameObject obj = rc.transform.gameObject;
-            if (obj.GetComponent<Interactable>())
+            Interactable I = obj.GetComponent<Interactable>();
+            if (I != null && !I.beingUsed)
             {
                 float distance = Vector2.Distance(obj.transform.position, transform.position);
                 if (distance < closestDistance)
@@ -65,7 +80,6 @@ public class PlayerInteraction : MonoBehaviour
         }
         return closestObject;
     }
-    public GameObject arrow;
     public float arrowOffset = 0.25f;
     void InteractIconOn(Interactable thisInteract)
     {
@@ -73,19 +87,46 @@ public class PlayerInteraction : MonoBehaviour
         arrow.GetComponent<Animator>().SetBool("InRange", true);
         Transform thisObject = thisInteract.transform;
         arrow.transform.position = thisObject.position + new Vector3(0, thisObject.GetComponent<SpriteRenderer>().bounds.size.y / 2 + arrowOffset, 0);
-        arrow.transform.SetParent(thisObject);
     }
     void InteractIconOff(Interactable thisInteract)
     {
         arrow.transform.Find("Image").GetComponent<SpriteRenderer>().enabled = false;
         arrow.GetComponent<Animator>().SetBool("InRange", false);
-        arrow.transform.SetParent(transform);
     }
+
+    public GameObject GetPointerOn()
+    {
+        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mouseWorldPos, Vector2.zero);
+        List<GameObject> Objects = new List<GameObject>();
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i].collider != null && hits[i].collider.gameObject.GetComponent<Interactable>())
+            {
+                Objects.Add(hits[i].collider.gameObject);
+            }
+        }
+        Objects = Objects.OrderBy(e => e.transform.position.y).ToList();
+        GameObject hit = null;
+        if (Objects.Count > 0)
+        {
+            hit = Objects[0];
+        }
+        return hit;
+    }
+
     void Update()
     {
-        if (canInteract && Input.GetKeyDown(KeyCode.Return) && currentInteract != null)
+        if (canInteract)
         {
-            currentInteract.Interact();
+            if ((Input.GetKeyDown(KeyCode.Return)) && currentInteract != null)
+            {
+                currentInteract.Interact();
+            }
+            if (pointing && Input.GetMouseButtonDown(0) && currentInteract != null)
+            {
+                currentInteract.Interact();
+            }
         }
         canInteract = !menuManager.IsInMenu();
     }
