@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: cracked earth terrain tile_3
+  m_Name: dead plant transparent
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -1376520742, guid: 2b7f5809fe6d20f449c4f24e99eb4351, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e8f8b931c470ee045b1bca2fb6e4e47d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

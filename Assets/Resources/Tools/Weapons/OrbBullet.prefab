@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+    - target: {fileID: 5527250312608560981, guid: 3daf8bbb12359164eae501405601d02c, type: 3}
+      propertyPath: m_Color.r
+      value: 0.49019608
+      objectReference: {fileID: 0}
     - target: {fileID: 5672284019545683915, guid: 3daf8bbb12359164eae501405601d02c, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -62,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7313138036470043198, guid: 3daf8bbb12359164eae501405601d02c, type: 3}
       propertyPath: m_Name
-      value: Orb
+      value: OrbBullet
       objectReference: {fileID: 0}
     - target: {fileID: 7315966168906821740, guid: 3daf8bbb12359164eae501405601d02c, type: 3}
       propertyPath: m_Size.y

@@ -57,7 +57,7 @@ public class GunShoot : MonoBehaviour, ITool
         bullet.damage = gunData.bulletDamage;
     }
 
-    void Update()
+    void LateUpdate()
     {
         Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - plr.position).normalized;
         angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

@@ -15,7 +15,7 @@ public class BuildingUI : MonoBehaviour, IMenu
     private Canvas canvas;
     private MenuManager menuManager;
 
-    void Start()
+    void Awake()
     {
         plr = GameObject.Find("Player").GetComponent<Inventory>();
         canvas = GetComponent<Canvas>();

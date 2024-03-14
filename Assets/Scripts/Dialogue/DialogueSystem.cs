@@ -118,7 +118,7 @@ public class DialogueSystem : MonoBehaviour, IMenu
     // Responses
     void Responses()
     {
-        if (sentences.Count == 0 && currentDialogue.responses.Count != 0)
+        if (sentences.Count == 0 && currentDialogue && currentDialogue.responses.Count != 0)
         {
             responseUI.enabled = true;
             for (int i = 0; i < currentDialogue.responses.Count; i++)
