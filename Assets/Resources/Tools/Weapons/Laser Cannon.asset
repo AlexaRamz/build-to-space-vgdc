@@ -23,3 +23,6 @@ MonoBehaviour:
   bulletSpeed: 10
   bulletLifetime: 3
   bulletPrefab: {fileID: 6563951063878213689, guid: 80e14fde4c29f8c49975897e1219269b, type: 3}
+  shootSounds:
+  - {fileID: 8300000, guid: 7c236c25141a18b409b673a3ebb7aa08, type: 3}
+  - {fileID: 8300000, guid: 2320eb4f516950341be01c34828d87ea, type: 3}

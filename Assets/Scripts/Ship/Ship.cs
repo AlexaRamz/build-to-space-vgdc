@@ -13,6 +13,7 @@ public class Ship : MonoBehaviour
     public BuildArray ship;
     public int Width => ship.Width;
     public int Height => ship.Height;
+    AudioManager audioManager;
     /// <summary>
     /// Increases the size of the ship. Negative numbers grow the ship to the left/bottom. Positive numbers grow the ship to the right/top
     /// </summary>
@@ -68,6 +69,7 @@ public class Ship : MonoBehaviour
         if(ship == null)
             ship = new BuildArray(gameObject, 0, 0, 0, 0);
         LoadedShips.Add(this);
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
     private static bool hasSetUp = false;
     void Update()
@@ -123,8 +125,13 @@ public class Ship : MonoBehaviour
                             }
                         }
                     }
+                    audioManager.PlaySFX(audioManager.rocket);
                 }
             }
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            audioManager.StopSFX();
         }
     }
     private void OnDestroy()

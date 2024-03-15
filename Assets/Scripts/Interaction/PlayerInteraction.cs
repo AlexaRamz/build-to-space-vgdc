@@ -67,14 +67,17 @@ public class PlayerInteraction : MonoBehaviour
         foreach (GameObject obj in objectsInRange)
         {
             //GameObject obj = rc.transform.gameObject;
-            Interactable I = obj.GetComponent<Interactable>();
-            if (I != null && !I.beingUsed)
+            if (obj != null)
             {
-                float distance = Vector2.Distance(obj.transform.position, transform.position);
-                if (distance < closestDistance)
+                Interactable I = obj.GetComponent<Interactable>();
+                if (I != null && !I.beingUsed)
                 {
-                    closestObject = obj.GetComponent<Interactable>();
-                    closestDistance = distance;
+                    float distance = Vector2.Distance(obj.transform.position, transform.position);
+                    if (distance < closestDistance)
+                    {
+                        closestObject = obj.GetComponent<Interactable>();
+                        closestDistance = distance;
+                    }
                 }
             }
         }

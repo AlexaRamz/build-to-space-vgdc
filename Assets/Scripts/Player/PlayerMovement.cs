@@ -154,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
                 //Jumping
                 if (isGrounded)
                 {
-                    if (Input.GetKeyDown("up") || Input.GetKeyDown("w"))
+                    if (jumpButton)
                     {
                         if (!debounce)
                         {

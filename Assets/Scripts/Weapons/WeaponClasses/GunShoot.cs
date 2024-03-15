@@ -10,6 +10,7 @@ public class GunShoot : MonoBehaviour, ITool
     private Transform bulletOrigin;
     SpriteRenderer spriteRender;
     Transform plr;
+    AudioManager audioManager;
 
     public ToolData data
     {
@@ -28,6 +29,7 @@ public class GunShoot : MonoBehaviour, ITool
             spriteRender = GetComponent<SpriteRenderer>();
             spriteRender.sprite = gunData.sprite;
             plr = GameObject.Find("Player").transform;
+            audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
             readyToUse = true;
         }
     }
@@ -45,6 +47,7 @@ public class GunShoot : MonoBehaviour, ITool
             readyToUse = false;
             StartCoroutine(useDelay());
             Shoot();
+            audioManager.PlaySFX(gunData.shootSounds[Random.Range(0, gunData.shootSounds.Length)]);
         }
     }
 

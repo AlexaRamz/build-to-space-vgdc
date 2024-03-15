@@ -12,4 +12,5 @@ public class GunData : ToolData
     [Range(1, 10)]
     public float bulletLifetime = 3f;
     public GameObject bulletPrefab;
+    public AudioClip[] shootSounds;
 }
