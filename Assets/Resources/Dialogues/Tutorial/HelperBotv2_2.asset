@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: HelperBotv2_2
   m_EditorClassIdentifier: 
   sentences:
-  - text: Finished? Congratulations, you just finished the program. Well done.
-    emotion: 0
-  - text: "You\u2019ve now been cleared to leave. Safe travels."
+  - text: Next you will learn how to fly the ship. Take a seat inside and buckle
+      up.
     emotion: 0
   responses: []

@@ -185,8 +185,8 @@ MonoBehaviour:
   minWaitPatrol: 1
   maxWaitPatrol: 2
   maxWanderDistance: 10
-  minChaseDetectDistance: 0
-  maxChaseDetectDistance: 6
+  minChaseDetectDistance: 1
+  maxChaseDetectDistance: 5
   hopPower: 15
 --- !u!114 &6799214208123682920
 MonoBehaviour:
@@ -265,8 +265,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf7d09da5fba67b47bfb2e058e8ec701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 6
   currentHealth: 0
+  createOnDeath: {fileID: 0}
+  snapOnDeathCreationToGround: 0
 --- !u!1 &1659218752294453864
 GameObject:
   m_ObjectHideFlags: 0

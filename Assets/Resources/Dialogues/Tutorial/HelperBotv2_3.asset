@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 340201a1a8c714c4e94e6eebd515beda, type: 3}
-  m_Name: HelperBotv1_3
+  m_Name: HelperBotv2_3
   m_EditorClassIdentifier: 
   sentences:
-  - text: MOVING ON. YOU HAVE COMPLETED ALL MY TASKS. THE NEXT PHASE IS UP AHEAD.
-      MY FELLOW BOT AWAITS YOUR ARRIVAL.
+  - text: Finished? Congratulations, you just finished the program. Well done.
+    emotion: 0
+  - text: "You\u2019ve now been cleared to leave. Safe travels."
     emotion: 0
   responses: []

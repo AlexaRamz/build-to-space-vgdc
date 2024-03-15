@@ -16,6 +16,7 @@ MonoBehaviour:
   - text: "Hello there. I\u2019m Helper Bot version 2.4. I\u2019m here to ensure
       you know how to fly and maintain your spacecraft."
     emotion: 0
-  - text: "Let\u2019s start by having this ship here."
+  - text: Begin by creating a ship in the virtual hangar, accessible through the
+      building app.
     emotion: 0
   responses: []
