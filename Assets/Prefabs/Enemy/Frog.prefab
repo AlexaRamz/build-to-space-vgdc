@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 376925176366556424, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 356e3a3c151ad7a4e967f1044949e147, type: 3}
+    - target: {fileID: 376925176366556424, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 376925176366556424, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1432769151
+      objectReference: {fileID: 0}
     - target: {fileID: 1175316420781327946, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: m_Name
       value: Frog
@@ -15,6 +27,18 @@ PrefabInstance:
     - target: {fileID: 1667692070742612889, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: m_GravityScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361038564699116075, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Size.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361038564699116075, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Size.y
+      value: 1.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361038564699116075, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.8125
       objectReference: {fileID: 0}
     - target: {fileID: 6799214208123682920, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: shootDelay
@@ -35,6 +59,34 @@ PrefabInstance:
     - target: {fileID: 6799214208123682920, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: mustBeRestingToFire
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089861542472946787, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Size.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089861542472946787, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Size.y
+      value: 1.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089861542472946787, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.8125
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089861542472946787, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089861542472946787, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089861542472946787, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089861542472946787, guid: dd845845984605442866220c76b8c9f4, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.625
       objectReference: {fileID: 0}
     - target: {fileID: 7125592696367360446, guid: dd845845984605442866220c76b8c9f4, type: 3}
       propertyPath: m_LocalPosition.x

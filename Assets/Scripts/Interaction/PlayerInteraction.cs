@@ -18,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Awake()
     {
-        menuManager = GameObject.Find("MenuManager").GetComponent<MenuManager>();
+        menuManager = MenuManager.Instance;
         arrow = Instantiate(arrowPrefab);
     }
     private void Start()
@@ -131,6 +131,6 @@ public class PlayerInteraction : MonoBehaviour
                 currentInteract.Interact();
             }
         }
-        canInteract = !menuManager.IsInMenu();
+        canInteract = !menuManager.isInMenu;
     }
 }

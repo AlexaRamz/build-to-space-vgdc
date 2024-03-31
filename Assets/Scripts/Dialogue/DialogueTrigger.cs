@@ -6,27 +6,24 @@ using UnityEngine;
 public class DialogueTrigger : Interactable
 {
     public NPC speaker;
-    DialogueSystem dialogueSys;
+    DialogueManager dialogueManager;
     public Dialogue dialogue;
     public Action eventOnEnd;
 
     void Start()
     {
-        dialogueSys = GameObject.Find("DialogueSystem").GetComponent<DialogueSystem>();
+        dialogueManager = DialogueManager.Instance;
     }
     public override void Interact()
     {
-        if (!dialogueSys.talking)
+        if (dialogue == null)
         {
-            if (dialogue == null)
-            {
-                Dialogue randomDialogue = speaker.dialogues[UnityEngine.Random.Range(0, speaker.dialogues.Count)];
-                dialogueSys.StartDialogue(randomDialogue, speaker, eventOnEnd);
-            }
-            else
-            {
-                dialogueSys.StartDialogue(dialogue, speaker, eventOnEnd);
-            }
+            Dialogue randomDialogue = speaker.dialogues[UnityEngine.Random.Range(0, speaker.dialogues.Count)];
+            dialogueManager.StartDialogue(randomDialogue, speaker, eventOnEnd);
+        }
+        else
+        {
+            dialogueManager.StartDialogue(dialogue, speaker, eventOnEnd);
         }
     }
 }

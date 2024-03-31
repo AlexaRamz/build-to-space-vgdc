@@ -1,46 +1,73 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Events;
 
 public class MenuManager : MonoBehaviour
 {
-    // Handles button inputs when within a menu
-    private IMenu selectedMenu;
-    public bool IsInMenu()
+    public GameObject shopMenu;
+    public GameObject weaponWheel;
+    public GameObject buildMenu;
+    public GameObject tabletMenu;
+    public GameObject HUD;
+    public GameObject dialogueBox;
+
+    private GameObject currentMenu;
+    private Canvas canvas;
+    
+    public static MenuManager Instance;
+    public bool isInMenu  = false;
+
+    public UnityEvent OnMenuOpened;
+    public UnityEvent OnMenuClosed;
+
+    void Awake()
     {
-        return selectedMenu != null;
+        Instance = this;
     }
-    public void OpenMenu(IMenu newMenu)
+    void Start()
     {
-        if (newMenu != selectedMenu)
+        canvas = GetComponent<Canvas>();
+        currentMenu = HUD;
+        currentMenu.SetActive(true);
+    }
+
+    public void ShowMenu(GameObject menu)
+    {
+        currentMenu.SetActive(false);
+        if (currentMenu != menu)
         {
-            if (selectedMenu != null)
-            {
-                selectedMenu.CloseMenu();
-            }
-            selectedMenu = newMenu;
-            selectedMenu.OpenMenu();
+            currentMenu = menu;
+            currentMenu.SetActive(true);
+            isInMenu = true;
+            OnMenuOpened?.Invoke();
+        }
+        else
+        {
+            CloseCurrentMenu();
         }
     }
-    public void CloseMenu()
+
+    public void CloseCurrentMenu()
     {
-        if (IsInMenu())
-        {
-            selectedMenu.CloseMenu();
-            selectedMenu = null;
-        }
+        currentMenu.SetActive(false);
+        currentMenu = HUD;
+        currentMenu.SetActive(true);
+        isInMenu = false;
+        OnMenuClosed?.Invoke();
     }
-    void Update()
+
+    private void Update()
     {
-        bool shiftInput = Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift);
-        if (shiftInput) // Back button
-        {
-            CloseMenu();
-        }
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            BuildingSystem.Instance.StartBuilding();
-        }
+        if (Input.GetKeyDown(KeyCode.Tab))
+            ShowMenu(weaponWheel);
+        if (Input.GetKeyDown(KeyCode.P))
+            ShowMenu(shopMenu);
+        if (Input.GetKeyDown(KeyCode.B))
+            ShowMenu(buildMenu);
+        if (Input.GetKeyDown(KeyCode.M))
+            ShowMenu(tabletMenu);
+        if (Input.GetKeyDown(KeyCode.RightShift))
+            CloseCurrentMenu();
     }
 }

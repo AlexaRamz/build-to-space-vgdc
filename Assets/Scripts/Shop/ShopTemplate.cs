@@ -6,6 +6,5 @@ using TMPro;
 
 public class ShopTemplate : MonoBehaviour
 {
-    public TMP_Text text;
     public Image image;
 }

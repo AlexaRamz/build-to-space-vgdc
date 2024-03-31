@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class BuildingUI : MonoBehaviour, IMenu
+public class BuildingUI : MonoBehaviour
 {
     public BuildingSystem buildSys;
     public Transform categoryContainer, buildContainer, materialDisplayContainer;
@@ -23,11 +23,11 @@ public class BuildingUI : MonoBehaviour, IMenu
     }
     public void StartBuilding()
     {
-        menuManager.OpenMenu(this);
+
     }
     public void EndBuilding()
     {
-        menuManager.CloseMenu();
+
     }
     public void OpenMenu() // Called only by menu manager
     {

@@ -9,7 +9,7 @@ public class Inventory : MonoBehaviour
     public List<ToolData> tools = new List<ToolData>();
     ITool currentTool;
 
-    public int money = 100;
+    public int money;
 
     PlayerInteraction plrInt;
 

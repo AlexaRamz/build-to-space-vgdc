@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ToolUI : MonoBehaviour, IMenu
+public class ToolUI : MonoBehaviour
 {
-    Canvas canvas;
-    bool open;
     public Transform[] slots;
     Inventory plrInv;
     MenuManager menuManager;
@@ -16,22 +14,11 @@ public class ToolUI : MonoBehaviour, IMenu
     {
         Instance = this;
     }
-    void Start()
+    void OnEnable()
     {
-        canvas = GetComponent<Canvas>();
         plrInv = GameObject.Find("Player").GetComponent<Inventory>();
-        menuManager = GameObject.Find("MenuManager").GetComponent<MenuManager>();
-    }
-
-    public void OpenMenu()
-    {
-        open = canvas.enabled = true;
+        menuManager = MenuManager.Instance;
         DisplayTools(plrInv.tools);
-    }
-
-    public void CloseMenu()
-    {
-        open = canvas.enabled = false;
     }
     
     public void DisplayTools(List<ToolData> tools)
@@ -72,51 +59,34 @@ public class ToolUI : MonoBehaviour, IMenu
     int hoveringOn = -1;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetMouseButtonUp(0))
         {
-            if (open)
+            if (hoveringOn != current)
             {
-                open = false;
-                menuManager.CloseMenu();
+                plrInv.Equip(hoveringOn);
+                current = hoveringOn;
             }
             else
             {
-                open = true;
-                menuManager.OpenMenu(this);
+                plrInv.Equip(-1);
+                current = -1;
             }
+            menuManager.CloseCurrentMenu();
         }
-        if (open)
+        Vector2 mousePos = Input.mousePosition;
+
+        float smallestDistance = Mathf.Infinity;
+        int closest = -1;
+
+        for (int i = 0; i < slots.Length; i++)
         {
-            if (Input.GetMouseButtonUp(0))
+            float distance = Vector2.Distance(mousePos, slots[i].position);
+            if (distance < smallestDistance)
             {
-                if (hoveringOn != current)
-                {
-                    plrInv.Equip(hoveringOn);
-                    current = hoveringOn;
-                }
-                else
-                {
-                    plrInv.Equip(-1);
-                    current = -1;
-                }
-                open = false;
-                menuManager.CloseMenu();
+                closest = i;
+                smallestDistance = distance;
             }
-            Vector2 mousePos = Input.mousePosition;
-
-            float smallestDistance = Mathf.Infinity;
-            int closest = -1;
-
-            for (int i = 0; i < slots.Length; i++)
-            {
-                float distance = Vector2.Distance(mousePos, slots[i].position);
-                if (distance < smallestDistance)
-                {
-                    closest = i;
-                    smallestDistance = distance;
-                }
-            }
-            HoverOn(closest);
         }
+        HoverOn(closest);
     }
 }

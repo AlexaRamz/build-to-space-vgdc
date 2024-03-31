@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
-    DialogueSystem dialogueSys;
+    DialogueManager dialogueManager;
     [SerializeField]
     private NPC commander;
 
@@ -39,7 +39,7 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-        dialogueSys = transform.parent.Find("DialogueSystem").GetComponent<DialogueSystem>();
+        dialogueManager = DialogueManager.Instance;
         skipInfo.SetActive(true);
         bot2.dialogue = bot2Dialogues[0];
         bot2.eventOnEnd = BuildPopUp2;
@@ -51,7 +51,7 @@ public class TutorialManager : MonoBehaviour
     public void CommanderDialogue1()
     {
         interactInfo.SetActive(false);
-        dialogueSys.StartDialogue(commanderDialogues[0], commander, HeadVRArea);
+        dialogueManager.StartDialogue(commanderDialogues[0], commander, HeadVRArea);
     }
     public void HeadVRArea()
     {
