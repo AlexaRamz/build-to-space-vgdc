@@ -25,7 +25,7 @@ public class Rotation //essential a variant of sprite for the object
         return null;
     }
 }
-[CreateAssetMenu(fileName = "New Build", menuName = "Build")]
+[CreateAssetMenu(fileName = "New Build", menuName = "Scriptable Objects/Build")]
 public class Build : ScriptableObject
 {
     public string description;
@@ -33,8 +33,8 @@ public class Build : ScriptableObject
     public List<ResourceAmount> materials = new List<ResourceAmount>();
     public enum DepthLevel
     {
-        Background,
         MidGround,
+        Background,
         Foreground,
     }
     public DepthLevel depth;
@@ -49,24 +49,4 @@ public class ResourceAmount
 {
     public ResourceType resource;
     public int amount = 1;
-}
-
-[System.Serializable]
-public class BuildInfo
-{
-    public Build build;
-    public int rot = 0;
-    public Rotation GetRotation()
-    {
-        if (build.rotations == null || build.rotations.Length <= 0)
-        {
-            Debug.Log("No rotations saved");
-            return null;
-        }
-        return build.rotations[rot];
-    }
-    public void AdvanceRotation()
-    {
-        rot = (rot + 1) % build.rotations.Length;
-    }
 }

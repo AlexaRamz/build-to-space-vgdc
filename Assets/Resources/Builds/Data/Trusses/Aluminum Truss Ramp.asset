@@ -10,31 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af78894f5d8b61844bf9c7a81b822fb3, type: 3}
-  m_Name: ShipThruster
+  m_Name: Aluminum Truss Ramp
   m_EditorClassIdentifier: 
-  description: Propells a ship opposite the ejection direction
+  description: A sturdy building block incline
   rotations:
-  - sprite: {fileID: 21300000, guid: 93d8b7bd8f1707947a1330c777e8709e, type: 3}
+  - sprite: {fileID: 465734048, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 0
     flipY: 0
     DegRotation: 0
-  - sprite: {fileID: 21300000, guid: 93d8b7bd8f1707947a1330c777e8709e, type: 3}
+  - sprite: {fileID: 465734048, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 0
-    flipY: 0
-    DegRotation: 270
-  - sprite: {fileID: 21300000, guid: 93d8b7bd8f1707947a1330c777e8709e, type: 3}
+    flipY: 1
+    DegRotation: 0
+  - sprite: {fileID: 465734048, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
-    flipX: 0
-    flipY: 0
-    DegRotation: 180
-  - sprite: {fileID: 21300000, guid: 93d8b7bd8f1707947a1330c777e8709e, type: 3}
+    flipX: 1
+    flipY: 1
+    DegRotation: 0
+  - sprite: {fileID: 465734048, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
-    flipX: 0
+    flipX: 1
     flipY: 0
-    DegRotation: 90
+    DegRotation: 0
   materials:
   - resource: 1
-    amount: 5
-  depth: 1
+    amount: 1
+  depth: 0

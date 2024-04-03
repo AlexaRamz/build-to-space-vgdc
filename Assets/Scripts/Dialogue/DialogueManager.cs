@@ -39,7 +39,6 @@ public class DialogueManager : MonoBehaviour
     }
     public void StartDialogue(Dialogue dialogue, NPC speaker, Action actionOnEnd=null)
     {
-        Debug.Log("weez");
         _actionOnEnd = actionOnEnd;
         currentDialogue = dialogue;
         currentSpeaker = speaker;

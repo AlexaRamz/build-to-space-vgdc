@@ -18,19 +18,23 @@ MonoBehaviour:
     Object: {fileID: 0}
     flipX: 0
     flipY: 0
+    DegRotation: 0
   - sprite: {fileID: 2122300476, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 0
     flipY: 1
+    DegRotation: 0
   - sprite: {fileID: 2122300476, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 1
     flipY: 1
+    DegRotation: 0
   - sprite: {fileID: 2122300476, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
     Object: {fileID: 0}
     flipX: 1
     flipY: 0
+    DegRotation: 0
   materials:
   - resource: 1
     amount: 1
-  depth: 1
+  depth: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
@@ -24,9 +25,6 @@ public class MenuManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-    }
-    void Start()
-    {
         canvas = GetComponent<Canvas>();
         currentMenu = HUD;
         currentMenu.SetActive(true);
@@ -69,5 +67,10 @@ public class MenuManager : MonoBehaviour
             ShowMenu(tabletMenu);
         if (Input.GetKeyDown(KeyCode.RightShift))
             CloseCurrentMenu();
+    }
+
+    public bool IsOnUI()
+    {
+        return EventSystem.current.IsPointerOverGameObject();
     }
 }

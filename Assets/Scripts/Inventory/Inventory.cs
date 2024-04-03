@@ -98,7 +98,7 @@ public class Inventory : MonoBehaviour
     {
         invUI.SetDisplays();
         UpdateHoldingDisplay();
-        buildSys.UpdateMaterials();
+        //buildSys.UpdateMaterials();
     }
 
     // Holding

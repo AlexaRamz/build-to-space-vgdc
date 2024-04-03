@@ -10,19 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af78894f5d8b61844bf9c7a81b822fb3, type: 3}
-  m_Name: Control Seat
+  m_Name: Steel Truss
   m_EditorClassIdentifier: 
-  description: Sit here or get yeeted.
+  description: A sturdy building block
   rotations:
-  - sprite: {fileID: 0}
-    Object: {fileID: 3929263777023415944, guid: 4a4bc86c1027acd47a957c0f355dc90d, type: 3}
+  - sprite: {fileID: 145578708, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
+    Object: {fileID: 0}
     flipX: 0
     flipY: 0
     DegRotation: 0
-  - sprite: {fileID: 0}
-    Object: {fileID: 5478853561131110023, guid: d1437547906b9854487312b0e2c629d4, type: 3}
-    flipX: 0
-    flipY: 0
-    DegRotation: 0
-  materials: []
+  materials:
+  - resource: 1
+    amount: 2
   depth: 0

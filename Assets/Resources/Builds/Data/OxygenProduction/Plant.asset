@@ -10,15 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af78894f5d8b61844bf9c7a81b822fb3, type: 3}
-  m_Name: Aluminum Truss
+  m_Name: Plant
   m_EditorClassIdentifier: 
-  description: A sturdy building block
+  description: Produces oxygen
   rotations:
-  - sprite: {fileID: -993174190, guid: 11cc38401d8d4a94a984e7b126021d4a, type: 3}
+  - sprite: {fileID: 21300000, guid: 310d825a965ea2c4d8394c94e457ff50, type: 3}
     Object: {fileID: 0}
     flipX: 0
     flipY: 0
+    DegRotation: 0
   materials:
   - resource: 1
     amount: 2
+  - resource: 0
+    amount: 1
   depth: 1

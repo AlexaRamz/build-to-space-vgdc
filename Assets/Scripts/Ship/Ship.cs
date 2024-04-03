@@ -9,11 +9,27 @@ public class Ship : MonoBehaviour
 {
     private GameObject player => PlayerMovement.Instance.gameObject;
     public static List<Ship> LoadedShips = new List<Ship>();
-    public Rigidbody2D RB;
-    public BuildArray ship;
-    public int Width => ship.Width;
-    public int Height => ship.Height;
+    private Rigidbody2D rb;
+    public BuildGrid ship;
+    public int width => ship.width;
+    public int height => ship.height;
     AudioManager audioManager;
+    BuildingSystem buildSys;
+
+    Build rocketBlock;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        if (ship == null)
+            ship = new BuildGrid(0, 0, new Vector2Int(0, 0));
+        // parent of ship is gameObject
+        LoadedShips.Add(this);
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        buildSys = BuildingSystem.Instance;
+        rocketBlock = (Build)Resources.Load("Builds/Data/Ship/Rocket");
+    }
+
     /// <summary>
     /// Increases the size of the ship. Negative numbers grow the ship to the left/bottom. Positive numbers grow the ship to the right/top
     /// </summary>
@@ -25,52 +41,38 @@ public class Ship : MonoBehaviour
             return;
         int offsetX = 0;
         int offsetY = 0;
-        if (i < 0)
-            offsetX = Mathf.Abs(i);
-        if (j < 0)
-            offsetY = Mathf.Abs(j);
-        SetBounds(Width + Mathf.Abs(i), Height + Mathf.Abs(j), offsetX, offsetY);
+        offsetX = Mathf.Abs(i);
+        offsetY = Mathf.Abs(j);
+        SetBounds(width + Mathf.Abs(i), height + Mathf.Abs(j), offsetX, offsetY);
     }
     public void SetBounds(int width, int height, int offsetX = 0, int offsetY = 0)
     {
-        BuildingSystem bs = BuildingSystem.Instance;
-        Rotation rot = bs.categories[0].builds[0].rotations[0];
-        Tile[,] newTiles = new Tile[width, height];
-        for(int i = 0; i < width; i++)
-        {
-            for(int j = 0; j < height; j++)
-            {
-                newTiles[i, j] = new Tile();
-            }
-        }
-        Tile[,] oldTiles = ship.tile;
+        BuildGrid newTiles = new BuildGrid(width, height, new Vector2Int(0, 0));
+        BuildGrid oldTiles = ship;
+
         gameObject.transform.position -= (Vector3)new Vector2(offsetX, offsetY).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad); //this is a system for readjusting the position of the ship when new blocks are added. Right now it is very finicky
-        for(int i = 0; i < newTiles.GetLength(0); i++)
+        for(int i = 0; i < newTiles.width; i++)
         {
-            for(int j = 0; j < newTiles.GetLength(1); j++)
+            for(int j = 0; j < newTiles.height; j++)
             {
-                if (i < oldTiles.GetLength(0) + offsetX && i >= offsetX && j < oldTiles.GetLength(1) + offsetY && j >= offsetY) //Tiles within old boundaries
+                if (oldTiles.IsWithinGrid(new Vector2Int(i, j))) //Tiles within old boundaries
                 {
-                    newTiles[i, j] = oldTiles[i - offsetX, j - offsetY];
-                    if(newTiles[i, j].HasTile)
-                        newTiles[i, j].transform.localPosition += new Vector3(offsetX, offsetY);
+                    BuildObject oldTile = oldTiles.GetValue(new Vector2Int(i - offsetX, j - offsetY));
+                    if (oldTile != null)
+                    {
+                        newTiles.SetValue(new Vector2Int(i, j), oldTile);
+                        oldTile.gridObject.transform.localPosition += new Vector3(offsetX, offsetY);
+                    }
                 }
-                else if(!hasSetUp && (i == 0 || j == 0 || i == newTiles.GetLength(0) - 1 || j == newTiles.GetLength(1) - 1)) //New tiles
+                else if(!hasSetUp && (i == 0 || j == 0 || i == newTiles.width - 1 || j == newTiles.height - 1)) //New tiles
                 {
-                    ship.PlaceBlock(ref newTiles, i, j, bs.categories[0].builds[0], rot);
+                    ship.SetValue(new Vector2Int(i, j), new BuildObject(buildSys.buildCatalog.categories[0].builds[0], 0));
                 }
             }
         }
-        ship.tile = newTiles;
+        ship = newTiles;
     }
-    private void Start()
-    {
-        RB = GetComponent<Rigidbody2D>();
-        if(ship == null)
-            ship = new BuildArray(gameObject, 0, 0, 0, 0);
-        LoadedShips.Add(this);
-        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-    }
+    
     private static bool hasSetUp = false;
     void Update()
     {
@@ -88,14 +90,14 @@ public class Ship : MonoBehaviour
         {
             AddSize(-1, 0);
         }
-        if(transform.childCount <= 0)
+        if (transform.childCount <= 0)
         {
             Destroy(gameObject);
         }
     }
     private void FixedUpdate()
     {
-        RB.mass = transform.childCount;
+        rb.mass = transform.childCount;
         if (player != null)
         {
             Vector2Int playerInShip = ConvertPositionToShipCoordinates(player.transform.position, false);
@@ -106,23 +108,18 @@ public class Ship : MonoBehaviour
                     Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     Vector2 toMouse = position - (Vector2)player.transform.position;
                     toMouse = toMouse.normalized;
-                    RB.AddForce(toMouse * 0.1f * RB.mass, ForceMode2D.Impulse);
+                    rb.AddForce(toMouse * 0.1f * rb.mass, ForceMode2D.Impulse);
 
                     ///Searches for thrusters to apply force using
-                    ///This should be done with a tile-entity system in the future, instead of checking all tiles in the array
-                    for (int i = 0; i < ship.tile.GetLength(0); i++)
+                    foreach (KeyValuePair<Vector2Int, BuildObject> tile in ship.gridObjects)
                     {
-                        for (int j = 0; j < ship.tile.GetLength(1); j++)
+                        if (tile.Value != null && tile.Value.build == rocketBlock)
                         {
-                            if (ship.tile[i, j].HasTile &&
-                                ship.tile[i, j].info.build.description == "Propells a ship opposite the ejection direction")
-                            {
-                                Debug.Log("Found a thruster: " + "(" + i + ", " + j + ")");
-                                Rotation rotation = ship.tile[i, j].info.GetRotation();
-                                Vector2 initialVector = Vector2.up * 3;
-                                RB.AddForceAtPosition(initialVector.RotatedBy((transform.rotation.eulerAngles.z + rotation.DegRotation) * Mathf.Deg2Rad), 
-                                    ConvertShipCoordinatesToPosition(new Vector2Int(i, j)), ForceMode2D.Impulse);
-                            }
+                            Debug.Log("Found a thruster: " + "(" + tile.Key.x + ", " + tile.Key.y + ")");
+                            Rotation rotation = tile.Value.GetRotation();
+                            Vector2 initialVector = Vector2.up * 3;
+                            rb.AddForceAtPosition(initialVector.RotatedBy((transform.rotation.eulerAngles.z + rotation.DegRotation) * Mathf.Deg2Rad),
+                                ConvertShipCoordinatesToPosition(tile.Key), ForceMode2D.Impulse);
                         }
                     }
                     audioManager.PlaySFX(audioManager.rocket);
@@ -140,7 +137,7 @@ public class Ship : MonoBehaviour
     }
     public bool PositionInBounds(Vector2Int position)
     {
-        return position.x >= 0 && position.y >= 0 && position.x < Width && position.y < Height;
+        return position.x >= 0 && position.y >= 0 && position.x < width && position.y < height;
     }
     public Vector2Int ConvertPositionToShipCoordinates(Vector2 position, bool fromScreenPosition = false)
     {
