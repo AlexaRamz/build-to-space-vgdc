@@ -29,7 +29,7 @@ public class BuildingSystem : MonoBehaviour
     }
     private void Start()
     {
-        buildGrid = new BuildGrid(100, 100, new Vector2Int(-25, -1));
+        buildGrid = new BuildGrid(new Vector2Int(0, -1));
 
         buildUI.SetCatalog(buildCatalog);
 
@@ -63,17 +63,21 @@ public class BuildingSystem : MonoBehaviour
         return buildCatalog.SetCategory(index);
     }
 
-    Vector3 TileToWorldPos(Vector2Int pos)
-    {
-        return new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0);
-    }
     void PlaceObject(Vector2Int pos)
     {
         if (!buildGrid.IsWithinGrid(pos) || buildGrid.GetValue(pos) != null) return;
 
+        GameObject obj = PlaceBlock(pos, currentBuildObject, objectsContainer);
+        // Save object placement in the grid
+        BuildObject buildObjectCopy = currentBuildObject.Clone();
+        buildObjectCopy.gridObject = obj;
+        buildGrid.SetValue(pos, buildObjectCopy);
+    }
+    GameObject PlaceBlock(Vector2Int pos, BuildObject thisBuildObject, Transform parent)
+    {
         // Determine the object template to use
-        Build thisBuild = currentBuildObject.build;
-        Rotation thisRotation = currentBuildObject.GetRotation();
+        Build thisBuild = thisBuildObject.build;
+        Rotation thisRotation = thisBuildObject.GetRotation();
         GameObject clone = thisRotation.Object;
         if (clone == null)
         {
@@ -84,8 +88,8 @@ public class BuildingSystem : MonoBehaviour
         }
 
         // Place the object in world
-        Vector3 worldPos = TileToWorldPos(pos);
-        GameObject obj = Instantiate(clone, Vector3.zero, objectsContainer.rotation, objectsContainer);
+        Vector3 worldPos = BuildGrid.TileToWorldPos(pos);
+        GameObject obj = Instantiate(clone, Vector3.zero, parent.rotation, parent);
         obj.transform.localPosition = worldPos;
         obj.transform.localEulerAngles = new Vector3(0, 0, thisRotation.DegRotation);
 
@@ -106,11 +110,7 @@ public class BuildingSystem : MonoBehaviour
         {
             obj.transform.localScale = new Vector3(obj.transform.localScale.x, -1, 1);
         }
-
-        // Save object placement in the grid
-        BuildObject buildObjectCopy = currentBuildObject.Clone();
-        buildObjectCopy.gridObject = obj;
-        buildGrid.SetValue(pos, buildObjectCopy);
+        return obj;
     }
     void DeleteObject(Vector2Int pos)
     {
@@ -121,13 +121,28 @@ public class BuildingSystem : MonoBehaviour
         Destroy(buildObj.gridObject);
 
         // Particles
-        Instantiate(destroyParticlesPrefab, TileToWorldPos(pos), Quaternion.identity);
+        Instantiate(destroyParticlesPrefab, BuildGrid.TileToWorldPos(pos), Quaternion.identity);
     }
     void RotateObject()
     {
         currentBuildObject.AdvanceRotation();
         UpdatePlaceholder();
     }
+    public void SpawnObjects(BuildGrid thisGrid, Transform parent)
+    {
+        foreach (KeyValuePair<Vector2Int, BuildObject> p in thisGrid.gridObjects)
+        {
+            PlaceBlock(p.Key, p.Value, parent);
+        }
+    }
+    public void ShiftObjects(BuildGrid thisGrid, Vector2Int offset)
+    {
+        foreach (KeyValuePair<Vector2Int, BuildObject> p in thisGrid.gridObjects)
+        {
+            p.Value.gridObject.transform.localPosition += new Vector3(offset.x, offset.y);
+        }
+    }
+
     void UpdatePlaceholder()
     {
         Rotation thisRotation = currentBuildObject.GetRotation();
@@ -187,7 +202,7 @@ public class BuildingSystem : MonoBehaviour
             if (onNewTile)
             {
                 placeholder.SetActive(true);
-                placeholder.transform.position = TileToWorldPos(tilePos);
+                placeholder.transform.position = BuildGrid.TileToWorldPos(tilePos);
             }
         }
         else
@@ -213,7 +228,8 @@ public class BuildingSystem : MonoBehaviour
         }
 
         // TO DO:
-        // 3. Check has adjacent/no destroy separate from ground
-        // 4. Update materials
+        // 1. Rename spawned objects
+        // 2. Check has adjacent/no destroy separate from ground
+        // 3. Update materials
     }
 }

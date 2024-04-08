@@ -22,55 +22,12 @@ public class Ship : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         if (ship == null)
-            ship = new BuildGrid(0, 0, new Vector2Int(0, 0));
+            ship = new BuildGrid(new Vector2Int(0, 0), 0, 0);
         // parent of ship is gameObject
         LoadedShips.Add(this);
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         buildSys = BuildingSystem.Instance;
         rocketBlock = (Build)Resources.Load("Builds/Data/Ship/Rocket");
-    }
-
-    /// <summary>
-    /// Increases the size of the ship. Negative numbers grow the ship to the left/bottom. Positive numbers grow the ship to the right/top
-    /// </summary>
-    /// <param name="i"></param>
-    /// <param name="j"></param>
-    public void AddSize(int i = 0, int j = 0)
-    {
-        if (i == 0 && j == 0) //Don't do anything weird if we are not growing at all
-            return;
-        int offsetX = 0;
-        int offsetY = 0;
-        offsetX = Mathf.Abs(i);
-        offsetY = Mathf.Abs(j);
-        SetBounds(width + Mathf.Abs(i), height + Mathf.Abs(j), offsetX, offsetY);
-    }
-    public void SetBounds(int width, int height, int offsetX = 0, int offsetY = 0)
-    {
-        BuildGrid newTiles = new BuildGrid(width, height, new Vector2Int(0, 0));
-        BuildGrid oldTiles = ship;
-
-        gameObject.transform.position -= (Vector3)new Vector2(offsetX, offsetY).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad); //this is a system for readjusting the position of the ship when new blocks are added. Right now it is very finicky
-        for(int i = 0; i < newTiles.width; i++)
-        {
-            for(int j = 0; j < newTiles.height; j++)
-            {
-                if (oldTiles.IsWithinGrid(new Vector2Int(i, j))) //Tiles within old boundaries
-                {
-                    BuildObject oldTile = oldTiles.GetValue(new Vector2Int(i - offsetX, j - offsetY));
-                    if (oldTile != null)
-                    {
-                        newTiles.SetValue(new Vector2Int(i, j), oldTile);
-                        oldTile.gridObject.transform.localPosition += new Vector3(offsetX, offsetY);
-                    }
-                }
-                else if(!hasSetUp && (i == 0 || j == 0 || i == newTiles.width - 1 || j == newTiles.height - 1)) //New tiles
-                {
-                    ship.SetValue(new Vector2Int(i, j), new BuildObject(buildSys.buildCatalog.categories[0].builds[0], 0));
-                }
-            }
-        }
-        ship = newTiles;
     }
     
     private static bool hasSetUp = false;
@@ -80,15 +37,15 @@ public class Ship : MonoBehaviour
         {
             if(BuildingSystem.Instance != null)
             {
-                SetBounds(5, 5);
-                AddSize(-2, -2);
-                AddSize(2, 2);
+                //SetBounds(5, 5);
+                //AddSize(-2, -2);
+                //AddSize(2, 2);
                 hasSetUp = true;
             }
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            AddSize(-1, 0);
+            //AddSize(-1, 0);
         }
         if (transform.childCount <= 0)
         {

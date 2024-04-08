@@ -50,7 +50,7 @@ public class ShipBuilding : MonoBehaviour
     private void SaveCurrentShip()
     {
         //Debug.Log("Saved a ship");
-        savedShips.Add(buildSys.buildGrid.Clone());
+        savedShips.Add(buildSys.buildGrid.Clone(false));
     }
     private void PasteSavedShip(bool onMouse = true)
     {
@@ -65,11 +65,17 @@ public class ShipBuilding : MonoBehaviour
         GameObject newShip = Instantiate(shipPrefab, (Vector2)spawnPos, Quaternion.identity);
         Ship ship = newShip.GetComponent<Ship>();
         BuildGrid save = savedShips.Last();
-        ship.ship = save.Clone();
-        newShip.transform.position -= new Vector3(ship.width / 2, 0);
-        //ship.SetBounds(minWidth, minHeight, -offset.x, -offset.y); //Clamp the ship size to the size of the cloned blocks
-        //ship.AddSize(1, 1); //Expand the ship size by 1 in each direction to allow placing around the ship
-        //ship.AddSize(-1, -1);
+        ship.ship = save.Clone(false);
+        ship.ship.ClampBounds(); //Clamp the ship size to the size of the cloned blocks
+
+        newShip.transform.position -= new Vector3(ship.ship.width / 2, 0);
+        //newShip.transform.position -= (Vector3)offset.RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad); //this is a system for readjusting the position of the ship when new blocks are added. Right now it is very finicky
+        //ship.ship.ShiftObjects(offset);
+
+        //ship.ship.AddSize(1, 1); //Expand the ship size by 1 in each direction to allow placing around the ship
+        //ship.ship.AddSize(-1, -1);
+
+        buildSys.SpawnObjects(ship.ship, newShip.transform);
     }
     private void LoadVirtualHangar()
     {
