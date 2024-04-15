@@ -2,46 +2,61 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
-using UnityEngine.UIElements;
 
 public class Ship : MonoBehaviour
 {
     private GameObject player => PlayerMovement.Instance.gameObject;
-    public static List<Ship> LoadedShips = new List<Ship>();
     private Rigidbody2D rb;
     public BuildGrid ship;
-    public int width => ship.width;
-    public int height => ship.height;
+    public int width => ship.Width;
+    public int height => ship.Height;
     AudioManager audioManager;
     BuildingSystem buildSys;
 
     Build rocketBlock;
 
-    private void Start()
+    public void SetUpShip(BuildGrid thisShip)
     {
         rb = GetComponent<Rigidbody2D>();
-        if (ship == null)
-            ship = new BuildGrid(new Vector2Int(0, 0), 0, 0);
-        // parent of ship is gameObject
-        LoadedShips.Add(this);
+        ship = thisShip;
+        ShipBuilding.loadedShips.Add(this);
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        buildSys = BuildingSystem.Instance;
         rocketBlock = (Build)Resources.Load("Builds/Data/Ship/Rocket");
+        buildSys = BuildingSystem.Instance;
+
+        //Vector3 offset = ship.ClampBounds();
+        //transform.position += offset;
+        ship.bottomLeft = transform.position;
+
+        //newShip.transform.position -= new Vector3(newShip.ship.Width / 2, 0);
+        //newShip.transform.position -= (Vector3)offset.RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad); //this is a system for readjusting the position of the ship when new blocks are added. Right now it is very finicky
+        //ship.ship.ShiftObjects(offset);
+
+        //ship.ship.AddSize(1, 1); //Expand the ship size by 1 in each direction to allow placing around the ship
+        //ship.ship.AddSize(-1, -1);
+
+        buildSys.SpawnObjects(ship, transform);
     }
-    
-    private static bool hasSetUp = false;
+
+    public void UpdateShip()
+    {
+        //Vector3 offset = ship.ClampBounds();
+        //transform.position += offset;
+        //buildSys.ShiftObjects(ship, offset);
+        ship.bottomLeft = transform.position;
+        ship.rotation = transform.eulerAngles.z;
+    }
+
     void Update()
     {
-        if(!hasSetUp)
+        ship.bottomLeft = transform.position;
+        ship.rotation = transform.eulerAngles.z;
+
+        if (buildSys != null)
         {
-            if(BuildingSystem.Instance != null)
-            {
-                //SetBounds(5, 5);
-                //AddSize(-2, -2);
-                //AddSize(2, 2);
-                hasSetUp = true;
-            }
+            UpdateShip();
+            //AddSize(-2, -2);
+            //AddSize(2, 2);
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -57,8 +72,7 @@ public class Ship : MonoBehaviour
         rb.mass = transform.childCount;
         if (player != null)
         {
-            Vector2Int playerInShip = ConvertPositionToShipCoordinates(player.transform.position, false);
-            if (PositionInBounds(playerInShip)) //Player can hold right click to fly the ship while inside of it
+            if (ship.PositionIsWithinGrid(player.transform.position)) //Player can hold right click to fly the ship while inside of it
             {
                 if (Input.GetMouseButton(1))
                 {
@@ -76,7 +90,7 @@ public class Ship : MonoBehaviour
                             Rotation rotation = tile.Value.GetRotation();
                             Vector2 initialVector = Vector2.up * 3;
                             rb.AddForceAtPosition(initialVector.RotatedBy((transform.rotation.eulerAngles.z + rotation.DegRotation) * Mathf.Deg2Rad),
-                                ConvertShipCoordinatesToPosition(tile.Key), ForceMode2D.Impulse);
+                                ship.GridtoWorldAligned(tile.Key), ForceMode2D.Impulse);
                         }
                     }
                     audioManager.PlaySFX(audioManager.rocket);
@@ -90,27 +104,6 @@ public class Ship : MonoBehaviour
     }
     private void OnDestroy()
     {
-        LoadedShips.Remove(this);
-    }
-    public bool PositionInBounds(Vector2Int position)
-    {
-        return position.x >= 0 && position.y >= 0 && position.x < width && position.y < height;
-    }
-    public Vector2Int ConvertPositionToShipCoordinates(Vector2 position, bool fromScreenPosition = false)
-    {
-        if(fromScreenPosition)
-        {
-            position = Camera.main.ScreenToWorldPoint(position);
-        } 
-        //debugNum++;
-        Vector2 shipPos = (Vector2)gameObject.transform.position - new Vector2(0.5f, 0.5f).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad);
-        Vector2 mousePos = ((Vector2)position).RotatedBy(-gameObject.transform.eulerAngles.z * Mathf.Deg2Rad, shipPos) - shipPos;
-        Vector2Int worldPos = new Vector2Int(Mathf.FloorToInt(mousePos.x), Mathf.FloorToInt(mousePos.y));
-        //Debug.Log(debugNum + ": " + worldPos + "---" + new Vector2(0.5f, 0.5f).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad));
-        return worldPos;
-    }
-    public Vector2 ConvertShipCoordinatesToPosition(Vector2Int gridPosition)
-    {
-        return (Vector2)transform.position + new Vector2(gridPosition.x, gridPosition.y).RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad);
+        ShipBuilding.loadedShips.Remove(this);
     }
 }

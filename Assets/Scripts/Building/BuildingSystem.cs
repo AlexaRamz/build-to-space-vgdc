@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BuildingSystem : MonoBehaviour
 {
-    public BuildGrid buildGrid;
+    public BuildGrid worldGrid;
     [SerializeField] Transform objectsContainer;
-    [SerializeField] private BuildObject currentBuildObject;
+    private BuildObject currentBuildObject;
     [SerializeField] private GameObject buildTemplate;
     [SerializeField] private GameObject backBuildTemplate;
     public BuildCatalog buildCatalog;
@@ -24,13 +25,18 @@ public class BuildingSystem : MonoBehaviour
     {
         Instance = this;
         menuManager = MenuManager.Instance;
-        menuManager.OnMenuClosed.AddListener(EndBuilding);
         buildUI = GetComponent<BuildingUI>();
     }
     private void Start()
     {
-        buildGrid = new BuildGrid(new Vector2Int(0, -1));
-
+        if (SceneManager.GetActiveScene().name == "VirtualHangar")
+        {
+            worldGrid = new BuildGrid(new Vector2Int(-10, -10), 20, 20);
+        }
+        else
+        {
+            worldGrid = new BuildGrid(new Vector2Int(-100, -1));
+        }
         buildUI.SetCatalog(buildCatalog);
 
         if (objectsContainer == null)
@@ -38,15 +44,13 @@ public class BuildingSystem : MonoBehaviour
             Debug.Log("Building system error: Please assign the objects container");
         }
         placeholder = Instantiate(placeholderPrefab);
+
+        currentBuildObject = new BuildObject(null);
     }
 
     public void StartBuilding()
     {
         menuManager.ShowMenu(menuManager.buildMenu);
-    }
-    public void EndBuilding()
-    {
-
     }
 
     public Build SetBuildObject(int index)
@@ -63,17 +67,17 @@ public class BuildingSystem : MonoBehaviour
         return buildCatalog.SetCategory(index);
     }
 
-    void PlaceObject(Vector2Int pos)
+    void PlaceObject(Vector3 worldPos, BuildGrid thisGrid, Transform parent)
     {
-        if (!buildGrid.IsWithinGrid(pos) || buildGrid.GetValue(pos) != null) return;
+        if (!thisGrid.PositionIsWithinGrid(worldPos) || thisGrid.GetValueAtPosition(worldPos) != null) return;
 
-        GameObject obj = PlaceBlock(pos, currentBuildObject, objectsContainer);
+        GameObject obj = PlaceBlock(worldPos, currentBuildObject, parent);
         // Save object placement in the grid
         BuildObject buildObjectCopy = currentBuildObject.Clone();
         buildObjectCopy.gridObject = obj;
-        buildGrid.SetValue(pos, buildObjectCopy);
+        thisGrid.SetValueAtPosition(worldPos, buildObjectCopy);
     }
-    GameObject PlaceBlock(Vector2Int pos, BuildObject thisBuildObject, Transform parent)
+    GameObject PlaceBlock(Vector3 worldPos, BuildObject thisBuildObject, Transform parent)
     {
         // Determine the object template to use
         Build thisBuild = thisBuildObject.build;
@@ -88,10 +92,10 @@ public class BuildingSystem : MonoBehaviour
         }
 
         // Place the object in world
-        Vector3 worldPos = BuildGrid.TileToWorldPos(pos);
-        GameObject obj = Instantiate(clone, Vector3.zero, parent.rotation, parent);
-        obj.transform.localPosition = worldPos;
-        obj.transform.localEulerAngles = new Vector3(0, 0, thisRotation.DegRotation);
+        GameObject obj = Instantiate(clone, Vector2.zero, Quaternion.identity, parent);
+        obj.name = thisBuild.name;
+        obj.transform.position = worldPos;
+        obj.transform.localRotation = Quaternion.Euler(0, 0, thisRotation.DegRotation);
 
         if (thisRotation.sprite != null)
         {
@@ -112,16 +116,16 @@ public class BuildingSystem : MonoBehaviour
         }
         return obj;
     }
-    void DeleteObject(Vector2Int pos)
+    void DeleteObject(Vector3 worldPos, BuildGrid thisGrid)
     {
-        BuildObject buildObj = buildGrid.GetValue(pos);
-        if (!buildGrid.IsWithinGrid(pos) || !buildGrid.RemoveValue(pos)) return;
+        BuildObject buildObj = thisGrid.GetValueAtPosition(worldPos);
+        if (!thisGrid.PositionIsWithinGrid(worldPos) || !thisGrid.RemoveValueAtPosition(worldPos)) return;
 
         // Delete object from world
         Destroy(buildObj.gridObject);
 
         // Particles
-        Instantiate(destroyParticlesPrefab, BuildGrid.TileToWorldPos(pos), Quaternion.identity);
+        Instantiate(destroyParticlesPrefab, worldPos, Quaternion.identity);
     }
     void RotateObject()
     {
@@ -132,17 +136,17 @@ public class BuildingSystem : MonoBehaviour
     {
         foreach (KeyValuePair<Vector2Int, BuildObject> p in thisGrid.gridObjects)
         {
-            PlaceBlock(p.Key, p.Value, parent);
+            GameObject obj = PlaceBlock(thisGrid.GridtoWorldAligned(p.Key), p.Value, parent);
+            p.Value.gridObject = obj;
         }
     }
-    public void ShiftObjects(BuildGrid thisGrid, Vector2Int offset)
+    public void ShiftObjects(BuildGrid thisGrid, Vector3 offset)
     {
         foreach (KeyValuePair<Vector2Int, BuildObject> p in thisGrid.gridObjects)
         {
-            p.Value.gridObject.transform.localPosition += new Vector3(offset.x, offset.y);
+            p.Value.gridObject.transform.localPosition += offset;
         }
     }
-
     void UpdatePlaceholder()
     {
         Rotation thisRotation = currentBuildObject.GetRotation();
@@ -150,13 +154,11 @@ public class BuildingSystem : MonoBehaviour
         renderer.sprite = thisRotation.sprite;
         renderer.flipX = thisRotation.flipX;
         renderer.flipY = thisRotation.flipY;
-        placeholder.transform.localRotation = Quaternion.Euler(0, 0, thisRotation.DegRotation);
     }
 
     IEnumerator deleteTimer;
     bool isPlacing;
     bool isDeleting;
-    Vector2Int lastTilePos;
 
     IEnumerator DeleteDelay()
     {
@@ -173,11 +175,26 @@ public class BuildingSystem : MonoBehaviour
         if (objectsContainer == null) return;
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2Int tilePos = new Vector2Int(Mathf.FloorToInt(mousePos.x), Mathf.FloorToInt(mousePos.y));
 
-        bool canPlace = buildGrid.GetValue(tilePos) == null;
-        bool onNewTile = tilePos != lastTilePos;
-        lastTilePos = tilePos;
+        BuildGrid selectedGrid = worldGrid;
+        Transform selectedParent = objectsContainer;
+
+        Ship thisShip = null;
+        ///This searches for ships that might be where the cursor is located, allowing the player to build on them instead.
+        ///This should be reworked to let the play place on the closest ship to the mouse, just in case too many ships/builds are competing for player placement attention
+        foreach (Ship ship in ShipBuilding.loadedShips)
+        {
+            BuildGrid shipGrid = ship.ship;
+            if (shipGrid.PositionIsWithinGrid(mousePos))
+            {
+                thisShip = ship;
+                selectedParent = ship.transform;
+                selectedGrid = ship.ship;
+                break;
+            }
+        }
+        Vector3 alignedPos = selectedGrid.WorldtoAligned(mousePos);
+        bool canPlace = currentBuildObject.build != null && selectedGrid.GetValueAtPosition(alignedPos) == null;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -199,11 +216,10 @@ public class BuildingSystem : MonoBehaviour
 
         if (canPlace && !isDeleting)
         {
-            if (onNewTile)
-            {
-                placeholder.SetActive(true);
-                placeholder.transform.position = BuildGrid.TileToWorldPos(tilePos);
-            }
+            placeholder.transform.position = alignedPos;
+            Rotation thisRotation = currentBuildObject.GetRotation();
+            placeholder.transform.rotation = Quaternion.Euler(0, 0, thisRotation.DegRotation + selectedGrid.rotation);
+            placeholder.SetActive(true);
         }
         else
         {
@@ -214,11 +230,15 @@ public class BuildingSystem : MonoBehaviour
         {
             if (isPlacing)
             {
-                PlaceObject(tilePos);
+                PlaceObject(alignedPos, selectedGrid, selectedParent);
+                if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
+                    thisShip.UpdateShip();
             }
             else if (isDeleting)
             {
-                DeleteObject(tilePos);
+                DeleteObject(alignedPos, selectedGrid);
+                if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
+                    thisShip.UpdateShip();
             }
         }
 
@@ -226,10 +246,5 @@ public class BuildingSystem : MonoBehaviour
         {
             RotateObject();
         }
-
-        // TO DO:
-        // 1. Rename spawned objects
-        // 2. Check has adjacent/no destroy separate from ground
-        // 3. Update materials
     }
 }

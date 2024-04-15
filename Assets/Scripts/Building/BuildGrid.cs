@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class BuildGrid
 {
-    public int width;
-    public int height;
-    public Vector2Int bottomLeft;
+    public int Width { get; private set; }
+    public int Height { get; private set; }
+    public Vector2 bottomLeft;
+    public float rotation;
 
     public Dictionary<Vector2Int, BuildObject> gridObjects;
 
-    public BuildGrid(Vector2Int bottomLeft, int width = int.MaxValue, int height = int.MaxValue)
+    public BuildGrid(Vector2 bottomLeft, int width = int.MaxValue, int height = int.MaxValue, float rotation = 0)
     {
-        this.width = width;
-        this.height = height;
+        Width = width;
+        Height = height;
         this.bottomLeft = bottomLeft;
+        this.rotation = rotation;
 
         gridObjects = new Dictionary<Vector2Int, BuildObject>();
     }
     public BuildGrid Clone(bool withGameObjects)
     {
-        BuildGrid newGrid = new BuildGrid(bottomLeft, width, height);
+        BuildGrid newGrid = new BuildGrid(bottomLeft, Width, Height);
         Dictionary<Vector2Int, BuildObject> newGridObjects = new Dictionary<Vector2Int, BuildObject>();
         foreach (KeyValuePair<Vector2Int, BuildObject> o in gridObjects)
         {
@@ -33,44 +35,81 @@ public class BuildGrid
         newGrid.gridObjects = newGridObjects;
         return newGrid;
     }
-    public static Vector3 TileToWorldPos(Vector2Int pos)
+    private Vector2Int WorldtoGridPos(Vector3 pos)
     {
-        return new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0);
+        Vector2 newWorldPos = ((Vector2)pos).RotatedBy(-rotation * Mathf.Deg2Rad, bottomLeft) - bottomLeft;
+        Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(newWorldPos.x), Mathf.FloorToInt(newWorldPos.y));
+        return gridPos;
     }
-    public Vector2Int TiletoGridPos(Vector2Int pos)
+    private Vector3 GridtoWorldPos(Vector2 pos)
     {
-        return new Vector2Int(pos.x - bottomLeft.x, pos.y - bottomLeft.y);
+        Vector2 worldPos = bottomLeft + new Vector2(pos.x, pos.y).RotatedBy(rotation * Mathf.Deg2Rad);
+        return worldPos;
     }
-    public Vector2Int GridtoTilePos(Vector2Int pos)
+    public Vector3 GridtoWorldAligned(Vector2Int pos)
     {
-        return new Vector2Int(pos.x + bottomLeft.x, pos.y + bottomLeft.y);
+        Vector2 worldPos = GridtoWorldPos(pos);
+        return worldPos + new Vector2(0.5f, 0.5f);
     }
-    public bool IsWithinGrid(Vector2Int tilePos)
+    public Vector3 WorldtoAligned(Vector3 pos)
     {
-        Vector2Int pos = TiletoGridPos(tilePos);
-        return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
+        Vector2 gridPos = WorldtoGridPos(pos);
+        Vector2 alignedGridPos = gridPos + new Vector2(0.5f, 0.5f);
+        Vector2 alignedWorldPos = GridtoWorldPos(alignedGridPos);
+        return alignedWorldPos;
     }
-    public BuildObject GetValue(Vector2Int tilePos)
+
+    public bool PositionIsWithinGrid(Vector3 worldPos)
     {
-        Vector2Int pos = TiletoGridPos(tilePos);
-        if (!IsWithinGrid(tilePos) || !gridObjects.ContainsKey(pos)) return null;
-        return gridObjects[pos];
+        Vector2Int gridPos = WorldtoGridPos(worldPos);
+        return IsWithinGrid(gridPos);
     }
-    public bool SetValue(Vector2Int tilePos, BuildObject value)
+    private bool IsWithinGrid(Vector2Int gridPos)
     {
-        Vector2Int pos = TiletoGridPos(tilePos);
-        if (!IsWithinGrid(tilePos)) return false;
-        gridObjects[pos] = value;
+        return gridPos.x >= 0 && gridPos.x < Width && gridPos.y >= 0 && gridPos.y < Height;
+    }
+
+    public BuildObject GetValueAtPosition(Vector3 worldPos)
+    {
+        Vector2Int gridPos = WorldtoGridPos(worldPos);
+        return GetValue(gridPos);
+    }
+    private BuildObject GetValue(Vector2Int gridPos)
+    {
+        if (!IsWithinGrid(gridPos) || !gridObjects.ContainsKey(gridPos)) return null;
+        return gridObjects[gridPos];
+    }
+
+    public bool SetValueAtPosition(Vector3 worldPos, BuildObject value)
+    {
+        Vector2Int gridPos = WorldtoGridPos(worldPos);
+        return SetValue(gridPos, value);
+    }
+    private bool SetValue(Vector2Int gridPos, BuildObject value)
+    {
+        if (!IsWithinGrid(gridPos)) return false;
+        gridObjects[gridPos] = value;
         return true;
     }
-    public bool RemoveValue(Vector2Int tilePos)
+
+    public bool RemoveValueAtPosition(Vector3 worldPos)
     {
-        Vector2Int pos = TiletoGridPos(tilePos);
-        if (!IsWithinGrid(tilePos) || !gridObjects.ContainsKey(pos)) return false;
-        gridObjects.Remove(pos);
+        Vector2Int gridPos = WorldtoGridPos(worldPos);
+        return RemoveValue(gridPos);
+    }
+    private bool RemoveValue(Vector2Int gridPos)
+    {
+        if (!IsWithinGrid(gridPos) || !gridObjects.ContainsKey(gridPos)) return false;
+        gridObjects.Remove(gridPos);
         return true;
     }
-    public bool HasAdjacentFromGridPos(Vector2Int gridPos)
+
+    public bool PositionHasAdjacent(Vector3 worldPos)
+    {
+        Vector2Int gridPos = WorldtoGridPos(worldPos);
+        return HasAdjacent(gridPos);
+    }
+    private bool HasAdjacent(Vector2Int gridPos)
     {
         Vector2Int[] adjShifts = {
             new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1)
@@ -83,13 +122,18 @@ public class BuildGrid
         }
         return false;
     }
+    public bool PositionIsAtEdge(Vector3 worldPos)
+    {
+        Vector2Int gridPos = WorldtoGridPos(worldPos);
+        return gridPos.x == 0 || gridPos.x == Width - 1 || gridPos.y == 0 || gridPos.y == Height - 1;
+    }
 
-    public Vector2Int ClampBounds()
+    public Vector3 ClampBounds()
     {
         if (gridObjects.Count == 0)
         {
-            width = height = 0;
-            return Vector2Int.zero;
+            Width = Height = 0;
+            return Vector3.zero;
         }
 
         int newWidth = 0;
@@ -114,19 +158,21 @@ public class BuildGrid
                 newHeight = p.Key.y + 1;
             }
         }
-        width = newWidth;
-        height = newHeight;
+        Width = newWidth;
+        Height = newHeight;
 
-        if (offset == Vector2Int.zero) return offset;
+        if (offset == Vector2Int.zero) return Vector3.zero;
 
-        bottomLeft += offset;
         Dictionary<Vector2Int, BuildObject> newGridObjects = new Dictionary<Vector2Int, BuildObject>();
         foreach (KeyValuePair<Vector2Int, BuildObject> p in gridObjects)
         {
             newGridObjects[p.Key - offset] = p.Value;
         }
         gridObjects = newGridObjects;
-        return offset;
+
+        Vector2 oldBottomLeft = bottomLeft;
+        bottomLeft = GridtoWorldPos(offset);
+        return bottomLeft - oldBottomLeft;
     }
 
     /// <summary>
@@ -142,7 +188,7 @@ public class BuildGrid
         int offsetY = 0;
         offsetX = Mathf.Abs(i);
         offsetY = Mathf.Abs(j);
-        //SetBounds(width + Mathf.Abs(i), height + Mathf.Abs(j), offsetX, offsetY);
+        //SetBounds(Width + Mathf.Abs(i), Height + Mathf.Abs(j), offsetX, offsetY);
     }
 
 }

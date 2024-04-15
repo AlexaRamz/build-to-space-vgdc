@@ -22,7 +22,6 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int amount)
     {
         health -= amount;
-        Debug.Log("hit");
         if (health <= 0)
         {
             //Destroy(gameObject);
