@@ -11,6 +11,7 @@ public class QuestFinder : MonoBehaviour
     MenuManager menuManager;
     Canvas canvas;
 
+    public Camera mainCamera;
     public Transform questTarget;
     public RectTransform questMarker;
 
@@ -26,10 +27,12 @@ public class QuestFinder : MonoBehaviour
     {
         if (questTarget != null && canvas != null && questMarker != null)
         {
-            UnityEngine.Vector2 destinationPosition = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, questTarget.position); //Determines location of destination
+            UnityEngine.Vector2 destinationPosition = RectTransformUtility.WorldToScreenPoint(mainCamera, questTarget.position); //Determines location of destination
 
-            if (!RectTransformUtility.RectangleContainsScreenPoint(canvas.GetComponent<RectTransform>(), destinationPosition)) //Destination is off screen
+            if (!RectTransformUtility.RectangleContainsScreenPoint(menuManager.GetComponent<RectTransform>(), destinationPosition)) //Destination is off screen
             {
+                questMarker.gameObject.SetActive(true); //Enables marker when target is on screen
+                
                 UnityEngine.Vector2 canvasLocation = Camera.main.ScreenToViewportPoint(destinationPosition); //Determines location relative to canvas, constrained between 0 and 1
 
                 //Recording Relative Position:

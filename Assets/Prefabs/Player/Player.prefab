@@ -401,6 +401,52 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &288419614920952834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3847760594815576781}
+  - component: {fileID: 1626618522624797021}
+  m_Layer: 3
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3847760594815576781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288419614920952834}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3460180136717524050}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1626618522624797021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288419614920952834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2ea4de1b337e14f844e04fc2a9a819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questTarget: {fileID: 0}
+  questMarker: {fileID: 0}
 --- !u!1 &490533040993440570
 GameObject:
   m_ObjectHideFlags: 0
@@ -2547,6 +2593,7 @@ Transform:
   - {fileID: 1574800402164591552}
   - {fileID: 2890566523107239876}
   - {fileID: 289070078462237960}
+  - {fileID: 3847760594815576781}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3460180136717524051
@@ -5424,10 +5471,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsContainer: {fileID: 0}
-  currentBuildObject:
-    build: {fileID: 11400000, guid: 4fd033a589fcb5c47ab1509969756265, type: 2}
-    rot: 0
-    gridObject: {fileID: 0}
   buildTemplate: {fileID: 2245246873312691736, guid: a59ab30ecb265cb439dbd3d95eb5c7ea, type: 3}
   backBuildTemplate: {fileID: 8711912793205975063, guid: 617a9ebc8dae2bb41b64001d4a4ba866, type: 3}
   buildCatalog: {fileID: 11400000, guid: d57b30719ccf957478aaeddf695fd91d, type: 2}

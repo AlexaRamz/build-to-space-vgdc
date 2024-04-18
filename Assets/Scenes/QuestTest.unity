@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!224 &212888398 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 289070078462237960, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+  m_PrefabInstance: {fileID: 1571320920}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &379579550
 GameObject:
   m_ObjectHideFlags: 0
@@ -2149,6 +2154,11 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!4 &867167740 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6040590693889318314, guid: 084f0647b849a8c4c99849d1f81abf6c, type: 3}
+  m_PrefabInstance: {fileID: 618575619}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1148778420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2462,7 +2472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1735483096, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 20.1027
       objectReference: {fileID: 0}
     - target: {fileID: 1735483096, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2471,6 +2481,22 @@ PrefabInstance:
     - target: {fileID: 1995020593, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626618522624797021, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1563691525}
+    - target: {fileID: 1626618522624797021, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questMarker
+      value: 
+      objectReference: {fileID: 2140153615}
+    - target: {fileID: 1626618522624797021, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questTarget
+      value: 
+      objectReference: {fileID: 867167740}
+    - target: {fileID: 2659780069906823872, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3460180136717524050, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2542,7 +2568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4623121429849695544, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4623121429849695544, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2594,7 +2620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5255348880803981632, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 20.1027
       objectReference: {fileID: 0}
     - target: {fileID: 5255348880803981632, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2730,7 +2756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7309091718751694146, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 20.1027
       objectReference: {fileID: 0}
     - target: {fileID: 7309091718751694146, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2754,7 +2780,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 289070078462237960, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2140153615}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
 --- !u!1 &1977658269
@@ -2803,6 +2832,81 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1 &2140153614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2140153615}
+  - component: {fileID: 2140153617}
+  - component: {fileID: 2140153616}
+  m_Layer: 5
+  m_Name: QuestMarker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2140153615
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140153614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 212888398}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -910, y: -183.28409}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2140153616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140153614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2140153617
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140153614}
+  m_CullTransparentMesh: 1
 --- !u!1001 &6040590693316506203
 PrefabInstance:
   m_ObjectHideFlags: 0
