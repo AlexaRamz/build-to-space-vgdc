@@ -140,11 +140,11 @@ public class BuildingSystem : MonoBehaviour
             p.Value.gridObject = obj;
         }
     }
-    public void ShiftObjects(BuildGrid thisGrid, Vector3 offset)
+    public void RepositionObjects(BuildGrid thisGrid, Transform parent)
     {
         foreach (KeyValuePair<Vector2Int, BuildObject> p in thisGrid.gridObjects)
         {
-            p.Value.gridObject.transform.localPosition += offset;
+            p.Value.gridObject.transform.position = thisGrid.GridtoWorldAligned(p.Key);
         }
     }
     void UpdatePlaceholder()
@@ -246,5 +246,11 @@ public class BuildingSystem : MonoBehaviour
         {
             RotateObject();
         }
+    }
+    private void OnDisable()
+    {
+        if (placeholder != null) placeholder.SetActive(false);
+        isPlacing = isDeleting = false;
+        InterruptDeleteTimer();
     }
 }
