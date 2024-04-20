@@ -9,6 +9,8 @@ TagManager:
   - Build
   - NPC
   - Enemy
+  - Source
+  - Machine
   layers:
   - Default
   - TransparentFX

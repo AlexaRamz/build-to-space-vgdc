@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7283088491708911816, guid: ae33876874d4f4b4794c2e6a14467fc0, type: 3}
@@ -61,7 +62,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7283088491708911822, guid: ae33876874d4f4b4794c2e6a14467fc0, type: 3}
       propertyPath: m_Name
-      value: Oil
+      value: Oil Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae33876874d4f4b4794c2e6a14467fc0, type: 3}

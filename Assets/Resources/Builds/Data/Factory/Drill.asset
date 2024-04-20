@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af78894f5d8b61844bf9c7a81b822fb3, type: 3}
+  m_Name: Drill
+  m_EditorClassIdentifier: 
+  description: Digs up resources from any resouce souce it is placed on. Needs power
+    from generator to function. Green - Out, Red - In.
+  rotations:
+  - sprite: {fileID: 21300000, guid: 1cc742a90e4fc474186255a9c5e12bd5, type: 3}
+    Object: {fileID: 8547772644937739318, guid: 2631e1fa7000b924487f9b1f73b463a4, type: 3}
+    flipX: 0
+    flipY: 0
+    DegRotation: 0
+  - sprite: {fileID: 21300000, guid: 07b050fbba46d004a8a4d4f15d44c0fc, type: 3}
+    Object: {fileID: 8547772644937739318, guid: 018e13c5f3296534b8cab213b55ab250, type: 3}
+    flipX: 0
+    flipY: 0
+    DegRotation: 0
+  materials:
+  - resource: 1
+    amount: 15
+  - resource: 0
+    amount: 20
+  - resource: 2
+    amount: 10
+  depth: 1
