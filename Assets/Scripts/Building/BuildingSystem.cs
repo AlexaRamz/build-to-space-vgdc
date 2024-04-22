@@ -67,15 +67,16 @@ public class BuildingSystem : MonoBehaviour
         return buildCatalog.SetCategory(index);
     }
 
-    void PlaceObject(Vector3 worldPos, BuildGrid thisGrid, Transform parent)
+    bool PlaceObject(Vector3 worldPos, BuildGrid thisGrid, Transform parent)
     {
-        if (!thisGrid.PositionIsWithinGrid(worldPos) || thisGrid.GetValueAtPosition(worldPos) != null) return;
+        if (!thisGrid.PositionIsWithinGrid(worldPos) || thisGrid.GetValueAtPosition(worldPos) != null) return false;
 
         GameObject obj = PlaceBlock(worldPos, currentBuildObject, parent);
         // Save object placement in the grid
         BuildObject buildObjectCopy = currentBuildObject.Clone();
         buildObjectCopy.gridObject = obj;
         thisGrid.SetValueAtPosition(worldPos, buildObjectCopy);
+        return true;
     }
     GameObject PlaceBlock(Vector3 worldPos, BuildObject thisBuildObject, Transform parent)
     {
@@ -116,16 +117,17 @@ public class BuildingSystem : MonoBehaviour
         }
         return obj;
     }
-    void DeleteObject(Vector3 worldPos, BuildGrid thisGrid)
+    bool DeleteObject(Vector3 worldPos, BuildGrid thisGrid)
     {
         BuildObject buildObj = thisGrid.GetValueAtPosition(worldPos);
-        if (!thisGrid.PositionIsWithinGrid(worldPos) || !thisGrid.RemoveValueAtPosition(worldPos)) return;
+        if (!thisGrid.PositionIsWithinGrid(worldPos) || !thisGrid.RemoveValueAtPosition(worldPos)) return false;
 
         // Delete object from world
         Destroy(buildObj.gridObject);
 
         // Particles
         Instantiate(destroyParticlesPrefab, worldPos, Quaternion.identity);
+        return true;
     }
     void RotateObject()
     {
@@ -140,11 +142,11 @@ public class BuildingSystem : MonoBehaviour
             p.Value.gridObject = obj;
         }
     }
-    public void ShiftObjects(BuildGrid thisGrid, Vector3 offset)
+    public void RepositionObjects(BuildGrid thisGrid, Transform parent)
     {
         foreach (KeyValuePair<Vector2Int, BuildObject> p in thisGrid.gridObjects)
         {
-            p.Value.gridObject.transform.localPosition += offset;
+            p.Value.gridObject.transform.position = thisGrid.GridtoWorldAligned(p.Key);
         }
     }
     void UpdatePlaceholder()
@@ -230,15 +232,19 @@ public class BuildingSystem : MonoBehaviour
         {
             if (isPlacing)
             {
-                PlaceObject(alignedPos, selectedGrid, selectedParent);
-                if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
-                    thisShip.UpdateShip();
+                if (PlaceObject(alignedPos, selectedGrid, selectedParent))
+                {
+                    if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
+                        thisShip.UpdateShip();
+                }
             }
             else if (isDeleting)
             {
-                DeleteObject(alignedPos, selectedGrid);
-                if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
-                    thisShip.UpdateShip();
+                if (DeleteObject(alignedPos, selectedGrid))
+                {
+                    if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
+                        thisShip.UpdateShip();
+                }
             }
         }
 
@@ -246,5 +252,11 @@ public class BuildingSystem : MonoBehaviour
         {
             RotateObject();
         }
+    }
+    private void OnDisable()
+    {
+        if (placeholder != null) placeholder.SetActive(false);
+        isPlacing = isDeleting = false;
+        InterruptDeleteTimer();
     }
 }
