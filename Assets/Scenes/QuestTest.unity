@@ -1990,6 +1990,11 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!4 &571492509 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6040590693889318314, guid: 084f0647b849a8c4c99849d1f81abf6c, type: 3}
+  m_PrefabInstance: {fileID: 6040590693316506203}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &618575619
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1998,6 +2003,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6040590693889318313, guid: 084f0647b849a8c4c99849d1f81abf6c, type: 3}
+      propertyPath: questFinder
+      value: 
+      objectReference: {fileID: 1495383573}
+    - target: {fileID: 6040590693889318313, guid: 084f0647b849a8c4c99849d1f81abf6c, type: 3}
+      propertyPath: newQuestTarget
+      value: 
+      objectReference: {fileID: 571492509}
     - target: {fileID: 6040590693889318314, guid: 084f0647b849a8c4c99849d1f81abf6c, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -2220,6 +2233,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c9990817ba7b7e428e47943ce7012b8, type: 3}
+--- !u!114 &1495383573 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1626618522624797021, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+  m_PrefabInstance: {fileID: 1571320920}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2ea4de1b337e14f844e04fc2a9a819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1533308533
 GameObject:
   m_ObjectHideFlags: 0
@@ -2494,6 +2518,10 @@ PrefabInstance:
       propertyPath: questTarget
       value: 
       objectReference: {fileID: 867167740}
+    - target: {fileID: 1626618522624797021, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: positionOffset
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 2659780069906823872, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -2889,7 +2917,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 7f26a42610ccfde40b7c042d1bd36f9f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2915,6 +2943,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6040590693889318313, guid: 084f0647b849a8c4c99849d1f81abf6c, type: 3}
+      propertyPath: questFinder
+      value: 
+      objectReference: {fileID: 1495383573}
+    - target: {fileID: 6040590693889318313, guid: 084f0647b849a8c4c99849d1f81abf6c, type: 3}
+      propertyPath: newQuestTarget
+      value: 
+      objectReference: {fileID: 867167740}
     - target: {fileID: 6040590693889318314, guid: 084f0647b849a8c4c99849d1f81abf6c, type: 3}
       propertyPath: m_RootOrder
       value: 6

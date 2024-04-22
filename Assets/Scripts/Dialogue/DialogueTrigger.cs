@@ -9,6 +9,8 @@ public class DialogueTrigger : Interactable
     DialogueManager dialogueManager;
     public Dialogue dialogue;
     public Action eventOnEnd;
+    public QuestFinder questFinder;
+    public Transform newQuestTarget;
 
     void Start()
     {
@@ -16,6 +18,11 @@ public class DialogueTrigger : Interactable
     }
     public override void Interact()
     {
+        if (questFinder != null && newQuestTarget != null) //Updates quest target based upon interaction with this npc, if necessary
+        {
+            questFinder.questTarget = newQuestTarget;
+        }
+
         if (dialogue == null)
         {
             Dialogue randomDialogue = speaker.dialogues[UnityEngine.Random.Range(0, speaker.dialogues.Count)];

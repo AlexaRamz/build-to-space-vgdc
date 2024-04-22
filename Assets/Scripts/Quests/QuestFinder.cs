@@ -13,6 +13,7 @@ public class QuestFinder : MonoBehaviour
     
     MenuManager menuManager;
     Canvas canvas;
+    public float positionOffset = 25f;
     public float fadeTime = 0.475f; //Time in order to fade color in or out
     bool colorStatus = false; //False used for clear, true used for white (default is clear)
     Color startColor = new Color(1f, 1f, 1f, 0f); //Default color set to clear
@@ -52,19 +53,19 @@ public class QuestFinder : MonoBehaviour
                 UnityEngine.Vector2 edgeLocation = destinationPosition; //Variable used to determine edge location, initially set to destination prior to shifting
                 if (canvasLocation.x < 0)
                 {
-                    edgeLocation.x = 0; //Limits lower bound of x to 0
+                    edgeLocation.x = positionOffset; //Limits lower bound of x to 0
                 }
                 else if (canvasLocation.x > 1)
                 {
-                    edgeLocation.x = Screen.width; //Sets upper bound of x to the screen width
+                    edgeLocation.x = Screen.width-positionOffset; //Sets upper bound of x to the screen width
                 }
                 if (canvasLocation.y < 0)
                 {
-                    edgeLocation.y = 0; //Limits lower bound of y to 0
+                    edgeLocation.y = positionOffset; //Limits lower bound of y to 0
                 }
                 else if (canvasLocation.y > 1)
                 {
-                    edgeLocation.y = Screen.height; //Sets upper bound of y to the screen height
+                    edgeLocation.y = Screen.height-positionOffset; //Sets upper bound of y to the screen height
                 }
                 //Setting Relative Position:
                 questMarker.position = edgeLocation;
