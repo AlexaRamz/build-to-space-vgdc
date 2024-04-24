@@ -29,7 +29,10 @@ public class QuestFinder : MonoBehaviour
     {
         menuManager = MenuManager.Instance;
         canvas = menuManager.GetComponent<Canvas>();
-        questMarkerImage = questMarker.gameObject.GetComponent<UnityEngine.UI.Image>(); //Sets the image to the image associated with the quest marker object
+        if (questMarker != null)
+        {
+            questMarkerImage = questMarker.gameObject.GetComponent<UnityEngine.UI.Image>(); //Sets the image to the image associated with the quest marker object
+        }
     }
 
     // Update is called once per frame
