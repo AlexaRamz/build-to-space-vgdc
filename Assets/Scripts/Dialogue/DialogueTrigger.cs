@@ -18,7 +18,7 @@ public class DialogueTrigger : Interactable
     }
     public override void Interact()
     {
-        if (questFinder != null && newQuestTarget != null) //Updates quest target based upon interaction with this npc, if necessary
+        if (questFinder != null && newQuestTarget != null) //Updates quest target based upon interaction with this npc, if necessary - this is a temporary usage depending on questRewardManager Implementation
         {
             questFinder.questTarget = newQuestTarget;
         }
