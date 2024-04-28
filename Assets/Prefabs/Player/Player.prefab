@@ -2545,6 +2545,7 @@ Transform:
   - {fileID: 1263867574}
   - {fileID: 1250765679948706804}
   - {fileID: 1574800402164591552}
+  - {fileID: 5922110530489745865}
   - {fileID: 2890566523107239876}
   - {fileID: 289070078462237960}
   m_Father: {fileID: 0}
@@ -2641,7 +2642,10 @@ MonoBehaviour:
     amount: 1000
   - resource: {fileID: 11400000, guid: f88159f7ca0dce644870f7807de8307d, type: 2}
     amount: 1000
-  tools: []
+  tools:
+  - {fileID: 11400000, guid: 909a1854806319d4eb5babc68f1aabb3, type: 2}
+  - {fileID: 11400000, guid: a19e6ffb010a30d47be436afbb700da5, type: 2}
+  - {fileID: 11400000, guid: d23800491a139a947b631458d3cb3796, type: 2}
   money: 1000
   invUI: {fileID: 1263867575}
   holdOrigin: {fileID: 4944114684345726257}
@@ -3863,6 +3867,56 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &4719825205074151475
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5922110530489745865}
+  - component: {fileID: 6498978570851182902}
+  m_Layer: 3
+  m_Name: BuildingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5922110530489745865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4719825205074151475}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3460180136717524050}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6498978570851182902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4719825205074151475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d81ae72a8b952745aa5f391f186e263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectsContainer: {fileID: 0}
+  buildTemplate: {fileID: 2245246873312691736, guid: a59ab30ecb265cb439dbd3d95eb5c7ea, type: 3}
+  backBuildTemplate: {fileID: 8711912793205975063, guid: 617a9ebc8dae2bb41b64001d4a4ba866, type: 3}
+  buildCatalog: {fileID: 11400000, guid: d57b30719ccf957478aaeddf695fd91d, type: 2}
+  placeholderPrefab: {fileID: 1885137376559616520, guid: 568db3bed3181a94fab3ba4982c8dd33, type: 3}
+  destroyParticlesPrefab: {fileID: 3223652384140640870, guid: 08c2392875c209b4eab1e8e416ceb37c, type: 3}
 --- !u!1 &4853445972135277873
 GameObject:
   m_ObjectHideFlags: 0
@@ -5380,7 +5434,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4261003955272108191}
-  - component: {fileID: 4696575943776029069}
   - component: {fileID: 690558701631106050}
   - component: {fileID: 5433412183910168019}
   m_Layer: 5
@@ -5411,28 +5464,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4696575943776029069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6440334028079401928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d81ae72a8b952745aa5f391f186e263, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectsContainer: {fileID: 0}
-  currentBuildObject:
-    build: {fileID: 11400000, guid: 4fd033a589fcb5c47ab1509969756265, type: 2}
-    rot: 0
-    gridObject: {fileID: 0}
-  buildTemplate: {fileID: 2245246873312691736, guid: a59ab30ecb265cb439dbd3d95eb5c7ea, type: 3}
-  backBuildTemplate: {fileID: 8711912793205975063, guid: 617a9ebc8dae2bb41b64001d4a4ba866, type: 3}
-  buildCatalog: {fileID: 11400000, guid: d57b30719ccf957478aaeddf695fd91d, type: 2}
-  placeholderPrefab: {fileID: 1885137376559616520, guid: 568db3bed3181a94fab3ba4982c8dd33, type: 3}
-  destroyParticlesPrefab: {fileID: 3223652384140640870, guid: 08c2392875c209b4eab1e8e416ceb37c, type: 3}
 --- !u!114 &690558701631106050
 MonoBehaviour:
   m_ObjectHideFlags: 0

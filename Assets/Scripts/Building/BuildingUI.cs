@@ -14,12 +14,25 @@ public class BuildingUI : MonoBehaviour
 
     private void Awake()
     {
-        buildSys = GetComponent<BuildingSystem>();
         plrInv = GameObject.Find("Player").GetComponent<Inventory>();
     }
-
+    private void Start()
+    {
+        buildSys = BuildingSystem.Instance;
+    }
+    private void OnEnable()
+    {
+        buildSys = BuildingSystem.Instance;
+        SetCatalog(buildSys.buildCatalog);
+        buildSys.StartBuilding();
+    }
+    private void OnDisable()
+    {
+        buildSys.EndBuilding();
+    }
     public void SetCatalog(BuildCatalog buildCatalog)
     {
+        ClearCategories();
         for (int i = 0; i < buildCatalog.categories.Count; i++)
         {
             int index = i;
@@ -29,6 +42,13 @@ public class BuildingUI : MonoBehaviour
         }
         if (buildCatalog.categories.Count > 0)
             ChangeCategory(0);
+    }
+    void ClearCategories()
+    {
+        foreach (Transform c in categoryContainer)
+        {
+            Destroy(c.gameObject);
+        }
     }
 
     public void ChangeBuild(int i)

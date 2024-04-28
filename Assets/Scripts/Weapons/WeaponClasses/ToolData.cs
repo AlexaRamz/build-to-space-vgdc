@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ToolData : Item
 {
-    public Sprite sprite;
+    public float activationCooldown = 0.25f;
     public Vector2 holdPosition;
     public GameObject prefab;
 }

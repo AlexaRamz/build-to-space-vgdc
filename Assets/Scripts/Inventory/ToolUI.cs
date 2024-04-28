@@ -28,7 +28,7 @@ public class ToolUI : MonoBehaviour
             Image img = slots[i].transform.Find("Image").GetComponent<Image>();
             if (i < tools.Count && tools[i] != null)
             {
-                img.sprite = tools[i].sprite;
+                img.sprite = tools[i].image;
                 img.color = new Color32(255, 255, 255, 255);
             }
             else

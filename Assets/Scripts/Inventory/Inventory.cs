@@ -7,21 +7,22 @@ public class Inventory : MonoBehaviour
     public List<ResourceInfo> resources = new List<ResourceInfo>();
 
     public List<ToolData> tools = new List<ToolData>();
-    ITool currentTool;
+    Tool currentTool;
 
     public int money;
 
     PlayerInteraction plrInt;
+    public static Inventory Instance;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         plrMove = GetComponent<PlayerMovement>();
-        buildSys = FindObjectOfType<BuildingSystem>();
         invUI.plrInv = this;
         plrInt = GetComponent<PlayerInteraction>();
-
-        tools.Add((ToolData)Resources.Load("Tools/Weapons/Laser Gun"));
-        tools.Add((ToolData)Resources.Load("Tools/Weapons/Laser Cannon"));
     }
     // Inventory managing
     public void Collect(ResourceType thisResource)
@@ -92,7 +93,6 @@ public class Inventory : MonoBehaviour
     }
 
     // UI
-    BuildingSystem buildSys;
     public InventoryUI invUI;
     void UpdateDisplays()
     {
@@ -117,7 +117,7 @@ public class Inventory : MonoBehaviour
     }
     void UpdateHoldingDisplay()
     {
-        ResourceInfo holding = GetHolding();
+        /*ResourceInfo holding = GetHolding();
         if (holding != null)
         {
             holdDisplay.SetResourceSimple(holding);
@@ -127,7 +127,7 @@ public class Inventory : MonoBehaviour
         {
             invUI.InterfaceOff();
         }
-        UpdateHold();
+        UpdateHold();*/
     }
     void UpdateHold()
     {
@@ -255,7 +255,7 @@ public class Inventory : MonoBehaviour
             obj.transform.parent = origin;
             obj.name = data.name;
             obj.transform.localScale = new Vector3(1, 1, 1);
-            ITool tool = obj.GetComponent<ITool>();
+            Tool tool = obj.GetComponent<Tool>();
             if (tool != null) 
             {
                 tool.data = data;

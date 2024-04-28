@@ -135,6 +135,24 @@ public class BuildGrid
         }
         return false;
     }
+    public bool PositionHasNullAdjacent(Vector3 worldPos)
+    {
+        Vector2Int gridPos = WorldtoGridPos(worldPos);
+        return HasNullAdjacent(gridPos);
+    }
+    private bool HasNullAdjacent(Vector2Int gridPos)
+    {
+        Vector2Int[] adjShifts = {
+            new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1)
+        };
+        foreach (Vector2Int shift in adjShifts)
+        {
+            Vector2Int adjPos = gridPos + shift;
+            if (GetValue(adjPos) == null)
+                return true;
+        }
+        return false;
+    }
     public bool PositionIsAtEdge(Vector3 worldPos)
     {
         Vector2Int gridPos = WorldtoGridPos(worldPos);
@@ -200,5 +218,65 @@ public class BuildGrid
         Vector2Int offset = new Vector2Int(1, 1);
         ShiftKeys(offset);
         ShiftPosition(-offset);
+    }
+    List<Vector2Int> GetNeighborPositions(Vector2Int gridPos)
+    {
+        List<Vector2Int> positions = new List<Vector2Int>();
+        Vector2Int[] neighborOffsets = { new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) };
+        foreach (Vector2Int offset in neighborOffsets)
+        {
+            if (GetValue(gridPos + offset) != null)
+            {
+                positions.Add(gridPos + offset);
+            }
+        }
+        return positions;
+    }
+    bool HasPathToGround(Vector2Int gridPos)
+    {
+        HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+
+        bool DFS(Vector2Int pos)
+        {
+            visited.Add(pos);
+            BuildObject value = GetValue(pos);
+            if (value != null && value.build == null)
+            {
+                Debug.Log("true");
+                return true;
+            }
+            List<Vector2Int> neighborPositions = GetNeighborPositions(pos);
+            foreach (Vector2Int neighbor in neighborPositions)
+            {
+                Debug.Log(neighbor);
+                if (!visited.Contains(neighbor))
+                {
+                    if (DFS(neighbor))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        return DFS(gridPos);
+    }
+    public bool CheckCollapseOnDelete(Vector3 worldPos)
+    {
+        Vector2Int gridPos = WorldtoGridPos(worldPos);
+        BuildObject removed = GetValue(gridPos);
+        RemoveValue(gridPos);
+
+        List<Vector2Int> neighborPositions = GetNeighborPositions(gridPos);
+        foreach (Vector2Int neighbor in neighborPositions)
+        {
+            if (!HasPathToGround(neighbor))
+            {
+                SetValue(gridPos, removed);
+                return true;
+            }
+        }
+        SetValue(gridPos, removed);
+        return false;
     }
 }
