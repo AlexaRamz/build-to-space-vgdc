@@ -2697,6 +2697,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3177493449514378899, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3460180136717524050, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.663

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public enum QuestType //Include various quest type options here
 {
@@ -18,11 +19,15 @@ public class QuestData //There is currently no need to include a constructor, si
     public Transform TargetLocation; //The idea behind this is that if a quest requires mutliple characters to be visited, then that quest chain will function as multiple individual quest objects
     public float moneyReward;
     public float researchReward;
+    public string questTitle; //Stores title information
     public string informationText; //Can be displayed somewhere within the UI
     public QuestType questType;
-    public QuestData nextQuest; //Opportunity to set a next quest to another object
+    public int requirement; //Stores index of quest required for this to be completed, set to -1 if there are no requirements
+    public int nextQuestIndex; //Stores index of next quest for auto activation, -1 for no next quest
+    public bool available; //Determines whether requirements have been completed
     //public int index; //Used to reference index from quest board perspective - if necessary (commented out until this needs to be used)
     public bool active = false; //Used as a reference to whether a quest is active, initially set to false for all (May not be needed but Im leaving it in because I already implemented the setting feature)
+    public bool completed = false; //Used as a reference to whether a quest is finished, but not yet moved to the other list (this process involves fulfilling requirements)
 }
 
 public class QuestRewardManager : MonoBehaviour
@@ -38,6 +43,10 @@ public class QuestRewardManager : MonoBehaviour
 
     public float researchPointsObtained; //Records research points obtained through quest completion
     public float moneyObtained; //Records money obtained through quest completion
+
+    public TextMeshProUGUI displayQuestDescription; //Used in UI to show current quest description - these three should appear separately from the questcontainer, likely above it within the same UI element
+    public TextMeshProUGUI displayMoneyReward; //Used in UI to show current quest reward
+    public TextMeshProUGUI displayResearchReward; //Used in UI to show current research reward
 
     // Start is called before the first frame update
     void Start()
@@ -86,23 +95,28 @@ public class QuestRewardManager : MonoBehaviour
         currentQuestIndex = questDatas.IndexOf(currentQuest); //Updates current index being used
     }
 
-    void CompleteCurrentQuest()
+    bool CompleteCurrentQuest() //Returns whether quest was successfully completed - the return should have a UI indication for whether the completion button 'can be pressed'
     {
-        currentQuest.active = false; //Ends quest activity when complete
-        researchPointsObtained += currentQuest.researchReward;
-        moneyObtained += currentQuest.moneyReward; //Updates quest rewards
-        completedQuestDatas.Add(currentQuest);
-        questDatas.Remove(currentQuest);
-        PopulateMenu(); //Updates menu when a quest is completed, removing it from the list
-        if (currentQuest.nextQuest != null)
+        if (currentQuest.completed == true)
         {
-            UpdateQuest(currentQuest.nextQuest);
+            UpdateStatus(); //Updates availability statuses, before this quest is removed from menu/QuestDatas list
+            currentQuest.active = false; //Ends quest activity when complete
+            researchPointsObtained += currentQuest.researchReward;
+            moneyObtained += currentQuest.moneyReward; //Updates quest rewards
+            completedQuestDatas.Add(currentQuest);
+            //questDatas.Remove(currentQuest); //No more quest removal so that requirements can be properly indexed
+            PopulateMenu(); //Updates menu when a quest is completed, removing it from the list
+            if (currentQuest.nextQuestIndex >= 0)
+            {
+                UpdateQuest(questDatas[currentQuest.nextQuestIndex]);
+            }
+            else
+            {
+                currentQuest = null;
+                currentQuestIndex = -1; //Uses -1 identifier when there is no current quest
+            }
         }
-        else
-        {
-            currentQuest = null;
-            currentQuestIndex = -1; //Uses -1 identifier when there is no current quest
-        }
+        return false;
     }
 
     //Function to be called elsewhere to select a new quest
@@ -142,10 +156,25 @@ public class QuestRewardManager : MonoBehaviour
         ClearMenu(); //Function to clear menu in preparation for populating it
         for (int i = 0; i < questDatas.Count; i++)
         {
-            GameObject button = Instantiate(questTemplate, questContainer);
-            button.GetComponent<Button>().onClick.AddListener(delegate { SelectQuest(i); }); //Runs quest select function when a quest is selected
-            QuestTemplate template = button.GetComponent<QuestTemplate>();
-            template.text.SetText(questDatas[i].informationText); //Sets proper information as needed to the quest template object for display purposes (this portion will be modified based upon the implementation of the QuestTemplate object - refer to the ShopTemplate as an example for reference)
+            if (questDatas[i].available == true && questDatas[i].completed == false) //Makes sure quest is both available and not completed
+            {
+                GameObject button = Instantiate(questTemplate, questContainer);
+                button.GetComponent<Button>().onClick.AddListener(delegate { SelectQuest(i); }); //Runs quest select function when a quest is selected
+                QuestTemplate template = button.GetComponent<QuestTemplate>();
+                template.title.SetText(questDatas[i].questTitle); //Sets proper information as needed to the quest template object for display purposes (this portion will be modified based upon the implementation of the QuestTemplate object - refer to the ShopTemplate as an example for reference)
+            }
+        }
+    }
+
+    void UpdateStatus() //Updates quest availability statuses
+    {
+        for (int i = 0; i < questDatas.Count; i++)
+        {
+            if (questDatas[i].available != true)
+            {
+                int requirements = questDatas[i].requirement;
+                questDatas[i].available = questDatas[requirements].completed; //Sets availability
+            }
         }
     }
 
@@ -157,17 +186,21 @@ public class QuestRewardManager : MonoBehaviour
         }
     }
 
-    public void SelectQuest(int index) //Function 
+    //This function is called when a quest's button is clicked on
+    public void SelectQuest(int index) //Opens menu for individual quest - this will have no buttons within it, but doing this will set as focused currentquest, then check completion, then try to complete (check completion could be moved out of update, using this logic, depending on flag implementations)
     {
-
+        UpdateQuest(questDatas[index]); //Updates active quest
+        //Automatic quest selection, possibly make an internal button to do this later
+        displayQuestDescription.SetText(currentQuest.informationText); //Updates visuals (should happen regardless of inputs)
+        displayMoneyReward.SetText(currentQuest.moneyReward.ToString()); //Updates visuals (should happen regardless of inputs)
+        displayResearchReward.SetText(currentQuest.researchReward.ToString()); //Updates visuals (should happen regardless of inputs)
+        //Automatic quest completion check, likely make a button to do this later (if there is not a button, the completion checks would likely have to be done when this menu is open, just before the following function is called)
+        bool finishedQuest = CompleteCurrentQuest();
+        if (finishedQuest) //Possibly create some sort of animation to play here, or something along those lines to indicate quest completion
+        {
+            displayQuestDescription.SetText("");
+            displayMoneyReward.SetText("");
+            displayResearchReward.SetText(""); //Effectively clears UI portion of selection when quest is completed
+        }
     }
-    //Shop Version of Select Quest for reference:
-    /*public void SelectItem(int btnNo)
-    {
-        selectedItem = shopItems[btnNo];
-        displayImage.sprite = selectedItem.image;
-        nameText.text = selectedItem.name;
-        descriptionText.text = selectedItem.description;
-        priceText.text = selectedItem.cost.ToString();
-    }*/
 }
