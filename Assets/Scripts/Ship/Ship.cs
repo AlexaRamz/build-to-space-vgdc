@@ -28,6 +28,7 @@ public class Ship : MonoBehaviour
         ship.ClampBounds();
         //Expand the ship size by 1 in each direction to allow placing around the ship
         ship.AddSizeAll();
+        Debug.Log(ship.Width + "and" + ship.Height);
 
         transform.position = ship.bottomLeft;
 

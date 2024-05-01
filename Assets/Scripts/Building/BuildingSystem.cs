@@ -287,4 +287,10 @@ public class BuildingSystem : MonoBehaviour
             RotateObject();
         }
     }
+    private void OnDisable()
+    {
+        if (placeholder != null) placeholder.SetActive(false);
+        isPlacing = isDeleting = false;
+        InterruptDeleteTimer();
+    }
 }
