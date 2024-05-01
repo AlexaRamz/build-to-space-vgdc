@@ -9,7 +9,7 @@ public class PlayerInteraction : MonoBehaviour
     public OnTriggerDo interactTrigger;
     bool interactablesInRange = false;
     Interactable currentInteract;
-    MenuManager menuManager;
+    [SerializeField] private MenuManager menuManager;
     public bool canInteract = true;
     public GameObject arrowPrefab;
     GameObject arrow;
@@ -18,7 +18,6 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Awake()
     {
-        menuManager = MenuManager.Instance;
         arrow = Instantiate(arrowPrefab);
     }
     private void Start()

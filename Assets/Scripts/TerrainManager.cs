@@ -9,8 +9,7 @@ public class TerrainManager : MonoBehaviour
 
     public static TerrainManager Instance;
     BuildingSystem buildSys;
-    Inventory plrInv;
-    Dictionary<string, ResourceType> tileNameToOre;
+    [SerializeField] private InventoryManager plrInv;
 
     private void Awake()
     {
@@ -19,8 +18,6 @@ public class TerrainManager : MonoBehaviour
     private void Start()
     {
         buildSys = BuildingSystem.Instance;
-        plrInv = Inventory.Instance;
-        tileNameToOre = new Dictionary<string, ResourceType> { { "Ground", ResourceType.Copper }, { "Ground_1", ResourceType.Aluminum } };
     }
 
     public void AddGroundTiles()
@@ -37,7 +34,6 @@ public class TerrainManager : MonoBehaviour
 
                 if (tile != null)
                 {
-                    Debug.Log("tile");
                     buildSys.worldGrid.SetValueAtPosition(ground.CellToWorld(cellPos), new BuildObject(null));
                 }
             }
@@ -65,13 +61,14 @@ public class TerrainManager : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int clickedCell = ground.WorldToCell(mousePos);
 
-        string tileName = ground.GetTile(clickedCell)?.name;
-        if (tileName != null && tileNameToOre.ContainsKey(tileName))
+        TileBase tile = ground.GetTile(clickedCell);
+        Item resource = plrInv.GetResourceFromTile(tile);
+        if (resource != null)
         {
-            plrInv.Collect(tileNameToOre[tileName]);
+            plrInv.AddItem(resource, 1);
         }
 
-        if (buildSys.DeleteObject(mousePos, buildSys.worldGrid))
+        if (buildSys.DeleteObject(mousePos, buildSys.worldGrid, true))
         {
             ground.SetTile(clickedCell, null);
         }

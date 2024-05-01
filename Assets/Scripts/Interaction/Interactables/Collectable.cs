@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    public ResourceType resource;
+    public Item itemInfo;
     bool canCollect = true;
     bool Debounce = false;
-    public void SetItem(Resource info)
+    public void SetItem(Item info)
     {
         GetComponent<SpriteRenderer>().sprite = info.image;
-        resource = info.type;
+        itemInfo = info;
         canCollect = false;
         StartCoroutine(CollectDelay());
     }
@@ -24,7 +24,7 @@ public class Collectable : MonoBehaviour
         if (canCollect && col.gameObject.CompareTag("Player") && !Debounce)
         {
             Debounce = true;
-            col.gameObject.GetComponent<Inventory>().Collect(resource);
+            col.gameObject.GetComponent<PlayerManager>().AddToInventory(itemInfo, 1);
             Destroy(gameObject);
         }
     }

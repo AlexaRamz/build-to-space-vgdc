@@ -17,7 +17,7 @@ public class BuildingSystem : MonoBehaviour
 
     float holdToDestroyTime = 0.2f;
 
-    MenuManager menuManager;
+    [SerializeField] private MenuManager menuManager;
     public static BuildingSystem Instance;
     bool building;
 
@@ -29,7 +29,6 @@ public class BuildingSystem : MonoBehaviour
     }
     private void Start()
     {
-        menuManager = MenuManager.Instance;
         if (InVirtualHangar)
         {
             worldGrid = new BuildGrid(new Vector2Int(-10, -10), 20, 20);
@@ -38,6 +37,10 @@ public class BuildingSystem : MonoBehaviour
         {
             worldGrid = new BuildGrid(new Vector2Int(-100, -100));
             TerrainManager.Instance.AddGroundTiles();
+        }
+        if (objectsContainer == null)
+        {
+            Debug.Log("Building system error: Please assign objects container");
         }
 
         placeholder = Instantiate(placeholderPrefab);
@@ -65,7 +68,7 @@ public class BuildingSystem : MonoBehaviour
 
         return newBuild;
     }
-    public Category SetCategory(int index)
+    public BuildCategory SetCategory(int index)
     {
         return buildCatalog.SetCategory(index);
     }
@@ -121,10 +124,10 @@ public class BuildingSystem : MonoBehaviour
         }
         return obj;
     }
-    public bool DeleteObject(Vector3 worldPos, BuildGrid thisGrid)
+    public bool DeleteObject(Vector3 worldPos, BuildGrid thisGrid, bool deleteTerrain = false)
     {
         BuildObject buildObj = thisGrid.GetValueAtPosition(worldPos);
-        if (buildObj == null || !thisGrid.RemoveValueAtPosition(worldPos)) return false;
+        if (buildObj == null || (!deleteTerrain && buildObj.gridObject == null) || !thisGrid.RemoveValueAtPosition(worldPos)) return false;
 
         if (buildObj.gridObject != null)
         {

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class ToolUI : MonoBehaviour
 {
     public Transform[] slots;
-    Inventory plrInv;
-    MenuManager menuManager;
+    [SerializeField] private InventoryManager plrInv;
+    [SerializeField] private MenuManager menuManager;
     public static ToolUI Instance;
 
     void Awake()
@@ -16,8 +16,6 @@ public class ToolUI : MonoBehaviour
     }
     void OnEnable()
     {
-        plrInv = GameObject.Find("Player").GetComponent<Inventory>();
-        menuManager = MenuManager.Instance;
         DisplayTools(plrInv.tools);
     }
     

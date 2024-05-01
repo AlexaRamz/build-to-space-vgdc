@@ -30,7 +30,7 @@ public class Build : ScriptableObject
 {
     public string description;
     public Rotation[] rotations;
-    public List<ResourceAmount> materials = new List<ResourceAmount>();
+    public List<ItemAmountInfo> materials = new List<ItemAmountInfo>();
     public enum DepthLevel
     {
         MidGround,
@@ -43,10 +43,4 @@ public class Build : ScriptableObject
     {
         return rotations[rot];
     }
-}
-[System.Serializable]
-public class ResourceAmount
-{
-    public ResourceType resource;
-    public int amount = 1;
 }
