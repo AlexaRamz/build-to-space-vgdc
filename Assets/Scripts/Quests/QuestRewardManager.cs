@@ -32,7 +32,7 @@ public class QuestData //There is currently no need to include a constructor, si
 
 public class QuestRewardManager : MonoBehaviour
 {
-    public List<QuestData> questDatas = new List<QuestData>(); //Public list to write quest info into
+    [SerializeField] public List<QuestData> questDatas = new List<QuestData>(); //Public list to write quest info into
     List<QuestData> completedQuestDatas = new List<QuestData>(); //Transition quest datas into here, upon quest completion
     QuestData currentQuest;
     int currentQuestIndex = 0;
@@ -158,8 +158,9 @@ public class QuestRewardManager : MonoBehaviour
         {
             if (questDatas[i].available == true && questDatas[i].completed == false) //Makes sure quest is both available and not completed
             {
+                int btnNo = i;
                 GameObject button = Instantiate(questTemplate, questContainer);
-                button.GetComponent<Button>().onClick.AddListener(delegate { SelectQuest(i); }); //Runs quest select function when a quest is selected
+                button.GetComponent<Button>().onClick.AddListener(delegate { SelectQuest(btnNo); }); //Runs quest select function when a quest is selected
                 QuestTemplate template = button.GetComponent<QuestTemplate>();
                 template.title.SetText(questDatas[i].questTitle); //Sets proper information as needed to the quest template object for display purposes (this portion will be modified based upon the implementation of the QuestTemplate object - refer to the ShopTemplate as an example for reference)
             }

@@ -12,6 +12,7 @@ public class MenuManager : MonoBehaviour
     public GameObject tabletMenu;
     public GameObject HUD;
     public GameObject dialogueBox;
+    public GameObject questBox;
 
     private GameObject currentMenu;
     private Canvas canvas;
@@ -65,6 +66,8 @@ public class MenuManager : MonoBehaviour
             ShowMenu(buildMenu);
         if (Input.GetKeyDown(KeyCode.M))
             ShowMenu(tabletMenu);
+        if (Input.GetKeyDown(KeyCode.O))
+            ShowMenu(questBox);
         if (Input.GetKeyDown(KeyCode.RightShift))
             CloseCurrentMenu();
     }
