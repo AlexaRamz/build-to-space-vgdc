@@ -38,6 +38,7 @@ public class QuestRewardManager : MonoBehaviour
     int currentQuestIndex = 0;
 
     public Transform playerLocation; //Set reference in editor
+    public DialogueManager dialogueManager; //Set reference in editor
     public QuestFinder questFinder; //Set this association through the editor
     public GameObject questTemplate; //Set this association through the editor - must be the UI object for how quests will appear (reference the ShopManager for an example)
     public Transform questContainer; //Set this association through the editor - must be the UI object for where quests are stored
@@ -48,6 +49,10 @@ public class QuestRewardManager : MonoBehaviour
     public TextMeshProUGUI displayQuestDescription; //Used in UI to show current quest description - these three should appear separately from the questcontainer, likely above it within the same UI element
     public TextMeshProUGUI displayMoneyReward; //Used in UI to show current quest reward
     public TextMeshProUGUI displayResearchReward; //Used in UI to show current research reward
+
+    public TextMeshProUGUI displayVictoryQuestDescription; //Used to demonstrate info about the quest that was just completed, after it was removed from the menu
+    public TextMeshProUGUI displayVictoryMoneyReward; 
+    public TextMeshProUGUI displayVictoryResearchReward; 
 
     // Start is called before the first frame update
     void Start()
@@ -74,16 +79,31 @@ public class QuestRewardManager : MonoBehaviour
                 }
                 break;
             case QuestType.Hunt: //Assumption is this will detect whether you have defeated a certain monster
-                //Implement IF condition to determine whether quest is complete
-                    //Call CompleteCurrentQuest() if so
+                if (currentQuest.TargetLocation == null) //Checks if target monster has been destroyed
+                {
+                    if (currentQuest.completed == false)
+                    {
+                        //Send any signal here for an instantaneous response to quest success
+                        currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
+                    }
+                }
                 break;
             case QuestType.Fetch: //Assumption is this will detect whether you have collected a certain object
                 //Implement IF condition to determine whether quest is complete - this check involves the inventory object
                     //Call CompleteCurrentQuest() if so
                 break;
             case QuestType.Talk: //Assumption is you will converse with an npc and a certain dialogue line completion will trigger something to detect here
-                //Implement IF condition to determine whether quest is complete
-                    //Call CompleteCurrentQuest() if so
+                if (dialogueManager.currentSpeaker != null)
+                {
+                    if (currentQuest.TargetLocation.gameObject.GetComponent<DialogueTrigger>().speaker == dialogueManager.currentSpeaker) //Verifies if speaker matches target
+                    {
+                        if (currentQuest.completed == false)
+                        {
+                            //Send any signal here for an instantaneous response to quest success
+                            currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
+                        }
+                    }
+                }
                 break;
             default:
                 Debug.Log("ERROR: No quest type");
@@ -106,6 +126,11 @@ public class QuestRewardManager : MonoBehaviour
     {
         if (currentQuest.completed == true)
         {
+            //Displays completed quest info
+            displayVictoryQuestDescription.SetText(currentQuest.informationText); //Updates visuals (should happen regardless of inputs)
+            displayVictoryMoneyReward.SetText(currentQuest.moneyReward.ToString()); //Updates visuals (should happen regardless of inputs)
+            displayVictoryResearchReward.SetText(currentQuest.researchReward.ToString()); //Updates visuals (should happen regardless of inputs)
+
             //Add a popup to say quest is complete here, if desired (need to determine how to make an additive menu for a task like this)
             UpdateStatus(); //Updates availability statuses, before this quest is removed from menu/QuestDatas list
             currentQuest.active = false; //Ends quest activity when complete

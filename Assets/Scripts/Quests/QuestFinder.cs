@@ -46,7 +46,7 @@ public class QuestFinder : MonoBehaviour
             {
                 if (!colorStatus)
                 {
-                    StartCoroutine(FadeImage(true)); //Enables marker when target is on screen
+                    StartCoroutine(FadeImage(true)); //Enables marker when target is off screen
                     colorStatus = true;
                 }
                 

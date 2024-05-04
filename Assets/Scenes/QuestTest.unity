@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &215383547 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+  m_PrefabInstance: {fileID: 663422198}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &379579550
 GameObject:
   m_ObjectHideFlags: 0
@@ -2162,6 +2167,63 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1001 &663422198
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3733227372881481404, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_Name
+      value: Bat
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 18.191456
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1481847
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711810053166817608, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
 --- !u!4 &867167740 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6040590693889318314, guid: 084f0647b849a8c4c99849d1f81abf6c, type: 3}
@@ -2572,10 +2634,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].available
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[0].questType
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
@@ -2583,12 +2649,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[2].available
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[2].questType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].questTitle
-      value: Quest 1
+      value: hunt 1
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[1].questTitle
       value: Quest 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[2].questTitle
+      value: Talking Test
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].moneyReward
@@ -2599,9 +2677,13 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[2].moneyReward
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].TargetLocation
       value: 
-      objectReference: {fileID: 571492509}
+      objectReference: {fileID: 215383547}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].researchReward
       value: 2
@@ -2615,12 +2697,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[2].TargetLocation
+      value: 
+      objectReference: {fileID: 571492509}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[2].researchReward
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].informationText
-      value: quest 1 is here
+      value: Destroy the bat
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[1].informationText
-      value: quest 2 is here
+      value: This Tests discover of Help Bot
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[2].informationText
+      value: This Tests help bot talking
       objectReference: {fileID: 0}
     - target: {fileID: 2659780069906823872, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_Enabled
@@ -3102,3 +3196,4 @@ SceneRoots:
   - {fileID: 6040590693316506203}
   - {fileID: 618575619}
   - {fileID: 1148778420}
+  - {fileID: 663422198}

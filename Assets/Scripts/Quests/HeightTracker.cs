@@ -11,7 +11,7 @@ public class HeightTracker : MonoBehaviour
 
     public Transform playerLocation; //Reference to player's position
     public RectTransform heightTracker; //Reference to UI element that tracks highest point reached
-    int Visible = 1; //Check for visibility
+    int Visible = 0; //Check for visibility - starts as off (H) to enable
 
     // Start is called before the first frame update
     void Start()
@@ -67,6 +67,10 @@ public class HeightTracker : MonoBehaviour
             {
                 highscoreDisplayer.text = "Highscore: " + newScore;
             }
+        }
+        else
+        {
+            highscoreDisplayer.text = "Highscore: 0.000000"; //Needed to properly display when turning on Highscore UI without having moved first
         }
         /*if (sphereTracker != null) //Implementation of breakpoints could be adjusted based upon how fast spaceships are
         {
