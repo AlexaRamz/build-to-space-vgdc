@@ -37,6 +37,7 @@ public class QuestRewardManager : MonoBehaviour
     QuestData currentQuest;
     int currentQuestIndex = 0;
 
+    public Transform playerLocation; //Set reference in editor
     public QuestFinder questFinder; //Set this association through the editor
     public GameObject questTemplate; //Set this association through the editor - must be the UI object for how quests will appear (reference the ShopManager for an example)
     public Transform questContainer; //Set this association through the editor - must be the UI object for where quests are stored
@@ -58,13 +59,19 @@ public class QuestRewardManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() //Run checks for whether a quest was completed
+    void FixedUpdate() //Run checks for whether a quest was completed
     {
         switch(currentQuest.questType)
         {
             case QuestType.Discover: //Assumption is this will detect whether you have reached a certain area and/or height
-                //Implement IF condition to determine whether quest is complete
-                    //Call CompleteCurrentQuest() if so
+                if (playerLocation.localPosition.x >= currentQuest.TargetLocation.localPosition.x-3 && playerLocation.localPosition.x <= currentQuest.TargetLocation.localPosition.x+3) //Range set to 3
+                {
+                    if (currentQuest.completed == false)
+                    {
+                        //Send any signal here for an instantaneous response to quest success
+                        currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
+                    }
+                }
                 break;
             case QuestType.Hunt: //Assumption is this will detect whether you have defeated a certain monster
                 //Implement IF condition to determine whether quest is complete
@@ -99,6 +106,7 @@ public class QuestRewardManager : MonoBehaviour
     {
         if (currentQuest.completed == true)
         {
+            //Add a popup to say quest is complete here, if desired (need to determine how to make an additive menu for a task like this)
             UpdateStatus(); //Updates availability statuses, before this quest is removed from menu/QuestDatas list
             currentQuest.active = false; //Ends quest activity when complete
             researchPointsObtained += currentQuest.researchReward;
@@ -115,6 +123,7 @@ public class QuestRewardManager : MonoBehaviour
                 currentQuest = null;
                 currentQuestIndex = -1; //Uses -1 identifier when there is no current quest
             }
+            return true;
         }
         return false;
     }

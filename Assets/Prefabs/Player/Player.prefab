@@ -994,6 +994,7 @@ RectTransform:
   - {fileID: 4261003955272108191}
   - {fileID: 3830034660162773422}
   - {fileID: 2890566523187225653}
+  - {fileID: 1083846235308012818}
   m_Father: {fileID: 3460180136717524050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1700,6 +1701,60 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1919980081352933571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7388975996957262464}
+  - component: {fileID: 2084514749622522828}
+  m_Layer: 3
+  m_Name: RewardManagerScript
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7388975996957262464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919980081352933571}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3460180136717524050}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2084514749622522828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919980081352933571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee1dd98645eb2c04783675de5d3798a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questDatas: []
+  playerLocation: {fileID: 3460180136717524050}
+  questFinder: {fileID: 8530811595671739268}
+  questTemplate: {fileID: 8948370953495077106, guid: 65228823ba7dddb439e84a81eb0e7aa5, type: 3}
+  questContainer: {fileID: 3592553150588254934}
+  researchPointsObtained: 0
+  moneyObtained: 0
+  displayQuestDescription: {fileID: 3183154942694392065}
+  displayMoneyReward: {fileID: 5029029167973274994}
+  displayResearchReward: {fileID: 3884236374685267263}
 --- !u!1 &2098080299824354122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1760,7 +1815,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8649766386513916935}
   - component: {fileID: 3463711576522270899}
-  - component: {fileID: 514744052283188449}
   m_Layer: 0
   m_Name: QuestMenu
   m_TagString: Untagged
@@ -1815,27 +1869,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &514744052283188449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2122028724939606945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee1dd98645eb2c04783675de5d3798a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questDatas: []
-  questFinder: {fileID: 8530811595671739268}
-  questTemplate: {fileID: 8948370953495077106, guid: 65228823ba7dddb439e84a81eb0e7aa5, type: 3}
-  questContainer: {fileID: 3592553150588254934}
-  researchPointsObtained: 0
-  moneyObtained: 0
-  displayQuestDescription: {fileID: 3183154942694392065}
-  displayMoneyReward: {fileID: 5029029167973274994}
-  displayResearchReward: {fileID: 3884236374685267263}
 --- !u!1 &2165142525394655649
 GameObject:
   m_ObjectHideFlags: 0
@@ -3287,7 +3320,7 @@ Transform:
   - {fileID: 1574800402164591552}
   - {fileID: 2890566523107239876}
   - {fileID: 289070078462237960}
-  - {fileID: 1083846235308012818}
+  - {fileID: 7388975996957262464}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3460180136717524051
@@ -3881,12 +3914,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4074073979184770979}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -960, y: -540.2469, z: 0}
+  m_LocalScale: {x: 1.5802469, y: 1.5802469, z: 1.5802469}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3460180136717524050}
+  m_Children:
+  - {fileID: 5895108556511635920}
+  m_Father: {fileID: 289070078462237960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4828800479712048887
 MonoBehaviour:
@@ -3902,8 +3936,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerLocation: {fileID: 3460180136717524050}
   heightTracker: {fileID: 5895108556511635920}
-  stationaryHeightTracker: {fileID: 0}
-  sphereTracker: {fileID: 0}
 --- !u!1 &4142788800700601660
 GameObject:
   m_ObjectHideFlags: 0
@@ -7180,16 +7212,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7361666404643926660}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6328125, y: 0.6328125, z: 0.6328125}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3830034660162773422}
+  m_Father: {fileID: 1083846235308012818}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -833, y: 484}
+  m_AnchoredPosition: {x: 80.36719, y: 648.15625}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3898336052338737641
@@ -7319,7 +7351,6 @@ RectTransform:
   m_Children:
   - {fileID: 4089253315332639032}
   - {fileID: 2835256111998984102}
-  - {fileID: 5895108556511635920}
   - {fileID: 4404251475384460285}
   m_Father: {fileID: 289070078462237960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

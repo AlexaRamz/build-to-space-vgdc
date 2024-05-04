@@ -8,14 +8,10 @@ public class HeightTracker : MonoBehaviour
     float initialHeight;
     float maximumHeight;
     TextMeshProUGUI highscoreDisplayer;
-    TextMeshPro stationaryHighscoreDisplayer;
-    TextMeshPro sphereTrackerDisplayer;
 
     public Transform playerLocation; //Reference to player's position
     public RectTransform heightTracker; //Reference to UI element that tracks highest point reached
-    public RectTransform stationaryHeightTracker; //Reference to Stationary Text element that tracks highest point reached - The expectation is that this will be set to a specific element for a given level
-                                                    //An example of this usage would be for a notice board style of display (see QuestTest level for an example)
-    public RectTransform sphereTracker;
+    int Visible = 1; //Check for visibility
 
     // Start is called before the first frame update
     void Start()
@@ -27,25 +23,38 @@ public class HeightTracker : MonoBehaviour
             highscoreDisplayer = heightTracker.GetComponent<TextMeshProUGUI>();
             highscoreDisplayer.text = "Highscore: 0.000000"; //Sets initial value to 0 before anything has properly registered
         }
-        if (stationaryHeightTracker != null)
-        {
-            stationaryHighscoreDisplayer = stationaryHeightTracker.GetComponent<TextMeshPro>();
-            stationaryHighscoreDisplayer.text = "Highscore: 0.000000"; //Sets initial value to 0 before anything has properly registered
-        }
-        if (sphereTracker != null)
-        {
-            sphereTrackerDisplayer = sphereTracker.GetComponent<TextMeshPro>();
-            sphereTrackerDisplayer.text = "Troposphere"; //Sets initial text
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        float currentPosition = playerLocation.position.y;
-        if ((currentPosition - initialHeight) > maximumHeight)
+        if (Input.GetKeyDown(KeyCode.H)) //Swaps visibility before determining how to set text
+            SwapVisibility();
+        if (Visible == 1)
         {
-            maximumHeight = currentPosition - initialHeight;
+            float currentPosition = playerLocation.position.y;
+            if ((currentPosition - initialHeight) > maximumHeight)
+            {
+                maximumHeight = currentPosition - initialHeight;
+                UpdateText(maximumHeight);
+            }
+        }
+        else
+        {
+            highscoreDisplayer.text = ""; //Sets text to blank
+        }
+    
+    }
+
+    void SwapVisibility()
+    {
+        if (Visible == 1)
+        {
+            Visible = 0;
+        }
+        else
+        {
+            Visible = 1;
             UpdateText(maximumHeight);
         }
     }
@@ -58,12 +67,8 @@ public class HeightTracker : MonoBehaviour
             {
                 highscoreDisplayer.text = "Highscore: " + newScore;
             }
-            if (stationaryHighscoreDisplayer != null)
-            {
-                stationaryHighscoreDisplayer.text = "Highscore: " + newScore;
-            }
         }
-        if (sphereTracker != null) //Implementation of breakpoints could be adjusted based upon how fast spaceships are
+        /*if (sphereTracker != null) //Implementation of breakpoints could be adjusted based upon how fast spaceships are
         {
             if (newScore > 1000)
             {
@@ -81,7 +86,7 @@ public class HeightTracker : MonoBehaviour
             {
                 sphereTrackerDisplayer.text = "Exosphere";
             }
-        }
+        }*/ //Sphere logic
     }
 
 }
