@@ -2634,7 +2634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.size
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].available
@@ -2657,28 +2657,80 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[3].available
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[3].questType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[4].available
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[4].questType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].questTitle
       value: hunt 1
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[1].questTitle
-      value: Quest 2
+      value: Discovery Test
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[2].questTitle
       value: Talking Test
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[3].questTitle
+      value: Can I have another?
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[4].questTitle
+      value: Can I have another?
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].moneyReward
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[0].victoryText
+      value: You destroyed the bat!
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[1].moneyReward
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[1].victoryText
+      value: You found Help Bot!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[2].moneyReward
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[2].victoryText
+      value: You spoke with help bot!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[3].moneyReward
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[3].victoryText
+      value: You spoke with help bot!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[4].moneyReward
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[4].victoryText
+      value: You spoke with help bot!
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].TargetLocation
@@ -2705,6 +2757,22 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[3].TargetLocation
+      value: 
+      objectReference: {fileID: 571492509}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[3].researchReward
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[4].TargetLocation
+      value: 
+      objectReference: {fileID: 571492509}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[4].researchReward
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[0].informationText
       value: Destroy the bat
       objectReference: {fileID: 0}
@@ -2714,6 +2782,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: questDatas.Array.data[2].informationText
+      value: This Tests help bot talking
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[3].informationText
+      value: This Tests help bot talking
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084514749622522828, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: questDatas.Array.data[4].informationText
       value: This Tests help bot talking
       objectReference: {fileID: 0}
     - target: {fileID: 2659780069906823872, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}

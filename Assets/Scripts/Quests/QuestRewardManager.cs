@@ -21,6 +21,7 @@ public class QuestData //There is currently no need to include a constructor, si
     public float researchReward;
     public string questTitle; //Stores title information
     public string informationText; //Can be displayed somewhere within the UI
+    public string victoryText; //While information Text is displayed for the initial description, victory text is the description when a quest is finished
     public QuestType questType;
     public int requirement; //Stores index of quest required for this to be completed, set to -1 if there are no requirements
     public int nextQuestIndex; //Stores index of next quest for auto activation, -1 for no next quest
@@ -49,6 +50,7 @@ public class QuestRewardManager : MonoBehaviour
     public TextMeshProUGUI displayQuestDescription; //Used in UI to show current quest description - these three should appear separately from the questcontainer, likely above it within the same UI element
     public TextMeshProUGUI displayMoneyReward; //Used in UI to show current quest reward
     public TextMeshProUGUI displayResearchReward; //Used in UI to show current research reward
+    public TextMeshProUGUI displayTitle; //Used in UI to show currently selected title
 
     public TextMeshProUGUI displayVictoryQuestDescription; //Used to demonstrate info about the quest that was just completed, after it was removed from the menu
     public TextMeshProUGUI displayVictoryMoneyReward; 
@@ -127,7 +129,7 @@ public class QuestRewardManager : MonoBehaviour
         if (currentQuest.completed == true)
         {
             //Displays completed quest info
-            displayVictoryQuestDescription.SetText(currentQuest.informationText); //Updates visuals (should happen regardless of inputs)
+            displayVictoryQuestDescription.SetText(currentQuest.victoryText); //Updates visuals (should happen regardless of inputs)
             displayVictoryMoneyReward.SetText(currentQuest.moneyReward.ToString()); //Updates visuals (should happen regardless of inputs)
             displayVictoryResearchReward.SetText(currentQuest.researchReward.ToString()); //Updates visuals (should happen regardless of inputs)
 
@@ -229,6 +231,7 @@ public class QuestRewardManager : MonoBehaviour
         displayQuestDescription.SetText(currentQuest.informationText); //Updates visuals (should happen regardless of inputs)
         displayMoneyReward.SetText(currentQuest.moneyReward.ToString()); //Updates visuals (should happen regardless of inputs)
         displayResearchReward.SetText(currentQuest.researchReward.ToString()); //Updates visuals (should happen regardless of inputs)
+        displayTitle.SetText(currentQuest.questTitle.ToString()); //Updates visuals (should happen regardless of inputs)
         //Automatic quest completion check, likely make a button to do this later (if there is not a button, the completion checks would likely have to be done when this menu is open, just before the following function is called)
         bool finishedQuest = CompleteCurrentQuest();
         if (finishedQuest) //Possibly create some sort of animation to play here, or something along those lines to indicate quest completion
@@ -236,6 +239,7 @@ public class QuestRewardManager : MonoBehaviour
             displayQuestDescription.SetText("");
             displayMoneyReward.SetText("");
             displayResearchReward.SetText(""); //Effectively clears UI portion of selection when quest is completed
+            displayTitle.SetText("");
         }
     }
 }
