@@ -25,13 +25,13 @@ public class InventoryManager : ScriptableObject
 
     public void AddItem(Item item, int amount)
     {
-        ItemAmountInfo info = FindItem(item);
+        ItemAmountInfo info = GetItemInfo(item);
         if (info != null)
         {
             info.amount += amount;
         }
     }
-    ItemAmountInfo FindItem(Item item)
+    ItemAmountInfo GetItemInfo(Item item)
     {
         foreach (ItemAmountInfo info in items)
         {
@@ -44,7 +44,7 @@ public class InventoryManager : ScriptableObject
     }
     public int GetItemAmount(Item item)
     {
-        ItemAmountInfo info = FindItem(item);
+        ItemAmountInfo info = GetItemInfo(item);
         if (info != null)
         {
             return info.amount;
@@ -53,7 +53,7 @@ public class InventoryManager : ScriptableObject
     }
     public bool DepleteItem(Item item, int amount)
     {
-        ItemAmountInfo info = FindItem(item);
+        ItemAmountInfo info = GetItemInfo(item);
         if (info != null && info.amount >= amount)
         {
             info.amount -= amount;
@@ -72,7 +72,31 @@ public class InventoryManager : ScriptableObject
         }
         return null;
     }
+    public ItemAmountInfo GetItemFromIndex(int index)
+    {
+        if (index >= 0 && index < items.Count)
+        {
+            return items[index];
+        }
+        return null;
+    }
 
+    public void SelectItem(int index)
+    {
+        ItemAmountInfo info = GetItemFromIndex(index);
+        if (info != null)
+        {
+            currentItem = info.item;
+            holdOrigin.GetComponent<SpriteRenderer>().sprite = info.item.image;
+            holdEvent?.Invoke();
+        }
+    }
+    public void DeselectItem()
+    {
+        currentItem = null;
+        holdOrigin.GetComponent<SpriteRenderer>().sprite = null;
+        cancelHoldEvent?.Invoke();
+    }
     public void SetHoldOrigin(Transform holdOrigin)
     {
         this.holdOrigin = holdOrigin;
