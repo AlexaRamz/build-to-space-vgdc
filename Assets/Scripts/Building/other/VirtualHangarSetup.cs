@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class VirtualHangarSetup : MonoBehaviour
 {
-    MenuManager menuManager;
+    [SerializeField] private MenuManager menuManager;
     void Start()
     {
         // Open the building menu on start
-        menuManager = MenuManager.Instance;
-        menuManager.ShowMenu(menuManager.buildMenu);
+        menuManager.ShowMenu("Building");
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Category
+public class BuildCategory
 {
     public string name;
     public Sprite image;
@@ -18,18 +18,18 @@ public class Category
 [CreateAssetMenu(fileName = "New BuildCatalog", menuName = "Scriptable Objects/BuildCatalog")]
 public class BuildCatalog : ScriptableObject
 {
-    public List<Category> categories = new List<Category>();
-    private Category currentCategory;
+    public List<BuildCategory> categories = new List<BuildCategory>();
+    private BuildCategory currentCategory;
 
     public Build GetBuild(int index)
     {
         return currentCategory.GetBuildFromIndex(index);
     }
-    public Category GetCategory()
+    public BuildCategory GetCategory()
     {
         return currentCategory;
     }
-    public Category SetCategory(int index)
+    public BuildCategory SetCategory(int index)
     {
         if (index < 0 || index >= categories.Count) return null;
         currentCategory = categories[index];

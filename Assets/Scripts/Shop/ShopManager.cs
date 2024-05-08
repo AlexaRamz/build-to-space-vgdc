@@ -7,7 +7,7 @@ using TMPro;
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] private List<ShopItem> shopItems = new List<ShopItem>();
-    Inventory plrInv;
+    [SerializeField] private InventoryManager plrInv;
     public GameObject shopTemplate;
     public Transform shopContainer;
     ShopItem selectedItem;
@@ -19,7 +19,6 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
-        plrInv = GameObject.Find("Player").GetComponent<Inventory>();
         SetObjects();
     }
     public void Purchase()

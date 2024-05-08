@@ -10,15 +10,15 @@ public class ResourceDisplay : MonoBehaviour
     public Image arrowImage;
     public Text amountText;
 
-    public void SetResource(ResourceInfo info)
+    public void SetResource(ItemAmountInfo info)
     {
-        nameText.text = info.resource.type.ToString().ToLower();
-        image.sprite = info.resource.image;
+        nameText.text = info.item.name;
+        image.sprite = info.item.image;
         UpdateAmount(info.amount);
     }
-    public void SetResourceSimple(ResourceInfo info)
+    public void SetResourceSimple(ItemAmountInfo info)
     {
-        image.sprite = info.resource.image;
+        image.sprite = info.item.image;
         UpdateAmount(info.amount);
     }
     public void UpdateAmount(int amount)

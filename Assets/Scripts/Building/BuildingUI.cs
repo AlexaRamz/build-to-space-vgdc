@@ -10,16 +10,25 @@ public class BuildingUI : MonoBehaviour
     public TMPro.TextMeshProUGUI buildName, buildDescription;
 
     BuildingSystem buildSys;
-    Inventory plrInv;
+    [SerializeField] private InventoryManager plrInv;
 
-    private void Awake()
+    private void Start()
     {
-        buildSys = GetComponent<BuildingSystem>();
-        plrInv = GameObject.Find("Player").GetComponent<Inventory>();
+        buildSys = BuildingSystem.Instance;
     }
-
+    private void OnEnable()
+    {
+        buildSys = BuildingSystem.Instance;
+        SetCatalog(buildSys.buildCatalog);
+        buildSys.StartBuilding();
+    }
+    private void OnDisable()
+    {
+        buildSys.EndBuilding();
+    }
     public void SetCatalog(BuildCatalog buildCatalog)
     {
+        ClearCategories();
         for (int i = 0; i < buildCatalog.categories.Count; i++)
         {
             int index = i;
@@ -29,6 +38,13 @@ public class BuildingUI : MonoBehaviour
         }
         if (buildCatalog.categories.Count > 0)
             ChangeCategory(0);
+    }
+    void ClearCategories()
+    {
+        foreach (Transform c in categoryContainer)
+        {
+            Destroy(c.gameObject);
+        }
     }
 
     public void ChangeBuild(int i)
@@ -40,7 +56,7 @@ public class BuildingUI : MonoBehaviour
     public void ChangeCategory(int i)
     {
         SetCategorySelection(i);
-        Category category = buildSys.SetCategory(i);
+        BuildCategory category = buildSys.SetCategory(i);
         SetBuilds(category);
     }
     /*public void UpdateMaterials()
@@ -66,14 +82,14 @@ public class BuildingUI : MonoBehaviour
         buildName.text = build.name;
         buildName.color = new Color32(255, 255, 255, 255);
         buildDescription.text = build.description;
-        foreach (ResourceAmount m in build.materials)
+        foreach (ItemAmountInfo m in build.materials)
         {
             Transform display = Instantiate(materialDisplayTemplate, materialDisplayContainer).transform;
             Image image = display.Find("Image").GetComponent<Image>();
-            image.sprite = plrInv.GetResourceImage(m.resource);
+            image.sprite = m.item.image;
             Text text = display.Find("Amount").GetComponent<Text>();
             text.text = m.amount.ToString();
-            if (plrInv.GetResourceAmount(m.resource) < m.amount)
+            if (plrInv.GetItemAmount(m.item) < m.amount)
             {
                 image.color = text.color = new Color32(165, 165, 165, 255);
             }
@@ -113,7 +129,7 @@ public class BuildingUI : MonoBehaviour
             Destroy(c.gameObject);
         }
     }
-    void SetBuilds(Category category)
+    void SetBuilds(BuildCategory category)
     {
         if (category == null) return;
 
@@ -123,7 +139,7 @@ public class BuildingUI : MonoBehaviour
         {
             int index = i;
             GameObject button = Instantiate(buildButtonTemplate, buildContainer);
-            button.GetComponent<SelectionButton>().SetImage(buildList[i].rotations[0].GetSprite());
+            button.GetComponent<SelectionButton>().image.sprite = buildList[i].rotations[0].GetSprite();
             button.GetComponent<Button>().onClick.AddListener(delegate { ChangeBuild(index); });
         }
         SetInfo(category.name);

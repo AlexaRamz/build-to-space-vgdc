@@ -21,7 +21,7 @@ public class BuildObject
     }
     public Rotation GetRotation()
     {
-        if (build.rotations == null || build.rotations.Length <= 0)
+        if (build == null || build.rotations == null || build.rotations.Length <= 0)
         {
             Debug.Log("No rotations saved");
             return null;
@@ -30,6 +30,7 @@ public class BuildObject
     }
     public void AdvanceRotation()
     {
+        if (build == null || build.rotations == null) return;
         rot = (rot + 1) % build.rotations.Length;
     }
 }

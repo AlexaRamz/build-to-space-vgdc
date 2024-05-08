@@ -17,32 +17,32 @@ public class BuildingSystem : MonoBehaviour
 
     float holdToDestroyTime = 0.2f;
 
-    MenuManager menuManager;
-    BuildingUI buildUI;
+    [SerializeField] private MenuManager menuManager;
     public static BuildingSystem Instance;
+    bool building;
+
+    public static bool InVirtualHangar => SceneManager.GetActiveScene().name == "VirtualHangar";
 
     private void Awake()
     {
         Instance = this;
-        menuManager = MenuManager.Instance;
-        buildUI = GetComponent<BuildingUI>();
     }
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "VirtualHangar")
+        if (InVirtualHangar)
         {
             worldGrid = new BuildGrid(new Vector2Int(-10, -10), 20, 20);
         }
         else
         {
-            worldGrid = new BuildGrid(new Vector2Int(-100, -1));
+            worldGrid = new BuildGrid(new Vector2Int(-100, -100));
+            TerrainManager.Instance.AddGroundTiles();
         }
-        buildUI.SetCatalog(buildCatalog);
-
         if (objectsContainer == null)
         {
-            Debug.Log("Building system error: Please assign the objects container");
+            Debug.Log("Building system error: Please assign objects container");
         }
+
         placeholder = Instantiate(placeholderPrefab);
 
         currentBuildObject = new BuildObject(null);
@@ -50,7 +50,13 @@ public class BuildingSystem : MonoBehaviour
 
     public void StartBuilding()
     {
-        menuManager.ShowMenu(menuManager.buildMenu);
+        building = true;
+    }
+    public void EndBuilding()
+    {
+        if (placeholder != null) placeholder.SetActive(false);
+        building = isPlacing = isDeleting = false;
+        InterruptDeleteTimer();
     }
 
     public Build SetBuildObject(int index)
@@ -62,23 +68,25 @@ public class BuildingSystem : MonoBehaviour
 
         return newBuild;
     }
-    public Category SetCategory(int index)
+    public BuildCategory SetCategory(int index)
     {
         return buildCatalog.SetCategory(index);
     }
 
-    void PlaceObject(Vector3 worldPos, BuildGrid thisGrid, Transform parent)
+    bool PlaceObject(Vector3 worldPos, BuildGrid thisGrid, Transform parent)
     {
-        if (!thisGrid.PositionIsWithinGrid(worldPos) || thisGrid.GetValueAtPosition(worldPos) != null) return;
+        if (!thisGrid.PositionIsWithinGrid(worldPos) || thisGrid.GetValueAtPosition(worldPos) != null) return false;
 
         GameObject obj = PlaceBlock(worldPos, currentBuildObject, parent);
         // Save object placement in the grid
         BuildObject buildObjectCopy = currentBuildObject.Clone();
         buildObjectCopy.gridObject = obj;
         thisGrid.SetValueAtPosition(worldPos, buildObjectCopy);
+        return true;
     }
     GameObject PlaceBlock(Vector3 worldPos, BuildObject thisBuildObject, Transform parent)
     {
+        if (thisBuildObject.build == null) return null;
         // Determine the object template to use
         Build thisBuild = thisBuildObject.build;
         Rotation thisRotation = thisBuildObject.GetRotation();
@@ -116,15 +124,23 @@ public class BuildingSystem : MonoBehaviour
         }
         return obj;
     }
-    void DeleteObject(Vector3 worldPos, BuildGrid thisGrid)
+    public bool DeleteObject(Vector3 worldPos, BuildGrid thisGrid, bool deleteTerrain = false)
     {
         BuildObject buildObj = thisGrid.GetValueAtPosition(worldPos);
-        if (!thisGrid.PositionIsWithinGrid(worldPos) || !thisGrid.RemoveValueAtPosition(worldPos)) return;
+        if (buildObj == null || (!deleteTerrain && buildObj.gridObject == null) || !thisGrid.RemoveValueAtPosition(worldPos)) return false;
 
-        // Delete object from world
-        Destroy(buildObj.gridObject);
+        if (buildObj.gridObject != null)
+        {
+            // Delete object from world
+            Destroy(buildObj.gridObject);
+        }
 
         // Particles
+        CreateParticles(thisGrid.WorldtoAligned(worldPos));
+        return true;
+    }
+    void CreateParticles(Vector3 worldPos)
+    {
         Instantiate(destroyParticlesPrefab, worldPos, Quaternion.identity);
     }
     void RotateObject()
@@ -140,11 +156,11 @@ public class BuildingSystem : MonoBehaviour
             p.Value.gridObject = obj;
         }
     }
-    public void ShiftObjects(BuildGrid thisGrid, Vector3 offset)
+    public void RepositionObjects(BuildGrid thisGrid, Transform parent)
     {
         foreach (KeyValuePair<Vector2Int, BuildObject> p in thisGrid.gridObjects)
         {
-            p.Value.gridObject.transform.localPosition += offset;
+            p.Value.gridObject.transform.position = thisGrid.GridtoWorldAligned(p.Key);
         }
     }
     void UpdatePlaceholder()
@@ -172,7 +188,7 @@ public class BuildingSystem : MonoBehaviour
     }
     private void Update()
     {
-        if (objectsContainer == null) return;
+        if (!building || objectsContainer == null) return;
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -194,7 +210,15 @@ public class BuildingSystem : MonoBehaviour
             }
         }
         Vector3 alignedPos = selectedGrid.WorldtoAligned(mousePos);
-        bool canPlace = currentBuildObject.build != null && selectedGrid.GetValueAtPosition(alignedPos) == null;
+        Vector3Int cellPos = TerrainManager.Instance.ground.WorldToCell(mousePos);
+        bool hasBuild = currentBuildObject.build != null;
+        bool spaceAvailable = selectedGrid.GetValueAtPosition(alignedPos) == null && !TerrainManager.Instance.ground.HasTile(cellPos);
+        bool hasAdjacent = true;
+        if (!InVirtualHangar)
+        {
+            hasAdjacent = selectedGrid.PositionHasAdjacent(mousePos) || TerrainManager.HasAdjacentTile(cellPos, TerrainManager.Instance.ground);
+        }
+        bool canPlace = hasBuild && spaceAvailable && hasAdjacent;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -214,12 +238,22 @@ public class BuildingSystem : MonoBehaviour
             InterruptDeleteTimer();
         }
 
-        if (canPlace && !isDeleting)
+        if (!isDeleting && hasBuild)
         {
             placeholder.transform.position = alignedPos;
+            placeholder.SetActive(spaceAvailable);
             Rotation thisRotation = currentBuildObject.GetRotation();
             placeholder.transform.rotation = Quaternion.Euler(0, 0, thisRotation.DegRotation + selectedGrid.rotation);
-            placeholder.SetActive(true);
+
+            if (canPlace)
+            {
+                
+                placeholder.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 127);
+            }
+            else
+            {
+                placeholder.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 127);
+            }
         }
         else
         {
@@ -230,15 +264,21 @@ public class BuildingSystem : MonoBehaviour
         {
             if (isPlacing)
             {
-                PlaceObject(alignedPos, selectedGrid, selectedParent);
-                if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
-                    thisShip.UpdateShip();
+                if (PlaceObject(alignedPos, selectedGrid, selectedParent))
+                {
+                    if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
+                        thisShip.UpdateShip();
+                }
             }
             else if (isDeleting)
             {
-                DeleteObject(alignedPos, selectedGrid);
-                if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
-                    thisShip.UpdateShip();
+                //bool willCollapse = selectedGrid.CheckCollapseOnDelete(alignedPos);
+                bool willCollapse = false;
+                if (!willCollapse && DeleteObject(alignedPos, selectedGrid))
+                {
+                    if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
+                        thisShip.UpdateShip();
+                }
             }
         }
 
@@ -246,5 +286,11 @@ public class BuildingSystem : MonoBehaviour
         {
             RotateObject();
         }
+    }
+    private void OnDisable()
+    {
+        if (placeholder != null) placeholder.SetActive(false);
+        isPlacing = isDeleting = false;
+        InterruptDeleteTimer();
     }
 }

@@ -11,7 +11,7 @@ public class DialogueManager : MonoBehaviour
     Queue<TextIconSet> sentences;
     string currentSentence;
 
-    DialogueUI dialogueUI;
+    [SerializeField] private DialogueUI dialogueUI;
     IEnumerator currentCoroutine;
 
     private bool talking = false;
@@ -21,7 +21,7 @@ public class DialogueManager : MonoBehaviour
     public float pauseTime = 0.5f;
     //public int maxLetters = 30;
 
-    MenuManager menuManager;
+    [SerializeField] private MenuManager menuManager;
     private Action _actionOnEnd;
 
     public static DialogueManager Instance;
@@ -32,9 +32,7 @@ public class DialogueManager : MonoBehaviour
     }
     private void Start()
     {
-        menuManager = MenuManager.Instance;
-        dialogueUI = menuManager.dialogueBox.GetComponent<DialogueUI>();
-        menuManager.OnMenuClosed.AddListener(EndDialogue);
+        menuManager.menuClosedEvent.AddListener(OnDialogueClosed);
         sentences = new Queue<TextIconSet>();
     }
     public void StartDialogue(Dialogue dialogue, NPC speaker, Action actionOnEnd=null)
@@ -47,7 +45,7 @@ public class DialogueManager : MonoBehaviour
         ResetResponses();
 
         if (!talking)
-            menuManager.ShowMenu(menuManager.dialogueBox);
+            menuManager.ShowMenu("DialogueBox");
         dialogueUI.nameDisplay.text = currentSpeaker.name;
 
         StartCoroutine(StartDelay());
@@ -57,6 +55,13 @@ public class DialogueManager : MonoBehaviour
             sentences.Enqueue(sentence);
         }
         DisplayNextSentence();
+    }
+    void OnDialogueClosed(string closedMenu)
+    {
+        if (closedMenu == "DialogueBox")
+        {
+            EndDialogue();
+        }
     }
     void EndDialogue()
     {

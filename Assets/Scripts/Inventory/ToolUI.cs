@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class ToolUI : MonoBehaviour
 {
     public Transform[] slots;
-    Inventory plrInv;
-    MenuManager menuManager;
+    [SerializeField] private InventoryManager plrInv;
+    [SerializeField] private MenuManager menuManager;
     public static ToolUI Instance;
 
     void Awake()
@@ -16,8 +16,6 @@ public class ToolUI : MonoBehaviour
     }
     void OnEnable()
     {
-        plrInv = GameObject.Find("Player").GetComponent<Inventory>();
-        menuManager = MenuManager.Instance;
         DisplayTools(plrInv.tools);
     }
     
@@ -28,7 +26,7 @@ public class ToolUI : MonoBehaviour
             Image img = slots[i].transform.Find("Image").GetComponent<Image>();
             if (i < tools.Count && tools[i] != null)
             {
-                img.sprite = tools[i].sprite;
+                img.sprite = tools[i].image;
                 img.color = new Color32(255, 255, 255, 255);
             }
             else

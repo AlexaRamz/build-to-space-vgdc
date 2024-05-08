@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8ef568c703454446ae21a37b50d67ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 59ce98ee80d30664b8df97ece5fcc0f6, type: 3}
   m_Name: Oil
   m_EditorClassIdentifier: 
-  type: 1
   image: {fileID: -6760471406004971263, guid: bc40bf70991589e4ca56a63e09b3950d, type: 3}
+  description: 
+  cost: 0
+  holdPosition: {x: 0, y: 0}
+  tile: {fileID: 11400000, guid: d0baf39604659f8408e1aa1a33d82e3f, type: 2}
