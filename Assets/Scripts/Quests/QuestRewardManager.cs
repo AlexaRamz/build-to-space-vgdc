@@ -27,6 +27,8 @@ public class QuestRewardManager : MonoBehaviour
     public TextMeshProUGUI displayVictoryMoneyReward; 
     public TextMeshProUGUI displayVictoryResearchReward;
 
+    public TextMeshProUGUI completionNotifier;
+
     [SerializeField] private InventoryManager plrInventory;
 
     // Start is called before the first frame update
@@ -46,7 +48,7 @@ public class QuestRewardManager : MonoBehaviour
                 {
                     if (currentQuest.completed == false)
                     {
-                        //Send any signal here for an instantaneous response to quest success
+                        StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                         currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
                     }
                 }
@@ -56,7 +58,7 @@ public class QuestRewardManager : MonoBehaviour
                 {
                     if (currentQuest.completed == false)
                     {
-                        //Send any signal here for an instantaneous response to quest success
+                        StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                         currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
                     }
                 }
@@ -74,7 +76,7 @@ public class QuestRewardManager : MonoBehaviour
                 }
                 if (hasAllItems && currentQuest.completed == false)
                 {
-                    //Send any signal here for an instantaneous response to quest success
+                    StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                     currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
                 }
                 break;
@@ -85,7 +87,7 @@ public class QuestRewardManager : MonoBehaviour
                     {
                         if (currentQuest.completed == false)
                         {
-                            //Send any signal here for an instantaneous response to quest success
+                            StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                             currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
                         }
                     }
@@ -204,5 +206,30 @@ public class QuestRewardManager : MonoBehaviour
             displayResearchReward.SetText(""); //Effectively clears UI portion of selection when quest is completed
             displayTitle.SetText("");
         }
+    }
+
+    IEnumerator AnnounceQuestComplete(string message)
+    {
+        Color endColor = new Color(1f, 1f, 1f, 0f);
+        Color startColor = Color.white;
+        completionNotifier.color = startColor;
+        completionNotifier.SetText(message); //Sets text to victory message, then fades away
+
+        float activeTime = 0f;
+        if (activeTime < 2f) //Waits 2 seconds before fading
+        {
+            activeTime += Time.deltaTime;
+            yield return null; //Updates time but does nothing
+        }
+        while (activeTime<5.5f) //Sets time to fade to be 3.5 seconds
+        {
+            float currentTimeFactor = activeTime/3.5f;
+            completionNotifier.color = Color.Lerp(startColor, endColor, currentTimeFactor); //Fades color to clear over 3.5 seconds
+            activeTime += Time.deltaTime;
+            yield return null;
+        }
+
+        completionNotifier.color = endColor;
+        completionNotifier.SetText(""); //Clears notifier once finished fading
     }
 }
