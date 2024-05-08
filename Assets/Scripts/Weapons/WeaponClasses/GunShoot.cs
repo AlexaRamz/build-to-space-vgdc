@@ -34,7 +34,7 @@ public class GunShoot : Tool
         spriteRender = GetComponent<SpriteRenderer>();
         spriteRender.sprite = gunData.image;
         plr = GameObject.Find("Player").transform;
-        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        audioManager = GameObject.Find("AudioManager")?.GetComponent<AudioManager>();
     }
 
     public override bool Use()
@@ -42,7 +42,8 @@ public class GunShoot : Tool
         if (!base.Use()) return false;
 
         Shoot();
-        audioManager.PlaySFX(gunData.shootSounds[Random.Range(0, gunData.shootSounds.Length)]);
+        if (audioManager != null)
+            audioManager.PlaySFX(gunData.shootSounds[Random.Range(0, gunData.shootSounds.Length)]);
         return true;
     }
 

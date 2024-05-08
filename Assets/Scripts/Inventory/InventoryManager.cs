@@ -7,13 +7,17 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "InventoryManager", menuName = "Scriptable Objects/Managers/Inventory Manager")]
 public class InventoryManager : ScriptableObject
 {
-    public List<ItemAmountInfo> items = new List<ItemAmountInfo>();
-    public Item currentItem;
+    [SerializeField] private List<ItemAmountInfo> starterItems = new List<ItemAmountInfo>();
+    public List<ItemAmountInfo> items { get; private set; } = new List<ItemAmountInfo>();
+    public Item currentItem { get; private set; }
 
-    public List<ToolData> tools = new List<ToolData>();
-    public Tool currentTool;
+    [SerializeField] private List<ToolData> starterTools = new List<ToolData>();
+    public List<ToolData> tools { get; private set; } = new List<ToolData>();
+    public Tool currentTool { get; private set; }
 
     public int money;
+    public int researchPoints;
+
     [SerializeField] GameObject collectablePrefab;
 
     public List<Resource> resources;
@@ -23,12 +27,32 @@ public class InventoryManager : ScriptableObject
 
     private Transform holdOrigin;
 
+
+    private void OnEnable()
+    {
+        items.Clear();
+        tools.Clear();
+        foreach (var i in starterItems)
+        {
+            items.Add(i.Clone());
+        }
+        foreach (var i in starterTools)
+        {
+            tools.Add(i);
+        }
+        money = researchPoints = 0;
+    }
+
     public void AddItem(Item item, int amount)
     {
         ItemAmountInfo info = GetItemInfo(item);
         if (info != null)
         {
             info.amount += amount;
+        }
+        else
+        {
+            items.Add(new ItemAmountInfo(item, amount));
         }
     }
     ItemAmountInfo GetItemInfo(Item item)
@@ -50,6 +74,15 @@ public class InventoryManager : ScriptableObject
             return info.amount;
         }
         return 0;
+    }
+    public bool HasItem(Item item)
+    {
+        return GetItemInfo(item) != null;
+    }
+    public bool HasEnough(Item item, int amount)
+    {
+        ItemAmountInfo info = GetItemInfo(item);
+        return info != null && info.amount >= amount;
     }
     public bool DepleteItem(Item item, int amount)
     {

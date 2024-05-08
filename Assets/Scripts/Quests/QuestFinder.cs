@@ -11,14 +11,13 @@ public class QuestFinder : MonoBehaviour
 {
     //The purpose of this file is to create an arrow on screen/the edge of the screen if the target is off screen, which points to the current quest objective
     
-    MenuManager menuManager;
+    [SerializeField] private MenuManager menuManager;
     Canvas canvas;
     public float positionOffset = 25f;
     public float fadeTime = 0.475f; //Time in order to fade color in or out
     bool colorStatus = false; //False used for clear, true used for white (default is clear)
     Color startColor = new Color(1f, 1f, 1f, 0f); //Default color set to clear
     Color endColor = Color.white; //Transition in color set to white
-    public Camera mainCamera;
     public Transform questTarget;
     public RectTransform questMarker;
 
@@ -27,8 +26,6 @@ public class QuestFinder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        menuManager = MenuManager.Instance;
-        canvas = menuManager.GetComponent<Canvas>();
         if (questMarker != null)
         {
             questMarkerImage = questMarker.gameObject.GetComponent<UnityEngine.UI.Image>(); //Sets the image to the image associated with the quest marker object
@@ -38,11 +35,12 @@ public class QuestFinder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (questTarget != null && canvas != null && questMarker != null)
+        if (questTarget != null && questMarker != null)
         {
-            UnityEngine.Vector2 destinationPosition = RectTransformUtility.WorldToScreenPoint(mainCamera, questTarget.position); //Determines location of destination
+            UnityEngine.Vector2 destinationPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, questTarget.position); //Determines location of destination
 
-            if (!RectTransformUtility.RectangleContainsScreenPoint(menuManager.GetComponent<RectTransform>(), destinationPosition)) //Destination is off screen
+            UnityEngine.Vector3 screenPoint = Camera.main.WorldToScreenPoint(questTarget.position);
+            if (screenPoint.x < 0 || screenPoint.x > Screen.width || screenPoint.y < 0 || screenPoint.y > Screen.height) //Destination is off screen
             {
                 if (!colorStatus)
                 {

@@ -36,7 +36,7 @@ public class BuildingSystem : MonoBehaviour
         else
         {
             worldGrid = new BuildGrid(new Vector2Int(-100, -100));
-            TerrainManager.Instance.AddGroundTiles();
+            TerrainManager.Instance?.AddGroundTiles();
         }
         if (objectsContainer == null)
         {

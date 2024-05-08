@@ -70,6 +70,10 @@ public class PlayerManager : MonoBehaviour
         {
             menuManager.ShowMenu("Inventory");
         }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            menuManager.ShowMenu("Quests");
+        }
         else if (Input.GetKeyDown(KeyCode.RightShift))
         {
             menuManager.CloseCurrentMenu();
