@@ -13,5 +13,15 @@ public class ItemAmountInfo
 {
     public Item item;
     public int amount = 1;
+
+    public ItemAmountInfo(Item item, int amount)
+    {
+        this.item = item;
+        this.amount = amount;
+    }
+    public ItemAmountInfo Clone()
+    {
+        return new ItemAmountInfo(item, amount);
+    }
 }
 

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     Dialogue currentDialogue;
-    NPC currentSpeaker;
+    public NPC currentSpeaker; //Set to public so quest manager can reference
     Queue<TextIconSet> sentences;
     string currentSentence;
 

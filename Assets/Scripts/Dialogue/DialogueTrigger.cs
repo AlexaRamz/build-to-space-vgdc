@@ -16,6 +16,7 @@ public class DialogueTrigger : Interactable
     }
     public override void Interact()
     {
+
         if (dialogue == null)
         {
             Dialogue randomDialogue = speaker.dialogues[UnityEngine.Random.Range(0, speaker.dialogues.Count)];
