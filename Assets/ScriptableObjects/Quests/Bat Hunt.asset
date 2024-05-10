@@ -10,18 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62485349335e1be4583180be2a696163, type: 3}
-  m_Name: hunt 1
+  m_Name: Bat Hunt
   m_EditorClassIdentifier: 
   targetName: Bat
   TargetLocation: {fileID: 0}
+  targets:
+  - {fileID: 0}
   moneyReward: 1
   researchReward: 2
-  informationText: Destroy the bat
-  victoryText: You destroyed the bat!
+  informationText: Destroy 2 Bats
+  victoryText: You destroyed the bats!
   questType: 1
   requirement: 0
   nextQuestIndex: 0
   available: 1
   active: 1
   completed: 1
+  progress: 1
+  requiredToDestroy: 2
+  destroyedSoFar: 2
   requiredItems: []

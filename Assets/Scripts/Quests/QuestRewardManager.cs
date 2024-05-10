@@ -40,7 +40,7 @@ public class QuestRewardManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate() //Run checks for whether a quest was completed
+    void LateUpdate() //Run checks for whether a quest was completed
     {
         switch(currentQuest.questType)
         {
@@ -55,13 +55,19 @@ public class QuestRewardManager : MonoBehaviour
                 }
                 break;
             case QuestType.Hunt: //Assumption is this will detect whether you have defeated a certain monster
-                if (currentQuest.TargetLocation == null) //Checks if target monster has been destroyed
+                foreach (GameObject target in currentQuest.targets)
                 {
-                    if (currentQuest.completed == false)
+                    if (target == null)
                     {
-                        StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
-                        currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
+                        currentQuest.destroyedSoFar++;
                     }
+                }
+                currentQuest.targets = GameObject.FindGameObjectsWithTag(currentQuest.targetName); //Updates targets after tracking what was destroyed
+                currentQuest.progress = (float)currentQuest.destroyedSoFar/currentQuest.requiredToDestroy; //Updates progress bar
+                if (currentQuest.destroyedSoFar >= currentQuest.requiredToDestroy && currentQuest.completed == false)
+                {
+                    StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
+                    currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
                 }
                 break;
             case QuestType.Fetch: //Assumption is this will detect whether you have collected a certain object
@@ -80,7 +86,7 @@ public class QuestRewardManager : MonoBehaviour
                     totalItems += info.amount; //Increments total items by quantity of this item type
                     itemsCollected += enoughQuantity; //Determines how many items have been collected
                 }
-                currentQuest.progress = itemsCollected/totalItems; //Determines percentage of items collected
+                currentQuest.progress = (float)itemsCollected/totalItems; //Determines percentage of items collected
                 if (hasAllItems && currentQuest.completed == false)
                 {
                     StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
@@ -110,7 +116,12 @@ public class QuestRewardManager : MonoBehaviour
     {
         currentQuest = newQuest;
         currentQuest.active = true; //Sets quest activity when updated
-        currentQuest.TargetLocation = GameObject.Find(currentQuest.targetName)?.transform;
+        //Logic to record all instances of the target enemy:
+        if (currentQuest.questType == QuestType.Hunt)
+        {
+            currentQuest.targets = GameObject.FindGameObjectsWithTag(currentQuest.targetName);
+        }
+        currentQuest.TargetLocation = GameObject.Find(currentQuest.targetName)?.transform; //Sets target location to be used as a way to target closest target when multiple are used
         if (questFinder != null)
         {
             questFinder.UpdateTarget(currentQuest.TargetLocation); //Updates quest marker based upon current quest objective
