@@ -28,6 +28,7 @@ public class QuestRewardManager : MonoBehaviour
     public TextMeshProUGUI displayVictoryResearchReward;
 
     public TextMeshProUGUI completionNotifier;
+    public Slider completionProgressBar; //Set in editor
 
     [SerializeField] private InventoryManager plrInventory;
 
@@ -67,13 +68,19 @@ public class QuestRewardManager : MonoBehaviour
                                   //Implement IF condition to determine whether quest is complete - this check involves the inventory object
                                   //Call CompleteCurrentQuest() if so
                 bool hasAllItems = true;
+                int totalItems = 0;
+                int itemsCollected = 0;
                 foreach (ItemAmountInfo info in currentQuest.requiredItems)
                 {
-                    if (!plrInventory.HasEnough(info.item, info.amount))
+                    int enoughQuantity = plrInventory.HasEnoughInt(info.item);
+                    if (!(enoughQuantity >= info.amount))
                     {
                         hasAllItems = false;
                     }
+                    totalItems += info.amount; //Increments total items by quantity of this item type
+                    itemsCollected += enoughQuantity; //Determines how many items have been collected
                 }
+                currentQuest.progress = itemsCollected/totalItems; //Determines percentage of items collected
                 if (hasAllItems && currentQuest.completed == false)
                 {
                     StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
@@ -197,6 +204,7 @@ public class QuestRewardManager : MonoBehaviour
         displayMoneyReward.SetText(currentQuest.moneyReward.ToString()); //Updates visuals (should happen regardless of inputs)
         displayResearchReward.SetText(currentQuest.researchReward.ToString()); //Updates visuals (should happen regardless of inputs)
         displayTitle.SetText(currentQuest.name); //Updates visuals (should happen regardless of inputs)
+        completionProgressBar.SetValueWithoutNotify(currentQuest.progress);
         //Automatic quest completion check, likely make a button to do this later (if there is not a button, the completion checks would likely have to be done when this menu is open, just before the following function is called)
         bool finishedQuest = CompleteCurrentQuest();
         if (finishedQuest) //Possibly create some sort of animation to play here, or something along those lines to indicate quest completion
@@ -205,6 +213,7 @@ public class QuestRewardManager : MonoBehaviour
             displayMoneyReward.SetText("");
             displayResearchReward.SetText(""); //Effectively clears UI portion of selection when quest is completed
             displayTitle.SetText("");
+            completionProgressBar.SetValueWithoutNotify(0f);
         }
     }
 

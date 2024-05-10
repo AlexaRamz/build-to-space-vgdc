@@ -26,6 +26,7 @@ public class QuestData: ScriptableObject //There is currently no need to include
     //public int index; //Used to reference index from quest board perspective - if necessary (commented out until this needs to be used)
     [HideInInspector] public bool active; //Used as a reference to whether a quest is active, initially set to false for all (May not be needed but Im leaving it in because I already implemented the setting feature)
     [HideInInspector] public bool completed; //Used as a reference to whether a quest is finished, but not yet moved to the other list (this process involves fulfilling requirements)
+    [HideInInspector] public float progress = 0; //Used to determine progress bar percentage
     public ItemAmountInfo[] requiredItems;
 
     private void OnEnable()

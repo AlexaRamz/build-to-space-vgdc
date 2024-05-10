@@ -84,6 +84,15 @@ public class InventoryManager : ScriptableObject
         ItemAmountInfo info = GetItemInfo(item);
         return info != null && info.amount >= amount;
     }
+    public int HasEnoughInt(Item item)
+    {
+        ItemAmountInfo info = GetItemInfo(item);
+        if (info == null)
+        {
+            return 0;
+        }
+        return info.amount;
+    }
     public bool DepleteItem(Item item, int amount)
     {
         ItemAmountInfo info = GetItemInfo(item);
