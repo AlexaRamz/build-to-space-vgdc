@@ -6,15 +6,13 @@ using TMPro;
 
 public class TabletMenu : MonoBehaviour
 {
-    Canvas canvas;
-    MenuManager menuManager;
-    [SerializeField]
-    private TextMeshProUGUI descriptionText;
+    private Canvas canvas;
+    [SerializeField] private MenuManager menuManager;
+    [SerializeField] private TextMeshProUGUI descriptionText;
 
     private void Start()
     {
         canvas = GetComponent<Canvas>();
-        menuManager = MenuManager.Instance;
     }
     public void ButtonHoverEnter(string appDesc)
     {
@@ -26,6 +24,10 @@ public class TabletMenu : MonoBehaviour
     }
     public void BuildApp()
     {
-        menuManager.ShowMenu(menuManager.buildMenu);
+        menuManager.ShowMenu("Building");
+    }
+    public void InventoryApp()
+    {
+        menuManager.ShowMenu("Inventory");
     }
 }

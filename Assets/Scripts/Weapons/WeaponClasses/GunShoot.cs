@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunShoot : MonoBehaviour, ITool
+public class GunShoot : Tool
 {
-    private bool readyToUse = false;
     private GunData gunData;
     [SerializeField]
     private Transform bulletOrigin;
@@ -12,7 +11,7 @@ public class GunShoot : MonoBehaviour, ITool
     Transform plr;
     AudioManager audioManager;
 
-    public ToolData data
+    public override ToolData data
     {
         get
         {
@@ -26,29 +25,26 @@ public class GunShoot : MonoBehaviour, ITool
                 return;
             }
             gunData = (GunData)value;
-            spriteRender = GetComponent<SpriteRenderer>();
-            spriteRender.sprite = gunData.sprite;
-            plr = GameObject.Find("Player").transform;
-            audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-            readyToUse = true;
+            Setup();
         }
     }
 
-    IEnumerator useDelay()
+    void Setup()
     {
-        yield return new WaitForSeconds(gunData.fireCoolDown);
-        readyToUse = true;
+        spriteRender = GetComponent<SpriteRenderer>();
+        spriteRender.sprite = gunData.image;
+        plr = GameObject.Find("Player").transform;
+        audioManager = GameObject.Find("AudioManager")?.GetComponent<AudioManager>();
     }
 
-    public void Use()
+    public override bool Use()
     {
-        if (readyToUse)
-        {
-            readyToUse = false;
-            StartCoroutine(useDelay());
-            Shoot();
+        if (!base.Use()) return false;
+
+        Shoot();
+        if (audioManager != null)
             audioManager.PlaySFX(gunData.shootSounds[Random.Range(0, gunData.shootSounds.Length)]);
-        }
+        return true;
     }
 
     float angle;

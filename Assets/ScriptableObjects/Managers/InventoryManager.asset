@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a700849e6df2d43acc3124513f8f74, type: 3}
+  m_Name: InventoryManager
+  m_EditorClassIdentifier: 
+  starterItems:
+  - item: {fileID: 11400000, guid: e7ee5356259f5c748a077a2dc2de8393, type: 2}
+    amount: 10
+  - item: {fileID: 11400000, guid: c6402d1eac8dbb34187681cc826f3ec4, type: 2}
+    amount: 20
+  starterTools:
+  - {fileID: 11400000, guid: 909a1854806319d4eb5babc68f1aabb3, type: 2}
+  - {fileID: 11400000, guid: a19e6ffb010a30d47be436afbb700da5, type: 2}
+  - {fileID: 11400000, guid: d23800491a139a947b631458d3cb3796, type: 2}
+  money: 0
+  researchPoints: 0
+  collectablePrefab: {fileID: 7283088491708911822, guid: ae33876874d4f4b4794c2e6a14467fc0, type: 3}
+  resources:
+  - {fileID: 11400000, guid: d3d82aa29c873014988c70c76be5dcca, type: 2}
+  - {fileID: 11400000, guid: e7ee5356259f5c748a077a2dc2de8393, type: 2}
+  - {fileID: 11400000, guid: c6402d1eac8dbb34187681cc826f3ec4, type: 2}

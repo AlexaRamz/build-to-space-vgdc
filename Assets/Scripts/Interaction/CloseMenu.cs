@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CloseMenu : MonoBehaviour
 {
+    [SerializeField] private MenuManager menuManager;
     public void Close()
     {
-        MenuManager.Instance.CloseCurrentMenu();
+        menuManager.CloseCurrentMenu();
     }
 }

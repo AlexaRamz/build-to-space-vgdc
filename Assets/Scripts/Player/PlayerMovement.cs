@@ -35,17 +35,28 @@ public class PlayerMovement : MonoBehaviour
     private float fuelTimer;
     private bool holding;
 
-    Inventory plrInv;
+    [SerializeField] private InventoryManager plrInv;
+    PlayerManager plr;
 
     private void Start()
     {
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        plr = GetComponent<PlayerManager>();
 
         jetForce = rb.gravityScale * 9f * 2f;
         currentFuel = fuel;
-        plrInv = GetComponent<Inventory>();
+    }
+    private void OnEnable()
+    {
+        plrInv.holdEvent += HoldAnim;
+        plrInv.cancelHoldEvent += CancelHoldAnim;
+    }
+    private void OnDisable()
+    {
+        plrInv.holdEvent -= HoldAnim;
+        plrInv.cancelHoldEvent -= CancelHoldAnim;
     }
     void PlayCrashParticles()
     {
@@ -140,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (distance > 0) faceDirection = 1;
                     else faceDirection = -1;
-                    plrInv.holdOrigin.localScale = new Vector3(1, faceDirection, 1);
+                    plr.holdOrigin.localScale = new Vector3(1, faceDirection, 1);
                 }
             }
             anim.SetFloat("Horizontal", faceDirection);

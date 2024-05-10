@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ToolData : Item
 {
-    public Sprite sprite;
-    public Vector2 holdPosition;
+    // A tool is an item with a specific use, or requiring input, that may be added to the tool wheel
+    public float activationCooldown = 0.25f;
     public GameObject prefab;
 }

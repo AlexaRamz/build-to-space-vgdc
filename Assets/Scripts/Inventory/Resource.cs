@@ -1,23 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "New Resource", menuName = "Resource")]
-public class Resource : ScriptableObject
+[CreateAssetMenu(fileName = "New Resource", menuName = "Scriptable Objects/Items/Resource")]
+public class Resource : Item
 {
-    public ResourceType type;
-    public Sprite image;
-}
-[System.Serializable]
-public class ResourceInfo
-{
-    public Resource resource;
-    public int amount;
-}
-[System.Serializable]
-public enum ResourceType
-{
-    Copper,
-    Aluminum,
-    Oil,
+    public TileBase tile;
 }
