@@ -8,11 +8,16 @@ public class PlayerManager : MonoBehaviour
     public Transform holdOrigin;
     PlayerInteraction plrInt;
     [SerializeField] private MenuManager menuManager;
+    [SerializeField] GameObject collectablePrefab;
+
+    private Tool activeTool;
 
     private void Start()
     {
-        inventory.SetHoldOrigin(holdOrigin);
         plrInt = GetComponent<PlayerInteraction>();
+        inventory.holdItemEvent += HoldItem;
+        inventory.equipToolEvent += EquipTool;
+        inventory.cancelHoldEvent += CancelHold;
     }
     public void AddToInventory(Item item, int amount)
     {
@@ -23,30 +28,30 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            inventory.Drop();
+            DropItem();
         }
 
         /* TOOLS-WEAPONS INPUT */
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            inventory.Equip(0);
+            inventory.SelectTool(0);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            inventory.Equip(1);
+            inventory.SelectTool(1);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            inventory.Equip(2);
+            inventory.SelectTool(2);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            inventory.Equip(3);
+            inventory.SelectTool(3);
         }
 
-        if (plrInt.canInteract && inventory.currentTool != null && Input.GetMouseButton(0))
+        if (plrInt.canInteract && activeTool != null && Input.GetMouseButton(0))
         {
-            inventory.currentTool.Use();
+            activeTool.Use();
         }
 
         /* MENU INPUT */
@@ -78,5 +83,61 @@ public class PlayerManager : MonoBehaviour
         {
             menuManager.CloseCurrentMenu();
         }
+    }
+
+    /* ITEM AND TOOL EQUIPPING */
+    public void HoldItem(Item item)
+    {
+        holdOrigin.GetComponent<SpriteRenderer>().sprite = item.image;
+    }
+    void ClearItem()
+    {
+        holdOrigin.GetComponent<SpriteRenderer>().sprite = null;
+    }
+    public void CancelHold()
+    {
+        ClearItem();
+        ClearEquip();
+    }
+    public void DropItem()
+    {
+        if (inventory.currentItem != null && inventory.DepleteItem(inventory.currentItem, 1))
+        {
+            GameObject obj = Instantiate(collectablePrefab, holdOrigin.transform.position, Quaternion.identity);
+            obj.GetComponent<Collectable>().SetItem(inventory.currentItem);
+        }
+    }
+    public void EquipTool(ToolData tool)
+    {
+        if (!InitializeTool(tool, holdOrigin))
+        {
+            Debug.Log("Failed to equip!");
+        }
+    }
+    void ClearEquip()
+    {
+        activeTool = null;
+        foreach (Transform child in holdOrigin.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+    bool InitializeTool(ToolData data, Transform origin)
+    {
+        if (data != null && data.prefab != null)
+        {
+            GameObject obj = Instantiate(data.prefab, origin.position, Quaternion.identity);
+            obj.transform.parent = origin;
+            obj.name = data.name;
+            obj.transform.localScale = new Vector3(1, 1, 1);
+            Tool tool = obj.GetComponent<Tool>();
+            if (tool != null)
+            {
+                tool.data = data;
+                activeTool = tool;
+            }
+            return true;
+        }
+        return false;
     }
 }

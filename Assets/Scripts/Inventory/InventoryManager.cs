@@ -13,7 +13,7 @@ public class InventoryManager : ScriptableObject
 
     [SerializeField] private List<ToolData> starterTools = new List<ToolData>();
     public List<ToolData> tools { get; private set; } = new List<ToolData>();
-    public Tool currentTool { get; private set; }
+    public ToolData currentTool { get; private set; }
 
     public int money;
     public int researchPoints;
@@ -22,10 +22,13 @@ public class InventoryManager : ScriptableObject
 
     public List<Resource> resources;
 
-    public event UnityAction holdEvent;
+    public event UnityAction<Item> holdItemEvent;
+    public event UnityAction holdAnimEvent;
+    public event UnityAction<ToolData> equipToolEvent;
+    public event UnityAction toolAnimEvent;
     public event UnityAction cancelHoldEvent;
 
-    private Transform holdOrigin;
+    public event UnityAction updateUIEvent;
 
 
     private void OnEnable()
@@ -49,11 +52,39 @@ public class InventoryManager : ScriptableObject
         if (info != null)
         {
             info.amount += amount;
+            updateUIEvent?.Invoke();
         }
         else
         {
             items.Add(new ItemAmountInfo(item, amount));
         }
+    }
+    public void AddAll(List<ItemAmountInfo> items)
+    {
+        foreach(ItemAmountInfo info in items)
+        {
+            AddItem(info.item, info.amount);
+        }
+    }
+    public bool DepleteItem(Item item, int amount)
+    {
+        ItemAmountInfo info = GetItemInfo(item);
+        if (info != null && info.amount >= amount)
+        {
+            info.amount -= amount;
+            updateUIEvent?.Invoke();
+            return true;
+        }
+        return false;
+    }
+    public bool DepleteAll(List<ItemAmountInfo> items)
+    {
+        if (!HasAll(items)) return false;
+        foreach (ItemAmountInfo info in items)
+        {
+            DepleteItem(info.item, info.amount);
+        }
+        return true;
     }
     ItemAmountInfo GetItemInfo(Item item)
     {
@@ -75,6 +106,7 @@ public class InventoryManager : ScriptableObject
         }
         return 0;
     }
+
     public bool HasItem(Item item)
     {
         return GetItemInfo(item) != null;
@@ -84,16 +116,18 @@ public class InventoryManager : ScriptableObject
         ItemAmountInfo info = GetItemInfo(item);
         return info != null && info.amount >= amount;
     }
-    public bool DepleteItem(Item item, int amount)
+    public bool HasAll(List<ItemAmountInfo> items)
     {
-        ItemAmountInfo info = GetItemInfo(item);
-        if (info != null && info.amount >= amount)
+        foreach (ItemAmountInfo info in items)
         {
-            info.amount -= amount;
-            return true;
+            if (!HasEnough(info.item, info.amount))
+            {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
+
     public Item GetResourceFromTile(TileBase tile)
     {
         foreach (Resource r in resources)
@@ -120,84 +154,50 @@ public class InventoryManager : ScriptableObject
         if (info != null)
         {
             currentItem = info.item;
-            holdOrigin.GetComponent<SpriteRenderer>().sprite = info.item.image;
-            holdEvent?.Invoke();
+            DeselectTool();
+            holdItemEvent?.Invoke(info.item);
+            holdAnimEvent?.Invoke();
         }
     }
     public void DeselectItem()
     {
         currentItem = null;
-        holdOrigin.GetComponent<SpriteRenderer>().sprite = null;
         cancelHoldEvent?.Invoke();
-    }
-    public void SetHoldOrigin(Transform holdOrigin)
-    {
-        this.holdOrigin = holdOrigin;
-    }
-    public void Drop()
-    {
-        if (currentItem != null && holdOrigin != null && DepleteItem(currentItem, 1))
-        {
-            GameObject obj = Instantiate(collectablePrefab, holdOrigin.transform.position, Quaternion.identity);
-            obj.GetComponent<Collectable>().SetItem(currentItem);
-        }
     }
 
     /* TOOLS-WEAPONS */
-    public void Equip(int index)
-    {
-        if (holdOrigin == null) return;
-        ClearEquip();
-        if (index >= 0 && index < tools.Count && tools[index] != null)
-        {
-            ToolData data = tools[index];
-            //Debug.Log(data.Name);
-            if (InitializeTool(data, holdOrigin))
-            {
-                holdEvent?.Invoke();
-            }
-            else
-            {
-                Debug.Log("Failed to equip!");
-            }
-        }
-        else
-        {
-            cancelHoldEvent?.Invoke();
-        }
-    }
-    void ClearEquip()
-    {
-        if (holdOrigin == null) return;
-        foreach (Transform child in holdOrigin.transform)
-        {
-            Destroy(child.gameObject);
-        }
-        currentTool = null;
-    }
-    bool InitializeTool(ToolData data, Transform origin)
-    {
-        if (data.prefab != null)
-        {
-            GameObject obj = Instantiate(data.prefab, origin.position, Quaternion.identity);
-            obj.transform.parent = origin;
-            obj.name = data.name;
-            obj.transform.localScale = new Vector3(1, 1, 1);
-            Tool tool = obj.GetComponent<Tool>();
-            if (tool != null)
-            {
-                tool.data = data;
-                currentTool = tool;
-            }
-            return true;
-        }
-        return false;
-    }
     void AddTool(ToolData tool)
     {
         tools.Add(tool);
     }
-
+    ToolData GetToolFromIndex(int index)
+    {
+        if (index >= 0 && index < tools.Count)
+        {
+            return tools[index];
+        }
+        return null;
+    }
+    public void SelectTool(int index)
+    {
+        ToolData newTool = GetToolFromIndex(index);
+        if (newTool != null && newTool != currentTool)
+        {
+            currentTool = newTool;
+            DeselectItem();
+            equipToolEvent?.Invoke(currentTool);
+            toolAnimEvent?.Invoke();
+        }
+        else
+        {
+            DeselectTool();
+        }
+    }
+    public void DeselectTool()
+    {
+        currentTool = null;
+        cancelHoldEvent?.Invoke();
+    }
     /* SHOP ITEMS */
     public void ApplyShopItem(ShopItem item)
     {

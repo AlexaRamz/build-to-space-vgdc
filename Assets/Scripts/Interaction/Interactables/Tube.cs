@@ -6,42 +6,35 @@ public class Tube : MonoBehaviour
 {
     public enum Direction
     {
-        Up,
-        Down,
-        Left,
-        Right,
-        UpLeft,
-        UpRight,
-        DownLeft,
-        DownRight,
-        LeftUp,
-        LeftDown,
-        RightUp,
-        RightDown,
+        Straight,
+        Corner,
     }
-    public Direction direction = Direction.Up;
+    public Direction direction;
     float speed = 3f;
 
+
+    Vector2 AngleToVector2(float angleInDegrees)
+    {
+        float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
+
+        // Calculate X and Y components using sine and cosine
+        float x = Mathf.Cos(angleInRadians);
+        float y = Mathf.Sin(angleInRadians);
+
+        // Create a Vector2 representing the direction
+        Vector2 directionVec = new Vector2(x, y);
+        return directionVec;
+    }
     void SetDirection(Collider2D col)
     {
         Vector2 velocity = Vector2.zero;
-        if (direction == Direction.Up)
+        if (direction == Direction.Straight)
         {
-            velocity = new Vector2(0, speed);
+            float angleInDegrees = transform.localEulerAngles.z;
+            velocity = AngleToVector2(angleInDegrees) * speed;
+            Debug.Log(velocity);
         }
-        else if (direction == Direction.Down)
-        {
-            velocity = new Vector2(0, -speed);
-        }
-        else if (direction == Direction.Left)
-        {
-            velocity = new Vector2(-speed, 0);
-        }
-        else if (direction == Direction.Right)
-        {
-            velocity = new Vector2(speed, 0);
-        }
-        else if (direction == Direction.UpLeft)
+        else if (direction == Direction.Corner)
         {
             //Debug.Log(col);
             //Debug.Log(col.bounds.center.y - transform.position.y);
@@ -52,17 +45,6 @@ public class Tube : MonoBehaviour
             else
             {
                 velocity = new Vector2(-speed, 0);
-            }
-        }
-        else if (direction == Direction.LeftDown)
-        {
-            if (col.bounds.center.x > transform.position.x)
-            {
-                velocity = new Vector2(-speed, 0);
-            }
-            else
-            {
-                velocity = new Vector2(0, -speed);
             }
         }
         col.gameObject.GetComponent<Rigidbody2D>().velocity = velocity;

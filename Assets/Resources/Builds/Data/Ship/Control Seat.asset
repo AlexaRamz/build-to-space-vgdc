@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Sit here or get yeeted.
   rotations:
-  - sprite: {fileID: 0}
+  - sprite: {fileID: 21300000, guid: ec6b592074a827c4b88d813a8232114c, type: 3}
     Object: {fileID: 3929263777023415944, guid: 4a4bc86c1027acd47a957c0f355dc90d, type: 3}
     flipX: 0
     flipY: 0
     DegRotation: 0
-  - sprite: {fileID: 0}
-    Object: {fileID: 5478853561131110023, guid: d1437547906b9854487312b0e2c629d4, type: 3}
-    flipX: 0
+  - sprite: {fileID: 21300000, guid: ec6b592074a827c4b88d813a8232114c, type: 3}
+    Object: {fileID: 3929263777023415944, guid: 4a4bc86c1027acd47a957c0f355dc90d, type: 3}
+    flipX: 1
     flipY: 0
     DegRotation: 0
-  materials: []
+  materials:
+  - item: {fileID: 11400000, guid: e7ee5356259f5c748a077a2dc2de8393, type: 2}
+    amount: 3
+  - item: {fileID: 11400000, guid: c6402d1eac8dbb34187681cc826f3ec4, type: 2}
+    amount: 1
   depth: 1
