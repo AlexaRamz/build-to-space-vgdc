@@ -53,22 +53,12 @@ public class ToolUI : MonoBehaviour
             slots[hoveringOn].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         }
     }
-    int current = -1;
     int hoveringOn = -1;
     void Update()
     {
         if (Input.GetMouseButtonUp(0))
         {
-            if (hoveringOn != current)
-            {
-                plrInv.Equip(hoveringOn);
-                current = hoveringOn;
-            }
-            else
-            {
-                plrInv.Equip(-1);
-                current = -1;
-            }
+            plrInv.SelectTool(hoveringOn);
             menuManager.CloseCurrentMenu();
         }
         Vector2 mousePos = Input.mousePosition;

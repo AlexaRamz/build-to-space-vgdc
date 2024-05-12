@@ -18,6 +18,15 @@ public class InventoryUI : MonoBehaviour
     public void OnEnable()
     {
         currentIndex = -1;
+        plrInv.updateUIEvent += UpdateAll;
+        UpdateAll();
+    }
+    public void OnDisable()
+    {
+        plrInv.updateUIEvent -= UpdateAll;
+    }
+    void UpdateAll()
+    {
         DisplayItems(plrInv.items);
     }
     public void ToggleItem(int index)
