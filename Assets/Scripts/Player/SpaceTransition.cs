@@ -6,17 +6,15 @@ using UnityEngine.SceneManagement;
 public class SpaceTransition : MonoBehaviour
 {
     Color32 spaceColor = new Color32(57, 0, 86, 255);
-    float minHeight = 0f;
-    float spaceHeight = 100f;
-    float teleportHeight = 200f;
+    public float minHeight = 0f;
+    public float spaceHeight = 100f;
+    public float teleportHeight = 200f;
     [SerializeField] private SpriteRenderer sky;
     [SerializeField] private SpriteRenderer overlay;
 
     private void Update()
     {
-        Vector3 cameraPosition = Camera.main.transform.position;
-        sky.transform.position = overlay.transform.position = new Vector3(cameraPosition.x, cameraPosition.y, transform.position.z);
-        float currentHeight = Camera.main.transform.position.y;
+        float currentHeight = transform.position.y;
 
         // Change sky color based on height
         float value = (currentHeight - minHeight) / (spaceHeight - minHeight);
@@ -33,7 +31,7 @@ public class SpaceTransition : MonoBehaviour
         }
         if (currentHeight >= teleportHeight)
         {
-            SceneManager.LoadScene("MainScene");
+            SceneManager.LoadScene("SpaceScene");
         }
     }
 }

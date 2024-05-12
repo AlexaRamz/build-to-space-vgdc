@@ -22,6 +22,8 @@ public class TerrainManager : MonoBehaviour
 
     public void AddGroundTiles()
     {
+        if (ground == null) return;
+
         buildSys = BuildingSystem.Instance;
         BoundsInt tilemapBounds = ground.cellBounds;
         for (int x = tilemapBounds.min.x; x < tilemapBounds.max.x; x++)
