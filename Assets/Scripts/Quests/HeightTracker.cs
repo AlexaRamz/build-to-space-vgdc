@@ -11,7 +11,7 @@ public class HeightTracker : MonoBehaviour
 
     public Transform playerLocation; //Reference to player's position
     public RectTransform heightTracker; //Reference to UI element that tracks highest point reached
-    int Visible = 0; //Check for visibility - starts as off (H) to enable
+    int Visible = 1; //Check for visibility - starts as on, (H) to toggle
 
     // Start is called before the first frame update
     void Start()

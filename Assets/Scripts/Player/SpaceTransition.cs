@@ -7,8 +7,8 @@ public class SpaceTransition : MonoBehaviour
 {
     Color32 spaceColor = new Color32(57, 0, 86, 255);
     public float minHeight = 0f;
-    public float spaceHeight = 100f;
-    public float teleportHeight = 200f;
+    public float spaceHeight = 800f;
+    public float teleportHeight = 1000f;
     [SerializeField] private SpriteRenderer sky;
     [SerializeField] private SpriteRenderer overlay;
 

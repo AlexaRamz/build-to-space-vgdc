@@ -125,18 +125,6 @@ public class InventoryManager : ScriptableObject
         return true;
     }
 
-    public bool DepleteItem(Item item, int amount)
-    {
-        foreach (ItemAmountInfo info in items)
-        {
-            if (!HasEnough(info.item, info.amount))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public Item GetResourceFromTile(TileBase tile)
     {
         foreach (Resource r in resources)

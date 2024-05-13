@@ -15,9 +15,19 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         plrInt = GetComponent<PlayerInteraction>();
+    }
+    private void OnEnable()
+    {
+        plrInt = GetComponent<PlayerInteraction>();
         inventory.holdItemEvent += HoldItem;
         inventory.equipToolEvent += EquipTool;
         inventory.cancelHoldEvent += CancelHold;
+    }
+    private void OnDisable()
+    {
+        inventory.holdItemEvent -= HoldItem;
+        inventory.equipToolEvent -= EquipTool;
+        inventory.cancelHoldEvent -= CancelHold;
     }
     public void AddToInventory(Item item, int amount)
     {

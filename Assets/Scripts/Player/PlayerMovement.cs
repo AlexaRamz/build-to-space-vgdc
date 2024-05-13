@@ -246,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 Unsit();
             }
-            if (sitting)
+            if (sitting && seat != null)
             {
                 transform.position = seat.seatPoint.position;
                 transform.rotation = seat.seatPoint.rotation;

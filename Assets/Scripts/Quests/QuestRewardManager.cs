@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class QuestRewardManager : MonoBehaviour
 {
@@ -73,15 +74,15 @@ public class QuestRewardManager : MonoBehaviour
             case QuestType.Fetch: //Assumption is this will detect whether you have collected a certain object
                                   //Implement IF condition to determine whether quest is complete - this check involves the inventory object
                                   //Call CompleteCurrentQuest() if so
-                bool hasAllItems = true;
+                bool hasAllItems = plrInventory.HasAll(currentQuest.requiredItems.ToList());
                 int totalItems = 0;
                 int itemsCollected = 0;
                 foreach (ItemAmountInfo info in currentQuest.requiredItems)
                 {
-                    int enoughQuantity = plrInventory.HasEnoughInt(info.item);
-                    if (!(enoughQuantity >= info.amount))
+                    int enoughQuantity = plrInventory.GetItemAmount(info.item);
+                    if (enoughQuantity > info.amount)
                     {
-                        hasAllItems = false;
+                        enoughQuantity = info.amount;
                     }
                     totalItems += info.amount; //Increments total items by quantity of this item type
                     itemsCollected += enoughQuantity; //Determines how many items have been collected

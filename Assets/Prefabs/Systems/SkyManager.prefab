@@ -458,7 +458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minHeight: 0
-  spaceHeight: 150
-  teleportHeight: 300
+  spaceHeight: 800
+  teleportHeight: 1000
   sky: {fileID: 5232793239530838320}
   overlay: {fileID: 6060334054575521716}

@@ -14,13 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starterItems:
   - item: {fileID: 11400000, guid: e7ee5356259f5c748a077a2dc2de8393, type: 2}
-    amount: 30
+    amount: 100
   - item: {fileID: 11400000, guid: c6402d1eac8dbb34187681cc826f3ec4, type: 2}
-    amount: 30
-  - item: {fileID: 11400000, guid: d3d82aa29c873014988c70c76be5dcca, type: 2}
-    amount: 30
+    amount: 100
   - item: {fileID: 11400000, guid: cbdb42108d5c52747aef90d9a9992f6a, type: 2}
-    amount: 30
+    amount: 100
   starterTools:
   - {fileID: 11400000, guid: 909a1854806319d4eb5babc68f1aabb3, type: 2}
   - {fileID: 11400000, guid: a19e6ffb010a30d47be436afbb700da5, type: 2}
