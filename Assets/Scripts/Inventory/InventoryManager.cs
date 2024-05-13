@@ -199,7 +199,7 @@ public class InventoryManager : ScriptableObject
         cancelHoldEvent?.Invoke();
     }
     /* SHOP ITEMS */
-    public void ApplyShopItem(ShopItem item)
+    public void ApplyShopItem(IPurchasable item)
     {
         Debug.Log(item.GetType());
         if (item is ToolData)

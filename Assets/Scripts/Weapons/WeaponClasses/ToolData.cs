@@ -2,9 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToolData : Item
+public class ToolData : ScriptableObject, IHoldable, IPurchasable
 {
-    // A tool is an item with a specific use, or requiring input, that may be added to the tool wheel
+    public string Name
+    {
+        get
+        {
+            return name;
+        }
+    }
+    [SerializeField] private int _cost;
+    public int cost
+    {
+        get
+        {
+            return _cost;
+        }
+    }
+    [SerializeField] private string _description;
+    public string description
+    {
+        get
+        {
+            return _description;
+        }
+    }
+    [SerializeField] private Sprite _image;
+    public Sprite image
+    {
+        get
+        {
+            return _image;
+        }
+    }
+    [SerializeField] private Vector2 _holdPosition;
+    public Vector2 holdPosition
+    {
+        get
+        {
+            return _holdPosition;
+        }
+    }
     public float activationCooldown = 0.25f;
     public GameObject prefab;
 }

@@ -135,8 +135,11 @@ public class BuildingSystem : MonoBehaviour
             // Delete object from world
             Destroy(buildObj.gridObject);
         }
-        // Recover materials
-        plrInv.AddAll(buildObj.build.materials);
+        if (buildObj.build != null)
+        {
+            // Recover materials
+            plrInv.AddAll(buildObj.build.materials);
+        }
 
         // Particles
         CreateParticles(thisGrid.WorldtoAligned(worldPos));
