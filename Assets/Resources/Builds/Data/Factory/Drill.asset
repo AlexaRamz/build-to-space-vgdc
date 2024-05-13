@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Drill
   m_EditorClassIdentifier: 
   description: Digs up resources from any resouce souce it is placed on. Needs power
-    from generator to function. Green - Out, Red - In.
+    from generator to function. Red - Out
   rotations:
   - sprite: {fileID: 21300000, guid: 1cc742a90e4fc474186255a9c5e12bd5, type: 3}
     Object: {fileID: 8547772644937739318, guid: 2631e1fa7000b924487f9b1f73b463a4, type: 3}
@@ -26,10 +26,10 @@ MonoBehaviour:
     flipY: 0
     DegRotation: 0
   materials:
-  - resource: 1
-    amount: 15
-  - resource: 0
+  - item: {fileID: 11400000, guid: e7ee5356259f5c748a077a2dc2de8393, type: 2}
     amount: 20
-  - resource: 2
+  - item: {fileID: 11400000, guid: 770a951a62f88ac49982169b7fe376a3, type: 2}
     amount: 10
+  - item: {fileID: 11400000, guid: d3d82aa29c873014988c70c76be5dcca, type: 2}
+    amount: 5
   depth: 1

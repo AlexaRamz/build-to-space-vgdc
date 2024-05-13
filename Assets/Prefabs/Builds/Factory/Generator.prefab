@@ -119,10 +119,10 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.5, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.25, y: 0.5}
     oldSize: {x: 2, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -144,13 +144,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74298e6e84542ef4ea85d7ef526404e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beingUsed: 0
   power: 4
-  consumption: 1
   radius: 25
   frquency: 16
+  consumption: 1
   reserve: 10
   maxReserve: 25
-  oil: {fileID: 8718765807113224754, guid: 0e7739ed8bed3e147b3ef6ddddf3aa04, type: 3}
+  overdirve: 0
+  fuels:
+  - {fileID: 11400000, guid: c6402d1eac8dbb34187681cc826f3ec4, type: 2}
+  - {fileID: 11400000, guid: 8c56f42180617654f8e3adafa0fb850a, type: 2}
+  factoryManager: {fileID: 11400000, guid: a7f441ddbb4f21a46aecbb42ad5dcaff, type: 2}
 --- !u!61 &1698695929770553008
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -183,10 +188,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.5, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.25, y: 0.5}
     oldSize: {x: 2, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5

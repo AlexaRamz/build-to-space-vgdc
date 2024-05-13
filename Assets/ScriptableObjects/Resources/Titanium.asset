@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ce98ee80d30664b8df97ece5fcc0f6, type: 3}
+  m_Name: Titanium
+  m_EditorClassIdentifier: 
+  image: {fileID: -1555048745898646385, guid: bc40bf70991589e4ca56a63e09b3950d, type: 3}
+  description: 
+  cost: 0
+  holdPosition: {x: 0, y: 0}
+  tile: {fileID: 11400000, guid: 45903b88f60c58243b1ea37ef4a2e926, type: 2}

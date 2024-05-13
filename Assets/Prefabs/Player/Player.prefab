@@ -9697,8 +9697,6 @@ MonoBehaviour:
   questFinder: {fileID: 8380620637538970945}
   questTemplate: {fileID: 8948370953495077106, guid: 65228823ba7dddb439e84a81eb0e7aa5, type: 3}
   questContainer: {fileID: 5700589496102441115}
-  researchPointsObtained: 0
-  moneyObtained: 0
   displayQuestDescription: {fileID: 5057821277862184995}
   displayMoneyReward: {fileID: 5166885932080463478}
   displayResearchReward: {fileID: 709919659465447616}

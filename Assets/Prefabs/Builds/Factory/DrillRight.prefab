@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8547772644937739306}
   - component: {fileID: 8547772644937739307}
+  - component: {fileID: 1465008442839736605}
   - component: {fileID: 5060045018325909579}
-  - component: {fileID: -3518212282872725619}
   - component: {fileID: 5324285693161132817}
   m_Layer: 0
   m_Name: DrillRight
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: -1382227125
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 07b050fbba46d004a8a4d4f15d44c0fc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1cc742a90e4fc474186255a9c5e12bd5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -87,21 +87,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5060045018325909579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8547772644937739318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18d3961cf0599c94dbf54375dafae80b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outRight: 1
-  dropFrequency: 30
---- !u!114 &-3518212282872725619
+--- !u!114 &1465008442839736605
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,6 +101,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   power: 0
+--- !u!114 &5060045018325909579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8547772644937739318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d3961cf0599c94dbf54375dafae80b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beingUsed: 0
+  resouceInfo: {fileID: 0}
+  outRight: 0
+  onOre: 0
+  oreRichness: 0
+  dropFrequency: 30
+  timeTo: 15
+  dropTemplate: {fileID: 7283088491708911822, guid: ae33876874d4f4b4794c2e6a14467fc0, type: 3}
+  factoryManager: {fileID: 11400000, guid: a7f441ddbb4f21a46aecbb42ad5dcaff, type: 2}
 --- !u!61 &5324285693161132817
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,10 +154,10 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.1}
     oldSize: {x: 3, y: 5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5

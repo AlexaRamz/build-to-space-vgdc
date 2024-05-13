@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6af16b81034554c4ba2b86248b32ad64, type: 3}
+  m_Name: RecipeManager
+  m_EditorClassIdentifier: 
+  FurnaceRecipes:
+  - name: Steel
+    image: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    components:
+    - item: {fileID: 11400000, guid: 770a951a62f88ac49982169b7fe376a3, type: 2}
+      amount: 5
+    - item: {fileID: 11400000, guid: 8c56f42180617654f8e3adafa0fb850a, type: 2}
+      amount: 2
+    products:
+    - item: {fileID: 11400000, guid: ead8ee5556553fe4e89c7a601f15dc55, type: 2}
+      amount: 2
+  - name: Titan Alloy
+    image: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    components:
+    - item: {fileID: 11400000, guid: a6bdfa8c146f36e44a7115ee351ca7d2, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 8c56f42180617654f8e3adafa0fb850a, type: 2}
+      amount: 2
+    products:
+    - item: {fileID: 11400000, guid: dbb2602dc600779458217d5e1a63a67f, type: 2}
+      amount: 1
+  - name: Copper-Aluminum Alloy
+    image: {fileID: 21300000, guid: 70141d51621e24facbca9196bbde84b4, type: 3}
+    components:
+    - item: {fileID: 11400000, guid: e7ee5356259f5c748a077a2dc2de8393, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: d3d82aa29c873014988c70c76be5dcca, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: 8c56f42180617654f8e3adafa0fb850a, type: 2}
+      amount: 2
+    products:
+    - item: {fileID: 11400000, guid: 7a2f195fdb2fecc46882e2300646ddc8, type: 2}
+      amount: 3
+  AsembelerRecipes: []
+  RefinaryRecipes: []

@@ -26,10 +26,8 @@ MonoBehaviour:
     flipY: 0
     DegRotation: 0
   materials:
-  - resource: 1
+  - item: {fileID: 11400000, guid: c6402d1eac8dbb34187681cc826f3ec4, type: 2}
     amount: 10
-  - resource: 0
-    amount: 5
-  - resource: 2
+  - item: {fileID: 11400000, guid: 770a951a62f88ac49982169b7fe376a3, type: 2}
     amount: 15
   depth: 1

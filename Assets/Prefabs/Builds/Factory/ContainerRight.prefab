@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 8547772644937739307}
   - component: {fileID: -2437359857698743056}
   - component: {fileID: 7073804361122039669}
-  - component: {fileID: 3985614264581897239}
+  - component: {fileID: 4073134715607355792}
   m_Layer: 0
   m_Name: ContainerRight
   m_TagString: Untagged
@@ -184,13 +184,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa6fae69002c4b47ab28bff41c0bb81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outRight: 0
-  maxReserve: 1000
+  beingUsed: 0
+  itemInfo: {fileID: 0}
+  outRight: 1
+  lockResource: 0
+  reserve: 0
+  maxReserve: 128
   dropFrequency: 10
-  templates:
-  - {fileID: 8718765807113224754, guid: 0e7739ed8bed3e147b3ef6ddddf3aa04, type: 3}
-  - {fileID: 7417258323576945702, guid: b52cba82f15ebdb4491505b468a42910, type: 3}
-  - {fileID: 716121666040454633, guid: 4b2542aed2c458544addd85ff5102e73, type: 3}
+  dropTemplate: {fileID: 7283088491708911822, guid: ae33876874d4f4b4794c2e6a14467fc0, type: 3}
+  factoryManager: {fileID: 11400000, guid: a7f441ddbb4f21a46aecbb42ad5dcaff, type: 2}
 --- !u!61 &7073804361122039669
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -236,8 +238,8 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &3985614264581897239
-BoxCollider2D:
+--- !u!68 &4073134715607355792
+EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -269,15 +271,11 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.1}
   m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.5477491, y: 0.5072936}
+  - {x: -0.5527461, y: -0.49449897}
+  m_AdjacentStartPoint: {x: -0.55, y: 0.5}
+  m_AdjacentEndPoint: {x: -0.55, y: -0.5}
+  m_UseAdjacentStartPoint: 1
+  m_UseAdjacentEndPoint: 1
