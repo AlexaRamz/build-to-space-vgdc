@@ -70,9 +70,12 @@ public class TerrainManager : MonoBehaviour
             plrInv.AddItem(resource, 1);
         }
 
-        if (buildSys.DeleteObject(mousePos, buildSys.worldGrid, true))
+        if(ground.HasTile(clickedCell)) //Don't break tiles if there are no tiles.
         {
-            ground.SetTile(clickedCell, null);
+            if (buildSys.DeleteObject(mousePos, buildSys.worldGrid, true)) //This check spawns the particles.
+            {
+                ground.SetTile(clickedCell, null);
+            }
         }
     }
 }

@@ -128,7 +128,22 @@ public class BuildingSystem : MonoBehaviour
     public bool DeleteObject(Vector3 worldPos, BuildGrid thisGrid, bool deleteTerrain = false)
     {
         BuildObject buildObj = thisGrid.GetValueAtPosition(worldPos);
-        if (buildObj == null || (!deleteTerrain && buildObj.gridObject == null) || !thisGrid.RemoveValueAtPosition(worldPos)) return false;
+        
+        // I was not able to get breaking terrain to work on my WorldgenScene because the buildObj was always == null.
+        // I'm not sure what the original purpose of the boolean logic further below was meant to accomplish, but I left it untouched in case I missed something.
+        // Putting the deleteTerrain check up here allows it to break tiles in grids that do not have a build system, which includes the worldgen scene's world.
+        // The worldgen scene probably wants to be buildable, though I'm not sure how to implement that.
+        if(deleteTerrain) 
+        {
+            CreateParticles(thisGrid.WorldtoAligned(worldPos));
+            return true;
+        }
+
+        if (buildObj == null || (!deleteTerrain && buildObj.gridObject == null) || !thisGrid.RemoveValueAtPosition(worldPos))
+        {
+            //Debug.Log("Failed to remove tile: " + buildObj == null + " (" + !deleteTerrain + ", " + (buildObj.gridObject == null) + ") " + !thisGrid.RemoveValueAtPosition(worldPos));
+            return false; 
+        }
 
         if (buildObj.gridObject != null)
         {
