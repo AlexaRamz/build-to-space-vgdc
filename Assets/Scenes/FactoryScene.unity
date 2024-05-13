@@ -376,7 +376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c532ed067c173b47925cb79d0092fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minValueY: 2.1
 --- !u!81 &912643771
 AudioListener:
   m_ObjectHideFlags: 0
@@ -669,6 +668,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4239518287423460587, guid: e9bcc36367140634c8aa432e1ad0bc3d, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7977780397451727622, guid: e9bcc36367140634c8aa432e1ad0bc3d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8493098792883247024, guid: e9bcc36367140634c8aa432e1ad0bc3d, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
