@@ -7,7 +7,7 @@ public class BuildingSystem : MonoBehaviour
 {
     public BuildGrid worldGrid;
     [SerializeField] Transform objectsContainer;
-    private BuildObject currentBuildObject;
+    public BuildObject currentBuildObject { get; private set; }
     [SerializeField] private GameObject buildTemplate;
     [SerializeField] private GameObject backBuildTemplate;
     public BuildCatalog buildCatalog;
@@ -18,6 +18,7 @@ public class BuildingSystem : MonoBehaviour
     float holdToDestroyTime = 0.2f;
 
     [SerializeField] private MenuManager menuManager;
+    [SerializeField] private InventoryManager plrInv;
     public static BuildingSystem Instance;
     bool building;
 
@@ -73,16 +74,15 @@ public class BuildingSystem : MonoBehaviour
         return buildCatalog.SetCategory(index);
     }
 
-    bool PlaceObject(Vector3 worldPos, BuildGrid thisGrid, Transform parent)
+    void PlaceObject(Vector3 worldPos, BuildGrid thisGrid, Transform parent)
     {
-        if (!thisGrid.PositionIsWithinGrid(worldPos) || thisGrid.GetValueAtPosition(worldPos) != null) return false;
-
         GameObject obj = PlaceBlock(worldPos, currentBuildObject, parent);
         // Save object placement in the grid
         BuildObject buildObjectCopy = currentBuildObject.Clone();
         buildObjectCopy.gridObject = obj;
         thisGrid.SetValueAtPosition(worldPos, buildObjectCopy);
-        return true;
+        // Deplete materials
+        plrInv.DepleteAll(currentBuildObject.build.materials);
     }
     GameObject PlaceBlock(Vector3 worldPos, BuildObject thisBuildObject, Transform parent)
     {
@@ -91,7 +91,8 @@ public class BuildingSystem : MonoBehaviour
         Build thisBuild = thisBuildObject.build;
         Rotation thisRotation = thisBuildObject.GetRotation();
         GameObject clone = thisRotation.Object;
-        if (clone == null)
+        bool isObject = clone != null;
+        if (!isObject)
         {
             if (thisBuild.depth == Build.DepthLevel.MidGround)
                 clone = buildTemplate;
@@ -105,14 +106,14 @@ public class BuildingSystem : MonoBehaviour
         obj.transform.position = worldPos;
         obj.transform.localRotation = Quaternion.Euler(0, 0, thisRotation.DegRotation);
 
-        if (thisRotation.sprite != null)
+        if (!isObject)
         {
             obj.GetComponent<SpriteRenderer>().sprite = thisRotation.sprite;
-        }
-        if (thisBuild.depth == Build.DepthLevel.MidGround)
-        {
-            PolygonCollider2D collider = obj.AddComponent<PolygonCollider2D>();
-            collider.usedByComposite = true;
+            if (thisBuild.depth == Build.DepthLevel.MidGround)
+            {
+                PolygonCollider2D collider = obj.AddComponent<PolygonCollider2D>();
+                collider.usedByComposite = true;
+            }
         }
         if (thisRotation.flipX)
         {
@@ -134,6 +135,8 @@ public class BuildingSystem : MonoBehaviour
             // Delete object from world
             Destroy(buildObj.gridObject);
         }
+        // Recover materials
+        plrInv.AddAll(buildObj.build.materials);
 
         // Particles
         CreateParticles(thisGrid.WorldtoAligned(worldPos));
@@ -214,11 +217,12 @@ public class BuildingSystem : MonoBehaviour
         bool hasBuild = currentBuildObject.build != null;
         bool spaceAvailable = selectedGrid.GetValueAtPosition(alignedPos) == null && !TerrainManager.Instance.ground.HasTile(cellPos);
         bool hasAdjacent = true;
+        bool hasMaterials = hasBuild && plrInv.HasAll(currentBuildObject.build.materials);
         if (!InVirtualHangar)
         {
             hasAdjacent = selectedGrid.PositionHasAdjacent(mousePos) || TerrainManager.HasAdjacentTile(cellPos, TerrainManager.Instance.ground);
         }
-        bool canPlace = hasBuild && spaceAvailable && hasAdjacent;
+        bool canPlace = hasBuild && spaceAvailable && hasAdjacent && hasMaterials;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -264,8 +268,9 @@ public class BuildingSystem : MonoBehaviour
         {
             if (isPlacing)
             {
-                if (PlaceObject(alignedPos, selectedGrid, selectedParent))
+                if (canPlace)
                 {
+                    PlaceObject(alignedPos, selectedGrid, selectedParent);
                     if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
                         thisShip.UpdateShip();
                 }
