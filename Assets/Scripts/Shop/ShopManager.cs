@@ -6,11 +6,11 @@ using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
-    [SerializeField] private List<ShopItem> shopItems = new List<ShopItem>();
+    [SerializeField] private List<IPurchasable> shopItems = new List<IPurchasable>();
     [SerializeField] private InventoryManager plrInv;
     public GameObject shopTemplate;
     public Transform shopContainer;
-    ShopItem selectedItem;
+    IPurchasable selectedItem;
 
     public Image displayImage;
     public TMP_Text nameText;
@@ -34,7 +34,7 @@ public class ShopManager : MonoBehaviour
     {
         selectedItem = shopItems[btnNo];
         displayImage.sprite = selectedItem.image;
-        nameText.text = selectedItem.name;
+        nameText.text = selectedItem.Name;
         descriptionText.text = selectedItem.description;
         priceText.text = selectedItem.cost.ToString();
     }
