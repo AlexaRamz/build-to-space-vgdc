@@ -27,6 +27,9 @@ public class QuestRewardManager : MonoBehaviour
     public TextMeshProUGUI displayVictoryMoneyReward; 
     public TextMeshProUGUI displayVictoryResearchReward;
 
+    public TextMeshProUGUI completionNotifier;
+    public Slider completionProgressBar; //Set in editor
+
     [SerializeField] private InventoryManager plrInventory;
 
     // Start is called before the first frame update
@@ -37,7 +40,7 @@ public class QuestRewardManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate() //Run checks for whether a quest was completed
+    void LateUpdate() //Run checks for whether a quest was completed
     {
         switch(currentQuest.questType)
         {
@@ -46,35 +49,47 @@ public class QuestRewardManager : MonoBehaviour
                 {
                     if (currentQuest.completed == false)
                     {
-                        //Send any signal here for an instantaneous response to quest success
+                        StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                         currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
                     }
                 }
                 break;
             case QuestType.Hunt: //Assumption is this will detect whether you have defeated a certain monster
-                if (currentQuest.TargetLocation == null) //Checks if target monster has been destroyed
+                foreach (GameObject target in currentQuest.targets)
                 {
-                    if (currentQuest.completed == false)
+                    if (target == null)
                     {
-                        //Send any signal here for an instantaneous response to quest success
-                        currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
+                        currentQuest.destroyedSoFar++;
                     }
+                }
+                currentQuest.targets = GameObject.FindGameObjectsWithTag(currentQuest.targetName); //Updates targets after tracking what was destroyed
+                currentQuest.progress = (float)currentQuest.destroyedSoFar/currentQuest.requiredToDestroy; //Updates progress bar
+                if (currentQuest.destroyedSoFar >= currentQuest.requiredToDestroy && currentQuest.completed == false)
+                {
+                    StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
+                    currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
                 }
                 break;
             case QuestType.Fetch: //Assumption is this will detect whether you have collected a certain object
                                   //Implement IF condition to determine whether quest is complete - this check involves the inventory object
                                   //Call CompleteCurrentQuest() if so
                 bool hasAllItems = true;
+                int totalItems = 0;
+                int itemsCollected = 0;
                 foreach (ItemAmountInfo info in currentQuest.requiredItems)
                 {
-                    if (!plrInventory.HasEnough(info.item, info.amount))
+                    int enoughQuantity = plrInventory.HasEnoughInt(info.item);
+                    if (!(enoughQuantity >= info.amount))
                     {
                         hasAllItems = false;
                     }
+                    totalItems += info.amount; //Increments total items by quantity of this item type
+                    itemsCollected += enoughQuantity; //Determines how many items have been collected
                 }
+                currentQuest.progress = (float)itemsCollected/totalItems; //Determines percentage of items collected
                 if (hasAllItems && currentQuest.completed == false)
                 {
-                    //Send any signal here for an instantaneous response to quest success
+                    StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                     currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
                 }
                 break;
@@ -85,7 +100,7 @@ public class QuestRewardManager : MonoBehaviour
                     {
                         if (currentQuest.completed == false)
                         {
-                            //Send any signal here for an instantaneous response to quest success
+                            StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                             currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
                         }
                     }
@@ -101,7 +116,12 @@ public class QuestRewardManager : MonoBehaviour
     {
         currentQuest = newQuest;
         currentQuest.active = true; //Sets quest activity when updated
-        currentQuest.TargetLocation = GameObject.Find(currentQuest.targetName)?.transform;
+        //Logic to record all instances of the target enemy:
+        if (currentQuest.questType == QuestType.Hunt)
+        {
+            currentQuest.targets = GameObject.FindGameObjectsWithTag(currentQuest.targetName);
+        }
+        currentQuest.TargetLocation = GameObject.Find(currentQuest.targetName)?.transform; //Sets target location to be used as a way to target closest target when multiple are used
         if (questFinder != null)
         {
             questFinder.UpdateTarget(currentQuest.TargetLocation); //Updates quest marker based upon current quest objective
@@ -195,6 +215,7 @@ public class QuestRewardManager : MonoBehaviour
         displayMoneyReward.SetText(currentQuest.moneyReward.ToString()); //Updates visuals (should happen regardless of inputs)
         displayResearchReward.SetText(currentQuest.researchReward.ToString()); //Updates visuals (should happen regardless of inputs)
         displayTitle.SetText(currentQuest.name); //Updates visuals (should happen regardless of inputs)
+        completionProgressBar.SetValueWithoutNotify(currentQuest.progress);
         //Automatic quest completion check, likely make a button to do this later (if there is not a button, the completion checks would likely have to be done when this menu is open, just before the following function is called)
         bool finishedQuest = CompleteCurrentQuest();
         if (finishedQuest) //Possibly create some sort of animation to play here, or something along those lines to indicate quest completion
@@ -203,6 +224,32 @@ public class QuestRewardManager : MonoBehaviour
             displayMoneyReward.SetText("");
             displayResearchReward.SetText(""); //Effectively clears UI portion of selection when quest is completed
             displayTitle.SetText("");
+            completionProgressBar.SetValueWithoutNotify(0f);
         }
+    }
+
+    IEnumerator AnnounceQuestComplete(string message)
+    {
+        Color endColor = new Color(1f, 1f, 1f, 0f);
+        Color startColor = Color.white;
+        completionNotifier.color = startColor;
+        completionNotifier.SetText(message); //Sets text to victory message, then fades away
+
+        float activeTime = 0f;
+        if (activeTime < 2f) //Waits 2 seconds before fading
+        {
+            activeTime += Time.deltaTime;
+            yield return null; //Updates time but does nothing
+        }
+        while (activeTime<5.5f) //Sets time to fade to be 3.5 seconds
+        {
+            float currentTimeFactor = activeTime/3.5f;
+            completionNotifier.color = Color.Lerp(startColor, endColor, currentTimeFactor); //Fades color to clear over 3.5 seconds
+            activeTime += Time.deltaTime;
+            yield return null;
+        }
+
+        completionNotifier.color = endColor;
+        completionNotifier.SetText(""); //Clears notifier once finished fading
     }
 }

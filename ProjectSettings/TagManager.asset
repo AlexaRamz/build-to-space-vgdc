@@ -9,6 +9,11 @@ TagManager:
   - Build
   - NPC
   - Enemy
+  - Bat
+  - Frog
+  - Jug
+  - Pot
+  - BaseEnemy
   layers:
   - Default
   - TransparentFX
