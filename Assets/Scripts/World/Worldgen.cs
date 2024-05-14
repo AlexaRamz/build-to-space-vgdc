@@ -12,15 +12,22 @@ public class Worldgen : MonoBehaviour
     private void Start()
     {
         GenerateWorld();
-        TerrainManager.Instance?.AddGroundTiles(); //There is already a reference and call to this in BuildingSystem.cs, but it needs to run after the world is generated. It probably should be moved appropriately.
+        try //There is a bug happening here in the build but not the dev version..?
+        {
+            TerrainManager.Instance?.AddGroundTiles(); //There is already a reference and call to this in BuildingSystem.cs, but it needs to run after the world is generated. It probably should be moved appropriately.
+        }
+        catch
+        {
+
+        }
         CenterInPlaySpace();
     }
     private void Update()
     {
         
     }
-    private int WorldWidth = 400;
-    private int WorldHeight = 100;
+    private const int WorldWidth = 400;
+    private const int WorldHeight = 100;
     private void GenerateWorld()
     {
         float randSeed = Random.Range(0, 256f);
