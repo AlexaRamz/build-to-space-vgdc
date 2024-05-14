@@ -51,6 +51,8 @@ public class QuestRewardManager : MonoBehaviour
                     {
                         StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                         currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
+                        QuestTemplate template = currentQuest.button.GetComponent<QuestTemplate>();
+                        template.image.color = Color.yellow; //Updates image color for completion
                     }
                 }
                 break;
@@ -68,6 +70,8 @@ public class QuestRewardManager : MonoBehaviour
                 {
                     StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                     currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
+                    QuestTemplate template = currentQuest.button.GetComponent<QuestTemplate>();
+                    template.image.color = Color.yellow; //Updates image color for completion
                 }
                 break;
             case QuestType.Fetch: //Assumption is this will detect whether you have collected a certain object
@@ -91,6 +95,8 @@ public class QuestRewardManager : MonoBehaviour
                 {
                     StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                     currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
+                    QuestTemplate template = currentQuest.button.GetComponent<QuestTemplate>();
+                    template.image.color = Color.yellow; //Updates image color for completion
                 }
                 break;
             case QuestType.Talk: //Assumption is you will converse with an npc and a certain dialogue line completion will trigger something to detect here
@@ -102,6 +108,8 @@ public class QuestRewardManager : MonoBehaviour
                         {
                             StartCoroutine(AnnounceQuestComplete(currentQuest.victoryText)); //Send any signal here for an instantaneous response to quest success
                             currentQuest.completed = true; //Calculates completion constantly, but registers it when menu is opened
+                            QuestTemplate template = currentQuest.button.GetComponent<QuestTemplate>();
+                            template.image.color = Color.yellow; //Updates image color for completion
                         }
                     }
                 }
@@ -182,6 +190,7 @@ public class QuestRewardManager : MonoBehaviour
                 button.GetComponent<Button>().onClick.AddListener(delegate { SelectQuest(btnNo); }); //Runs quest select function when a quest is selected
                 QuestTemplate template = button.GetComponent<QuestTemplate>();
                 template.title.SetText(questDatas[i].name); //Sets proper information as needed to the quest template object for display purposes (this portion will be modified based upon the implementation of the QuestTemplate object - refer to the ShopTemplate as an example for reference)
+                questDatas[i].button = button;//Updates button reference
             }
         }
     }

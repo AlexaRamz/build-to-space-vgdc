@@ -30,6 +30,7 @@ public class QuestData: ScriptableObject //There is currently no need to include
     [HideInInspector] public float progress = 0; //Used to determine progress bar percentage
     public int requiredToDestroy; //This variable is used to track how many enemies need to be destroyed for Hunt quests
     [HideInInspector] public int destroyedSoFar = 0; //This variable is used to track how many enemies have been destroyed so far
+    [HideInInspector] public GameObject button; //Allows referencing to button
     public ItemAmountInfo[] requiredItems;
 
     private void OnEnable()

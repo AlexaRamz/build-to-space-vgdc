@@ -8,4 +8,5 @@ public class QuestTemplate : MonoBehaviour
 {
     //Store all elements that are desired to appear within the text element
     public TextMeshProUGUI title;
+    public Image image;
 }
