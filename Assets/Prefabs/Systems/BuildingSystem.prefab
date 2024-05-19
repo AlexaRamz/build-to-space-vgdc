@@ -5977,7 +5977,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1155.3877}
+  m_AnchoredPosition: {x: 0, y: -1216.7579}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &6288442930916272497
@@ -6149,47 +6149,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d81ae72a8b952745aa5f391f186e263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 9
-  height: 9
-  startCorner: {x: -6, y: -1}
-  buildUI: {fileID: 7433815916881925374}
-  categories:
-  - name: Trusses
-    image: {fileID: 21300000, guid: dac249c0ec71dce449e87802b8d9dd44, type: 3}
-    builds:
-    - {fileID: 11400000, guid: 4fd033a589fcb5c47ab1509969756265, type: 2}
-    - {fileID: 11400000, guid: 6626522a135bcb643bb64876b12b8689, type: 2}
-    - {fileID: 11400000, guid: 425f27fb16c45b44487ebb998c4c73f6, type: 2}
-    - {fileID: 11400000, guid: 249d1f34e8e6834478d8d8dc5ae948c5, type: 2}
-    - {fileID: 11400000, guid: c7e2c7cfe1406b9469ffb86b98c66c03, type: 2}
-    - {fileID: 11400000, guid: 7e9c04d450f7c0942b330cdcb5f881ad, type: 2}
-  - name: Transportation
-    image: {fileID: 297904692432135989, guid: 7870bb29a1472d5428b4b13069deca59, type: 3}
-    builds:
-    - {fileID: 11400000, guid: 33972aff83868ac4c9e42edb5d593132, type: 2}
-    - {fileID: 11400000, guid: 1b8a3d9f6e0c41c4db83fdf49366c278, type: 2}
-  - name: Oxygen Production
-    image: {fileID: 21300000, guid: 310d825a965ea2c4d8394c94e457ff50, type: 3}
-    builds:
-    - {fileID: 11400000, guid: e4e90c0ac238bd445831942fb73ccc31, type: 2}
-  - name: Ship
-    image: {fileID: 21300000, guid: 93d8b7bd8f1707947a1330c777e8709e, type: 3}
-    builds:
-    - {fileID: 11400000, guid: 64cd0bd27d7c5aa468fa0d430c143ed5, type: 2}
-    - {fileID: 11400000, guid: edaa468856b85e24bbfe7a25719e5efd, type: 2}
-  currentInfo:
-    build: {fileID: 0}
-    rot: 0
-  placeholder: {fileID: 6288442931006547199}
-  building: 1
-  buildObjectContainer: {fileID: 0}
+  objectsContainer: {fileID: 0}
   buildTemplate: {fileID: 2245246873312691736, guid: a59ab30ecb265cb439dbd3d95eb5c7ea, type: 3}
   backBuildTemplate: {fileID: 8711912793205975063, guid: 617a9ebc8dae2bb41b64001d4a4ba866, type: 3}
-  destroyParticles: {fileID: 3223652384140640870, guid: 08c2392875c209b4eab1e8e416ceb37c, type: 3}
+  buildCatalog: {fileID: 0}
+  placeholderPrefab: {fileID: 0}
+  destroyParticlesPrefab: {fileID: 0}
+  menuManager: {fileID: 0}
+  plrInv: {fileID: 0}
   shipPrefab: {fileID: 7013458018400689131, guid: 90aac6f427bdc0e4c88b4ad8d8a3debe, type: 3}
-  HangarSaveButton: {fileID: 6332324047865864547}
-  HangarShipButton: {fileID: 3835928568501192131}
-  HangarTransportButton: {fileID: 1611639337996078918}
 --- !u!1 &6288442931666873938
 GameObject:
   m_ObjectHideFlags: 0
@@ -6306,7 +6274,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8963c28ef5e613540a9abb831cb18201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildSys: {fileID: 6288442931646131621}
   categoryContainer: {fileID: 2766906582372862633}
   buildContainer: {fileID: 6288442930916272496}
   materialDisplayContainer: {fileID: 2766906583447755849}
@@ -6315,6 +6282,7 @@ MonoBehaviour:
   materialDisplayTemplate: {fileID: 2587463416883395020, guid: 0eb63c8e33db9da448f2d5f6afdc0d0a, type: 3}
   buildName: {fileID: 2766906583993229173}
   buildDescription: {fileID: 2766906583407563026}
+  plrInv: {fileID: 0}
 --- !u!1 &6332324047865864547
 GameObject:
   m_ObjectHideFlags: 0

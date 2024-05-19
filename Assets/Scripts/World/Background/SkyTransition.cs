@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class SpaceTransition : MonoBehaviour
+public class SkyTransition : MonoBehaviour
 {
     Color32 spaceColor = new Color32(57, 0, 86, 255);
     public float minHeight = 0f;
@@ -31,7 +30,7 @@ public class SpaceTransition : MonoBehaviour
         }
         if (currentHeight >= teleportHeight)
         {
-            SceneManager.LoadScene("SpaceScene");
+            TransitionManager.Instance.LoadSpace();
         }
     }
 }

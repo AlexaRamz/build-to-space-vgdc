@@ -62,9 +62,7 @@ public class ShipBuilding : MonoBehaviour
         {
             spawnPos = Camera.main.transform.position;
         }
-        Ship newShip = Instantiate(shipPrefab, (Vector2)spawnPos, Quaternion.identity).GetComponent<Ship>();
-        BuildGrid save = savedShips.Last();
-        newShip.SetUpShip(save.Clone(false));
+        BuildingSystem.Instance.SpawnShip(savedShips.Last(), spawnPos);
     }
     private void LoadVirtualHangar()
     {

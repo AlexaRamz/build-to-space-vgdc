@@ -48,6 +48,11 @@ public class Ship : MonoBehaviour
         buildSys.RepositionObjects(ship, transform);
     }
 
+    public void ChangeGravityScale(float scale)
+    {
+        rb.gravityScale = scale;
+    }
+
     void Update()
     {
         ship.bottomLeft = transform.position;

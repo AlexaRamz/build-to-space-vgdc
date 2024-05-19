@@ -398,7 +398,7 @@ MonoBehaviour:
   slider: {fileID: 3554885429569277709}
   reboundSpeed: 2
   buttonImage: {fileID: 1130125929368337628}
-  disappearTime: 5
+  disappearTime: 3
   fadeInDuration: 0.12
   fadeOutDuration: 0.3
   UIAnimator: {fileID: 5318179969452734320}

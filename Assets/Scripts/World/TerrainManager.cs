@@ -22,6 +22,7 @@ public class TerrainManager : MonoBehaviour
 
     public void AddGroundTiles()
     {
+        Debug.Log("oof");
         if (ground == null) return;
 
         buildSys = BuildingSystem.Instance;

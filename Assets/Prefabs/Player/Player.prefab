@@ -5283,6 +5283,7 @@ MonoBehaviour:
   destroyParticlesPrefab: {fileID: 3223652384140640870, guid: 08c2392875c209b4eab1e8e416ceb37c, type: 3}
   menuManager: {fileID: 11400000, guid: 76af6d5f2b8df7a4fb1a4727b185f29f, type: 2}
   plrInv: {fileID: 11400000, guid: fb3aa85f070e016439bb2475b9d66f2a, type: 2}
+  shipPrefab: {fileID: 7013458018400689131, guid: 90aac6f427bdc0e4c88b4ad8d8a3debe, type: 3}
 --- !u!1 &4853445972135277873
 GameObject:
   m_ObjectHideFlags: 0
@@ -8537,9 +8538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc62f3e9c97d48645bf715dc5db7f271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopItems:
-  - {fileID: 11400000, guid: 909a1854806319d4eb5babc68f1aabb3, type: 2}
-  - {fileID: 11400000, guid: a19e6ffb010a30d47be436afbb700da5, type: 2}
   plrInv: {fileID: 11400000, guid: fb3aa85f070e016439bb2475b9d66f2a, type: 2}
   shopTemplate: {fileID: 8948370953495077106, guid: a09b9309765486045b00061decc06a3d, type: 3}
   shopContainer: {fileID: 7277087899191373670}

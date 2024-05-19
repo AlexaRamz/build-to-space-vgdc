@@ -21,6 +21,7 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private InventoryManager plrInv;
     public static BuildingSystem Instance;
     bool building;
+    [SerializeField] private GameObject shipPrefab;
 
     public static bool InVirtualHangar => SceneManager.GetActiveScene().name == "VirtualHangar";
 
@@ -38,10 +39,6 @@ public class BuildingSystem : MonoBehaviour
         {
             worldGrid = new BuildGrid(new Vector2Int(-100, -100));
             TerrainManager.Instance?.AddGroundTiles();
-        }
-        if (objectsContainer == null)
-        {
-            Debug.Log("Building system error: Please assign objects container");
         }
 
         placeholder = Instantiate(placeholderPrefab);
@@ -193,6 +190,31 @@ public class BuildingSystem : MonoBehaviour
         renderer.flipY = thisRotation.flipY;
     }
 
+    public Ship GetShipAtPosition(Vector2 pos)
+    {
+        foreach (Ship ship in ShipBuilding.loadedShips)
+        {
+            BuildGrid shipGrid = ship.ship;
+            if (shipGrid.PositionIsWithinGrid(pos))
+            {
+                return ship;
+            }
+        }
+        return null;
+    }
+    public Ship SpawnShip(BuildGrid ship, Vector2 spawnPos)
+    {
+        Ship newShip = Instantiate(shipPrefab, spawnPos, Quaternion.identity).GetComponent<Ship>();
+        newShip.SetUpShip(ship.Clone(false));
+        return newShip;
+    }
+    public Ship RespawnShipAtPlayer(BuildGrid ship, Vector2 lastPlayerPos)
+    {
+        GameObject plr = GameObject.FindGameObjectWithTag("Player");
+        Vector2 spawnPos = (Vector2)plr.transform.position + (ship.bottomLeft - lastPlayerPos);
+        return SpawnShip(ship, spawnPos);
+    }
+
     IEnumerator deleteTimer;
     bool isPlacing;
     bool isDeleting;
@@ -209,36 +231,29 @@ public class BuildingSystem : MonoBehaviour
     }
     private void Update()
     {
-        if (!building || objectsContainer == null) return;
+        if (!building) return;
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         BuildGrid selectedGrid = worldGrid;
         Transform selectedParent = objectsContainer;
 
-        Ship thisShip = null;
-        ///This searches for ships that might be where the cursor is located, allowing the player to build on them instead.
-        ///This should be reworked to let the play place on the closest ship to the mouse, just in case too many ships/builds are competing for player placement attention
-        foreach (Ship ship in ShipBuilding.loadedShips)
+        Ship thisShip = GetShipAtPosition(mousePos);
+        if (thisShip != null)
         {
-            BuildGrid shipGrid = ship.ship;
-            if (shipGrid.PositionIsWithinGrid(mousePos))
-            {
-                thisShip = ship;
-                selectedParent = ship.transform;
-                selectedGrid = ship.ship;
-                break;
-            }
+            selectedParent = thisShip.transform;
+            selectedGrid = thisShip.ship;
         }
+
         Vector3 alignedPos = selectedGrid.WorldtoAligned(mousePos);
-        Vector3Int cellPos = TerrainManager.Instance.ground.WorldToCell(mousePos);
+
         bool hasBuild = currentBuildObject.build != null;
-        bool spaceAvailable = selectedGrid.GetValueAtPosition(alignedPos) == null && !TerrainManager.Instance.ground.HasTile(cellPos);
+        bool spaceAvailable = selectedGrid.GetValueAtPosition(alignedPos) == null;
         bool hasAdjacent = true;
         bool hasMaterials = hasBuild && plrInv.HasAll(currentBuildObject.build.materials);
         if (!InVirtualHangar)
         {
-            hasAdjacent = selectedGrid.PositionHasAdjacent(mousePos) || TerrainManager.HasAdjacentTile(cellPos, TerrainManager.Instance.ground);
+            hasAdjacent = selectedGrid.PositionHasAdjacent(mousePos);
         }
         bool canPlace = hasBuild && spaceAvailable && hasAdjacent && hasMaterials;
 

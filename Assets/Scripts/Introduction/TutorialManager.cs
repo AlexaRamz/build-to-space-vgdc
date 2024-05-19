@@ -21,36 +21,23 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private DialogueTrigger bot2;
 
-    [SerializeField]
-    private GameObject skipInfo;
-    [SerializeField]
-    private GameObject menuInfo;
-    private bool awaitingMenuInput;
-    [SerializeField]
-    private GameObject interactInfo;
-    [SerializeField]
-    private GameObject travelInfo;
-    [SerializeField]
-    private GameObject flyInfo;
-    [SerializeField]
-    private GameObject exitInfo;
-    [SerializeField]
-    private GameObject buildInfo2;
+    [SerializeField] private MenuManager menuManager;
+    bool awaitingMenuInput;
 
     void Start()
     {
         dialogueManager = DialogueManager.Instance;
-        skipInfo.SetActive(true);
+        menuManager.ShowMenu("SkipPrompt");
         bot2.dialogue = bot2Dialogues[0];
         bot2.eventOnEnd = BuildPopUp2;
     }
     public void InteractInfo()
     {
-        interactInfo.SetActive(true);
+        menuManager.ShowMenu("InteractInfo");
+        Debug.Log("oof");
     }
     public void CommanderDialogue1()
     {
-        interactInfo.SetActive(false);
         dialogueManager.StartDialogue(commanderDialogues[0], commander, HeadVRArea);
     }
     public void HeadVRArea()
@@ -61,28 +48,28 @@ public class TutorialManager : MonoBehaviour
 
     public void BuildPopUp()
     {
-        menuInfo.SetActive(true);
+        menuManager.ShowMenu("MenuInfo");
         awaitingMenuInput = true;
     }
     public void GoRightPopUp()
     {
-        travelInfo.SetActive(true);
+        menuManager.ShowMenu("TravelInfo");
     }
     public void BuildPopUp2()
     {
         bot2.dialogue = bot2Dialogues[1];
         bot2.eventOnEnd = FlyPopUp;
-        buildInfo2.SetActive(true);
+        menuManager.ShowMenu("BuildInfo");
     }
     public void FlyPopUp()
     {
         bot2.dialogue = bot2Dialogues[2];
         bot2.eventOnEnd = ExitPopUp;
-        flyInfo.SetActive(true);
+        menuManager.ShowMenu("FlyInfo");
     }
     public void ExitPopUp()
     {
-        exitInfo.SetActive(true);
+        menuManager.ShowMenu("ExitPrompt");
     }
     public void ExitTutorial()
     {
@@ -92,7 +79,6 @@ public class TutorialManager : MonoBehaviour
     {
         if (awaitingMenuInput && Input.GetKeyDown(KeyCode.M))
         {
-            menuInfo.SetActive(false);
             bot1.dialogue = bot1Dialogues[1];
             bot1.eventOnEnd = GoRightPopUp;
             awaitingMenuInput = false;
