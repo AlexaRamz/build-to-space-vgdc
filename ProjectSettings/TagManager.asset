@@ -14,6 +14,8 @@ TagManager:
   - Jug
   - Pot
   - BaseEnemy
+  - Source
+  - Machine
   layers:
   - Default
   - TransparentFX

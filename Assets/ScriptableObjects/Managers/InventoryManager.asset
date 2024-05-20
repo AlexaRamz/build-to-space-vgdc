@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starterItems:
   - item: {fileID: 11400000, guid: e7ee5356259f5c748a077a2dc2de8393, type: 2}
-    amount: 100
+    amount: 50
   - item: {fileID: 11400000, guid: c6402d1eac8dbb34187681cc826f3ec4, type: 2}
-    amount: 100
-  - item: {fileID: 11400000, guid: cbdb42108d5c52747aef90d9a9992f6a, type: 2}
-    amount: 100
+    amount: 20
+  - item: {fileID: 11400000, guid: d3d82aa29c873014988c70c76be5dcca, type: 2}
+    amount: 30
+  - item: {fileID: 11400000, guid: 770a951a62f88ac49982169b7fe376a3, type: 2}
+    amount: 30
   starterTools:
   - {fileID: 11400000, guid: 909a1854806319d4eb5babc68f1aabb3, type: 2}
   - {fileID: 11400000, guid: a19e6ffb010a30d47be436afbb700da5, type: 2}
@@ -30,3 +32,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d3d82aa29c873014988c70c76be5dcca, type: 2}
   - {fileID: 11400000, guid: e7ee5356259f5c748a077a2dc2de8393, type: 2}
   - {fileID: 11400000, guid: c6402d1eac8dbb34187681cc826f3ec4, type: 2}
+  - {fileID: 11400000, guid: 8c56f42180617654f8e3adafa0fb850a, type: 2}
+  - {fileID: 11400000, guid: f78829d8d7240d24a955e2f7655406bd, type: 2}
+  - {fileID: 11400000, guid: 770a951a62f88ac49982169b7fe376a3, type: 2}
+  - {fileID: 11400000, guid: 96ec235ca4713534a853a4ee8c025556, type: 2}
+  - {fileID: 11400000, guid: ead8ee5556553fe4e89c7a601f15dc55, type: 2}
+  - {fileID: 11400000, guid: dbb2602dc600779458217d5e1a63a67f, type: 2}
+  - {fileID: 11400000, guid: a6bdfa8c146f36e44a7115ee351ca7d2, type: 2}
+  - {fileID: 11400000, guid: 9db039b04b84a4b4faec13a9fbe5c8d2, type: 2}
+  - {fileID: 11400000, guid: d44d8c17dc862dc49805e7dd430dd68e, type: 2}
+  - {fileID: 11400000, guid: 7a2f195fdb2fecc46882e2300646ddc8, type: 2}

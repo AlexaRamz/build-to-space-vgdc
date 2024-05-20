@@ -20,7 +20,7 @@ MonoBehaviour:
     flipY: 0
     DegRotation: 0
   materials:
-  - item: {fileID: 11400000, guid: e7ee5356259f5c748a077a2dc2de8393, type: 2}
+  - item: {fileID: 11400000, guid: 8c56f42180617654f8e3adafa0fb850a, type: 2}
     amount: 2
   - item: {fileID: 11400000, guid: d3d82aa29c873014988c70c76be5dcca, type: 2}
     amount: 1
