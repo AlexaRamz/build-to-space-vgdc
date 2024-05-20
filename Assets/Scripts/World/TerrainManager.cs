@@ -22,7 +22,6 @@ public class TerrainManager : MonoBehaviour
 
     public void AddGroundTiles()
     {
-        Debug.Log("oof");
         if (ground == null) return;
 
         buildSys = BuildingSystem.Instance;
@@ -71,9 +70,9 @@ public class TerrainManager : MonoBehaviour
             plrInv.AddItem(resource, 1);
         }
 
-        if(ground.HasTile(clickedCell)) //Don't break tiles if there are no tiles.
+        if (ground.HasTile(clickedCell))
         {
-            if (buildSys.DeleteObject(mousePos, buildSys.worldGrid, true)) //This check spawns the particles.
+            if (buildSys.DeleteObject(mousePos, buildSys.worldGrid, true))
             {
                 ground.SetTile(clickedCell, null);
             }

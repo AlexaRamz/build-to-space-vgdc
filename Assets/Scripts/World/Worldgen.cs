@@ -12,6 +12,7 @@ public class Worldgen : MonoBehaviour
     private void Start()
     {
         GenerateWorld();
+        CenterInPlaySpace();
         try //There is a bug happening here in the build but not the dev version..?
         {
             TerrainManager.Instance?.AddGroundTiles(); //There is already a reference and call to this in BuildingSystem.cs, but it needs to run after the world is generated. It probably should be moved appropriately.
@@ -20,7 +21,6 @@ public class Worldgen : MonoBehaviour
         {
 
         }
-        CenterInPlaySpace();
     }
     private void Update()
     {

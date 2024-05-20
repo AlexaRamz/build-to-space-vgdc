@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resouceInfo: {fileID: 11400000, guid: 8c56f42180617654f8e3adafa0fb850a, type: 2}
   richness: 1.6
-  image: {fileID: 21300000, guid: cbafc406f91219144b5e9927b2055d5e, type: 3}
+  image: {fileID: -1101097986, guid: bc40bf70991589e4ca56a63e09b3950d, type: 3}
