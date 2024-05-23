@@ -147,6 +147,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -156,10 +169,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 7
-        height: 7
+        width: 9
+        height: 9
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -175,12 +188,12 @@ TextureImporter:
       name: Ores_1
       rect:
         serializedVersion: 2
-        x: 7
+        x: 9
         y: 0
-        width: 7
-        height: 7
+        width: 9
+        height: 9
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -196,12 +209,12 @@ TextureImporter:
       name: Ores_2
       rect:
         serializedVersion: 2
-        x: 14
+        x: 18
         y: 0
-        width: 7
-        height: 7
+        width: 9
+        height: 9
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -217,10 +230,10 @@ TextureImporter:
       name: Ores_3
       rect:
         serializedVersion: 2
-        x: 28
+        x: 27
         y: 0
-        width: 7
-        height: 7
+        width: 9
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,27 +243,6 @@ TextureImporter:
       bones: []
       spriteID: 614a3b6fac95adfb0800000000000000
       internalID: -4622283339285158890
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ores_4
-      rect:
-        serializedVersion: 2
-        x: 21
-        y: 0
-        width: 7
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b97d63170d55a2a40800000000000000
-      internalID: 5344178261569492891
       vertices: []
       indices: 
       edges: []
@@ -270,7 +262,6 @@ TextureImporter:
       Ores_1: -1555048745898646385
       Ores_2: 8769119812877717279
       Ores_3: -4622283339285158890
-      Ores_4: 5344178261569492891
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

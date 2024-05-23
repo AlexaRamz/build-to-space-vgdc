@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &341169144
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 341169145}
+  - component: {fileID: 341169146}
+  m_Layer: 0
+  m_Name: TerrainManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &341169145
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341169144}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -100, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1684301514}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &341169146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341169144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d6522621cf11340870e1b357ebc2de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ground: {fileID: 1826579397}
+  plrInv: {fileID: 11400000, guid: fb3aa85f070e016439bb2475b9d66f2a, type: 2}
 --- !u!1 &706451054
 GameObject:
   m_ObjectHideFlags: 0
@@ -5515,6 +5561,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 341169145}
   - {fileID: 1826579392}
   - {fileID: 851220491}
   - {fileID: 1535162527}
@@ -5532,8 +5579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08585cf3a9356344c92edb5c78d7da27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeadBush: {fileID: 11400000, guid: 269bebaf9b16ab149b7253774694afce, type: 2}
-  Cracked: {fileID: 11400000, guid: 4916826dee6abed47b2fdf4172a576bc, type: 2}
+  Tiles: {fileID: 11400000, guid: 00bee5e498aa94c4d83ff9bb5ca6ff3b, type: 2}
   Foreground: {fileID: 1826579397}
   Background: {fileID: 851220493}
 --- !u!1 &1826579391
@@ -6633,7 +6679,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c532ed067c173b47925cb79d0092fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minValueY: 2.1
 --- !u!81 &2092874687
 AudioListener:
   m_ObjectHideFlags: 0

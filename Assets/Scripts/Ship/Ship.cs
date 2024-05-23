@@ -69,7 +69,6 @@ public class Ship : MonoBehaviour
                 Vector2 toMouse = position - (Vector2)player.transform.position;
                 toMouse = toMouse.normalized;
                 rb.AddForce(toMouse * 0.1f * rb.mass, ForceMode2D.Impulse);
-
                 ///Searches for thrusters to apply force using
                 foreach (KeyValuePair<Vector2Int, BuildObject> tile in ship.gridObjects)
                 {
@@ -78,8 +77,11 @@ public class Ship : MonoBehaviour
                         Debug.Log("Found a thruster: " + "(" + tile.Key.x + ", " + tile.Key.y + ")");
                         Rotation rotation = tile.Value.GetRotation();
                         Vector2 initialVector = Vector2.up * 3;
+                        Vector2 tilePos = ship.GridtoWorldPos(tile.Key);
+                        float angle = rotation.DegRotation;
+                        Vector2 forcePoint = new Vector2(tilePos.x + 0.5f * Mathf.Cos((angle) * Mathf.Deg2Rad), tilePos.y + 0.5f * Mathf.Sin((angle) * Mathf.Deg2Rad));
                         rb.AddForceAtPosition(initialVector.RotatedBy((transform.rotation.eulerAngles.z + rotation.DegRotation) * Mathf.Deg2Rad),
-                            ship.GridtoWorldPos(tile.Key), ForceMode2D.Impulse);
+                            forcePoint, ForceMode2D.Impulse);
                     }
                 }
                 audioManager.PlaySFX(audioManager.rocket);

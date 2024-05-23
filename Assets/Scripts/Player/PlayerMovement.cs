@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,7 +34,8 @@ public class PlayerMovement : MonoBehaviour
     private bool haveFuel = true;
     private float refillCoolDown = 2f;
     private float fuelTimer;
-    private bool holding;
+    private bool holdingItem;
+    private bool holdingTool;
 
     [SerializeField] private InventoryManager plrInv;
     PlayerManager plr;
@@ -50,12 +52,14 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnEnable()
     {
-        plrInv.holdEvent += HoldAnim;
+        plrInv.holdAnimEvent += HoldItemAnim;
+        plrInv.toolAnimEvent += HoldToolAnim;
         plrInv.cancelHoldEvent += CancelHoldAnim;
     }
     private void OnDisable()
     {
-        plrInv.holdEvent -= HoldAnim;
+        plrInv.holdAnimEvent -= HoldItemAnim;
+        plrInv.toolAnimEvent -= HoldToolAnim;
         plrInv.cancelHoldEvent -= CancelHoldAnim;
     }
     void PlayCrashParticles()
@@ -81,16 +85,28 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
         }
     }
-    
+
     public void HoldAnim()
     {
         anim.SetBool("Holding", true);
-        holding = true;
+    }
+    private void HoldItemAnim()
+    {
+        HoldAnim();
+        holdingItem = true;
+        holdingTool = false;
+    }
+    private void HoldToolAnim()
+    {
+        HoldAnim();
+        holdingTool = true;
+       holdingItem = false;
     }
     public void CancelHoldAnim()
     {
         anim.SetBool("Holding", false);
-        holding = false;
+        plr.holdOrigin.localScale = new Vector3(1, 1, 1);
+        holdingItem = holdingTool = false;
     }
     public void InTube()
     {
@@ -137,21 +153,24 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = new Vector2(dirX * runSpeed, rb.velocity.y);
                 wasMoving = true;
-                if (!holding)
+                if (!holdingItem && !holdingTool)
                 {
                     if (dirX > 0) faceDirection = 1;
                     else faceDirection = -1;
                 }
             }
 
-            if (holding)
+            if (holdingItem || holdingTool)
             {
                 float distance = Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x;
                 if (Mathf.Abs(distance) > 0.25f)
                 {
                     if (distance > 0) faceDirection = 1;
                     else faceDirection = -1;
-                    plr.holdOrigin.localScale = new Vector3(1, faceDirection, 1);
+                    if (holdingTool)
+                    {
+                        plr.holdOrigin.localScale = new Vector3(1, faceDirection, 1);
+                    }
                 }
             }
             anim.SetFloat("Horizontal", faceDirection);
@@ -227,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 Unsit();
             }
-            if (sitting)
+            if (sitting && seat != null)
             {
                 transform.position = seat.seatPoint.position;
                 transform.rotation = seat.seatPoint.rotation;

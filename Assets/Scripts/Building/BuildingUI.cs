@@ -21,10 +21,12 @@ public class BuildingUI : MonoBehaviour
         buildSys = BuildingSystem.Instance;
         SetCatalog(buildSys.buildCatalog);
         buildSys.StartBuilding();
+        plrInv.updateUIEvent += UpdateMaterials;
     }
     private void OnDisable()
     {
         buildSys.EndBuilding();
+        plrInv.updateUIEvent -= UpdateMaterials;
     }
     public void SetCatalog(BuildCatalog buildCatalog)
     {
@@ -59,14 +61,14 @@ public class BuildingUI : MonoBehaviour
         BuildCategory category = buildSys.SetCategory(i);
         SetBuilds(category);
     }
-    /*public void UpdateMaterials()
+    public void UpdateMaterials()
     {
-        Build build = buildSys.GetBuild();
+        Build build = buildSys.currentBuildObject.build;
         if (build != null)
         {
             SetInfo(build);
         }
-    }*/
+    }
     void ClearInfo()
     {
         foreach (Transform c in materialDisplayContainer)

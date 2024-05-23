@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ShipBuilding.unity
     guid: ad43901c5727ab142b8bcc7ebe2927d2
+  - enabled: 1
+    path: Assets/Scenes/SpaceScene.unity
+    guid: 184ead564e1876643a691407b0c08ed4
   m_configObjects: {}

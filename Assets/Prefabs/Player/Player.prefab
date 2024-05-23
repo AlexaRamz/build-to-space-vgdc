@@ -4156,6 +4156,7 @@ MonoBehaviour:
   inventory: {fileID: 11400000, guid: fb3aa85f070e016439bb2475b9d66f2a, type: 2}
   holdOrigin: {fileID: 4944114684345726257}
   menuManager: {fileID: 11400000, guid: 76af6d5f2b8df7a4fb1a4727b185f29f, type: 2}
+  collectablePrefab: {fileID: 7283088491708911822, guid: ae33876874d4f4b4794c2e6a14467fc0, type: 3}
 --- !u!1 &3563806731357242041
 GameObject:
   m_ObjectHideFlags: 0
@@ -5281,6 +5282,7 @@ MonoBehaviour:
   placeholderPrefab: {fileID: 1885137376559616520, guid: 568db3bed3181a94fab3ba4982c8dd33, type: 3}
   destroyParticlesPrefab: {fileID: 3223652384140640870, guid: 08c2392875c209b4eab1e8e416ceb37c, type: 3}
   menuManager: {fileID: 11400000, guid: 76af6d5f2b8df7a4fb1a4727b185f29f, type: 2}
+  plrInv: {fileID: 11400000, guid: fb3aa85f070e016439bb2475b9d66f2a, type: 2}
 --- !u!1 &4853445972135277873
 GameObject:
   m_ObjectHideFlags: 0

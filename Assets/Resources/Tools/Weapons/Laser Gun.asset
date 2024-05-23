@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc62ab6a72a26841ba296e33ecd24fb, type: 3}
   m_Name: Laser Gun
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: 4d8441ffb5854b54bbe864b233a1473e, type: 3}
-  description: A basic gun
-  cost: 10
-  sprite: {fileID: 21300000, guid: 4d8441ffb5854b54bbe864b233a1473e, type: 3}
-  holdPosition: {x: 0, y: 0}
+  _cost: 10
+  _description: A simple gun
+  _image: {fileID: 21300000, guid: 4d8441ffb5854b54bbe864b233a1473e, type: 3}
+  _holdPosition: {x: 0, y: 0}
+  activationCooldown: 0.25
   prefab: {fileID: 956604068018005096, guid: 18bc7c8705e5d394d955090d8babc214, type: 3}
-  fireCoolDown: 0.25
   bulletDamage: 1
   bulletSpeed: 10
   bulletLifetime: 3

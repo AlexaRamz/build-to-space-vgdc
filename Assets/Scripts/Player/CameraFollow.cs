@@ -5,7 +5,6 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     Transform target;
-    public float minValueY;
 
     private void Start()
     {

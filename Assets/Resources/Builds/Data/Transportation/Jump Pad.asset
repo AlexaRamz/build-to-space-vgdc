@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Sends players and objects flying high
   rotations:
-  - sprite: {fileID: 0}
+  - sprite: {fileID: 21300000, guid: 4a86d878e946f714e8bcd14e14ab7117, type: 3}
     Object: {fileID: 6607541266594704927, guid: 46dd00a5a957b2342a34e2cc2b8142d8, type: 3}
     flipX: 0
     flipY: 0
