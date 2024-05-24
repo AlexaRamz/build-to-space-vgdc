@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 340201a1a8c714c4e94e6eebd515beda, type: 3}
+  m_Name: MoonIntro_MysteriousMessage
+  m_EditorClassIdentifier: 
+  sentences:
+  - text: "Great, you\u2019re back. Let\u2019s get you up to speed."
+    emotion: 0
+  - text: Yesterday, Mission Control was able to decipher a strange message that
+      was transmitted by an unknown party.
+    emotion: 0
+  - text: "Our first assumption was that it was some form of secret international
+      communications, or perhaps some abandoned satellite sending ancient data. But\u2026"
+    emotion: 0
+  - text: "...well here, I\u2019ll just let you listen to what we were able to extract."
+    emotion: 0
+  - text: "...e(FU)SCS\u2026reQeusting\u2026@ss1sT@nce\u2026\u2026"
+    emotion: 0
+  - text: "m00N\u2026b@se\u2026NeEd\u2026m1ssi()n\u202620DS(^&%e\u2026\u2026"
+    emotion: 0
+  - text: "...Didn\u2019t sound like foreign communications\u2026and it didn\u2019t
+      resemble the usual signals or encoding we see from them."
+    emotion: 0
+  - text: "Regarding the \u2018Moon\u2019, we had no idea what they were talkin\u2019
+      about at first"
+    emotion: 0
+  - text: "Most of the info about the project was scrubbed, so we don\u2019t know
+      much about what\u2019s out there, but our best guess is that it MIGHT be some
+      malfunctioning tech from back that\u2019s reaching out."
+    emotion: 0
+  - text: ...Look, I know you just started this job, but could you check it out for
+      us?
+    emotion: 0
+  - text: "All the other teams are either busy or don\u2019t have the necessary skill
+      set for outer space. You\u2019re all we got."
+    emotion: 0
+  responses: []

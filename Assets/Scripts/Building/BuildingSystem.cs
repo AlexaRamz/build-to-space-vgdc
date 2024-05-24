@@ -160,6 +160,7 @@ public class BuildingSystem : MonoBehaviour
         foreach (KeyValuePair<Vector2Int, BuildObject> p in thisGrid.gridObjects)
         {
             GameObject obj = PlaceBlock(thisGrid.GridtoWorldAligned(p.Key), p.Value, parent);
+            obj.transform.localRotation = Quaternion.Euler(0, 0, obj.transform.localRotation.z + thisGrid.rotation);
             p.Value.gridObject = obj;
         }
     }

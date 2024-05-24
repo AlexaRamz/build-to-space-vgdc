@@ -7,11 +7,11 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "InventoryManager", menuName = "Scriptable Objects/Managers/Inventory Manager")]
 public class InventoryManager : ScriptableObject
 {
-    [SerializeField] private List<ItemAmountInfo> starterItems = new List<ItemAmountInfo>();
+    public List<ItemAmountInfo> starterItems = new List<ItemAmountInfo>();
     public List<ItemAmountInfo> items { get; private set; } = new List<ItemAmountInfo>();
     public Item currentItem { get; private set; }
 
-    [SerializeField] private List<ToolData> starterTools = new List<ToolData>();
+    public List<ToolData> starterTools = new List<ToolData>();
     public List<ToolData> tools { get; private set; } = new List<ToolData>();
     public ToolData currentTool { get; private set; }
 
@@ -33,9 +33,12 @@ public class InventoryManager : ScriptableObject
 
     private void OnEnable()
     {
-        // Reset information that may have been saved from previous session. 
         items.Clear();
         tools.Clear();
+        money = researchPoints = 0;
+        currentItem = null;
+        currentTool = null;
+
         foreach (var i in starterItems)
         {
             items.Add(i.Clone());
@@ -44,9 +47,6 @@ public class InventoryManager : ScriptableObject
         {
             tools.Add(i);
         }
-        money = researchPoints = 0;
-        currentItem = null;
-        currentTool = null;
     }
 
     public void AddItem(Item item, int amount)

@@ -54,7 +54,7 @@ public class BuildGrid
     }
     public Vector3 GridtoWorldPos(Vector2 pos)
     {
-        Vector2 worldPos = bottomLeft + new Vector2(pos.x, pos.y).RotatedBy(rotation * Mathf.Deg2Rad);
+        Vector2 worldPos = bottomLeft + pos.RotatedBy(rotation * Mathf.Deg2Rad);
         return worldPos;
     }
     public Vector3 GridtoWorldAligned(Vector2Int gridPos)

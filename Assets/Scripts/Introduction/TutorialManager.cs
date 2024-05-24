@@ -73,7 +73,7 @@ public class TutorialManager : MonoBehaviour
     }
     public void ExitTutorial()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     private void Update()
     {

@@ -8,7 +8,7 @@ using System.Linq;
 
 public class QuestRewardManager : MonoBehaviour
 {
-    [SerializeField] public List<QuestData> questDatas = new List<QuestData>(); //Public list to write quest info into
+    [SerializeField] QuestManager questManager;
     List<QuestData> completedQuestDatas = new List<QuestData>(); //Transition quest datas into here, upon quest completion
     QuestData currentQuest;
     int currentQuestIndex = 0;
@@ -36,7 +36,7 @@ public class QuestRewardManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UpdateQuest(questDatas[currentQuestIndex]); //This assumes that the quest at index 0 is expected to be the initial quest
+        UpdateQuest(questManager.questDatas[currentQuestIndex]); //This assumes that the quest at index 0 is expected to be the initial quest
         PopulateMenu(); //Runs function to populate quest menu based upon the list of quests
     }
 
@@ -127,7 +127,7 @@ public class QuestRewardManager : MonoBehaviour
         {
             questFinder.UpdateTarget(currentQuest.TargetLocation); //Updates quest marker based upon current quest objective
         }
-        currentQuestIndex = questDatas.IndexOf(currentQuest); //Updates current index being used
+        currentQuestIndex = questManager.questDatas.IndexOf(currentQuest); //Updates current index being used
     }
 
     bool CompleteCurrentQuest() //Returns whether quest was successfully completed - the return should have a UI indication for whether the completion button 'can be pressed'
@@ -149,7 +149,7 @@ public class QuestRewardManager : MonoBehaviour
             PopulateMenu(); //Updates menu when a quest is completed, removing it from the list
             if (currentQuest.nextQuestIndex >= 0)
             {
-                UpdateQuest(questDatas[currentQuest.nextQuestIndex]);
+                UpdateQuest(questManager.questDatas[currentQuest.nextQuestIndex]);
             }
             else
             {
@@ -167,34 +167,34 @@ public class QuestRewardManager : MonoBehaviour
         //Can change functionality to not work around using a quest index, if this becomes a difficult way to set quest status during level implementation
         if (newQuestIndex != currentQuestIndex) //Does nothing if new quest matches current quest
         {
-            UpdateQuest(questDatas[newQuestIndex]);
+            UpdateQuest(questManager.questDatas[newQuestIndex]);
         }
     }
 
     void PopulateMenu() //Need to work on implementing this alongside the UI elements
     {
         ClearMenu(); //Function to clear menu in preparation for populating it
-        for (int i = 0; i < questDatas.Count; i++)
+        for (int i = 0; i < questManager.questDatas.Count; i++)
         {
-            if (questDatas[i].available == true && questDatas[i].completed == false) //Makes sure quest is both available and not completed
+            if (questManager.questDatas[i].available == true && questManager.questDatas[i].completed == false) //Makes sure quest is both available and not completed
             {
                 int btnNo = i;
                 GameObject button = Instantiate(questTemplate, questContainer);
                 button.GetComponent<Button>().onClick.AddListener(delegate { SelectQuest(btnNo); }); //Runs quest select function when a quest is selected
                 QuestTemplate template = button.GetComponent<QuestTemplate>();
-                template.title.SetText(questDatas[i].name); //Sets proper information as needed to the quest template object for display purposes (this portion will be modified based upon the implementation of the QuestTemplate object - refer to the ShopTemplate as an example for reference)
+                template.title.SetText(questManager.questDatas[i].name); //Sets proper information as needed to the quest template object for display purposes (this portion will be modified based upon the implementation of the QuestTemplate object - refer to the ShopTemplate as an example for reference)
             }
         }
     }
 
     void UpdateStatus() //Updates quest availability statuses
     {
-        for (int i = 0; i < questDatas.Count; i++)
+        for (int i = 0; i < questManager.questDatas.Count; i++)
         {
-            if (questDatas[i].available != true)
+            if (questManager.questDatas[i].available != true)
             {
-                int requirements = questDatas[i].requirement;
-                questDatas[i].available = questDatas[requirements].completed; //Sets availability
+                int requirements = questManager.questDatas[i].requirement;
+                questManager.questDatas[i].available = questManager.questDatas[requirements].completed; //Sets availability
             }
         }
     }
@@ -210,7 +210,7 @@ public class QuestRewardManager : MonoBehaviour
     //This function is called when a quest's button is clicked on
     public void SelectQuest(int index) //Opens menu for individual quest - this will have no buttons within it, but doing this will set as focused currentquest, then check completion, then try to complete (check completion could be moved out of update, using this logic, depending on flag implementations)
     {
-        UpdateQuest(questDatas[index]); //Updates active quest
+        UpdateQuest(questManager.questDatas[index]); //Updates active quest
         //Automatic quest selection, possibly make an internal button to do this later
         displayQuestDescription.SetText(currentQuest.informationText); //Updates visuals (should happen regardless of inputs)
         displayMoneyReward.SetText(currentQuest.moneyReward.ToString()); //Updates visuals (should happen regardless of inputs)

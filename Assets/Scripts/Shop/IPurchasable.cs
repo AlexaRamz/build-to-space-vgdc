@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IPurchasable
 {
     public string Name { get; }
-    public int cost { get;}
+    public int cost { get; }
     public Sprite image { get; }
-    public string description { get;}
+    public string description { get; }
 }

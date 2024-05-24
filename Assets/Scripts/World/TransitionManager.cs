@@ -21,6 +21,7 @@ public class TransitionManager : MonoBehaviour
         {
             Ship ship = BuildingSystem.Instance.RespawnShipAtPlayer(currentShip, lastPlayerPos);
             ship.ChangeGravityScale(0f);
+            currentShip = null;
         }
     }
     public void LoadSpace()

@@ -66,11 +66,11 @@ public class ShipBuilding : MonoBehaviour
     }
     private void LoadVirtualHangar()
     {
-        SceneManager.LoadScene("VirtualHangar"); //Go to the virtual hangar
+        SceneLoader.Instance.LoadScene("VirtualHangar"); //Go to the virtual hangar
     }
     private void LoadMainScene()
     {
-        SceneManager.LoadScene("TutorialScene"); //Go to the main scene
+        SceneLoader.Instance.LoadScene("TutorialScene"); //Go to the main scene
     }
     private void LoadCharacterSelect()
     {
