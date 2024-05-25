@@ -14,6 +14,7 @@ TagManager:
   - Jug
   - Pot
   - BaseEnemy
+  - Planet
   layers:
   - Default
   - TransparentFX

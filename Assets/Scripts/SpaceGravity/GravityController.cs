@@ -9,22 +9,23 @@ public class GravityController : MonoBehaviour
     private float c; //Used in gravity calculation
     private float currentMass = 1; //Set to 1 as a default, used to record current rigid body mass
     private float planetMass = 2; //Set to 2 as default, used to record current planet mass
-    [SerializeField]
     public GameObject[] planets; //Records list of all planets in level
-    [SerializeField]
     public Rigidbody2D[] rigidBodies; //Records list of all rigid bodies in level
     float gravitationalConstant = 19.62f;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Try to dynamically record all planets
-        //Try to dynamically record all rigid bodies
+        planets = GameObject.FindGameObjectsWithTag("Planet"); //Try to dynamically record all planets
+        rigidBodies = FindObjectsOfType<Rigidbody2D>(); //Try to dynamically record all rigid bodies
     }
 
     //Logic to update rigid body
     void Update()
     {
+        //Update Arrays:
+        planets = GameObject.FindGameObjectsWithTag("Planet"); //Try to dynamically record all planets
+        rigidBodies = FindObjectsOfType<Rigidbody2D>(); //Try to dynamically record all rigid bodies
         foreach (Rigidbody2D currentRB in rigidBodies)
         {
             Transform transform = currentRB.transform; //Refers to transform of current RB
