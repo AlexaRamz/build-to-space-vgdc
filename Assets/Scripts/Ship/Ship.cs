@@ -31,6 +31,7 @@ public class Ship : MonoBehaviour
         Debug.Log(ship.Width + "and" + ship.Height);
 
         transform.position = ship.bottomLeft;
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, ship.rotation);
 
         //newShip.transform.position -= new Vector3(newShip.ship.Width / 2, 0);
         //newShip.transform.position -= (Vector3)offset.RotatedBy(gameObject.transform.eulerAngles.z * Mathf.Deg2Rad); //this is a system for readjusting the position of the ship when new blocks are added. Right now it is very finicky

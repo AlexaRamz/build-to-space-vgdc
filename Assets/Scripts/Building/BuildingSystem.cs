@@ -160,7 +160,7 @@ public class BuildingSystem : MonoBehaviour
         foreach (KeyValuePair<Vector2Int, BuildObject> p in thisGrid.gridObjects)
         {
             GameObject obj = PlaceBlock(thisGrid.GridtoWorldAligned(p.Key), p.Value, parent);
-            obj.transform.localRotation = Quaternion.Euler(0, 0, obj.transform.localRotation.z + thisGrid.rotation);
+            obj.transform.localRotation = Quaternion.Euler(0, 0, obj.transform.localRotation.z);
             p.Value.gridObject = obj;
         }
     }
@@ -200,6 +200,7 @@ public class BuildingSystem : MonoBehaviour
     }
     public Ship RespawnShipAtPlayer(BuildGrid ship, Vector2 lastPlayerPos)
     {
+        // Recalculate ship position
         GameObject plr = GameObject.FindGameObjectWithTag("Player");
         Vector2 spawnPos = (Vector2)plr.transform.position + (ship.bottomLeft - lastPlayerPos);
 
