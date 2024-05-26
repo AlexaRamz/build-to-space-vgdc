@@ -202,7 +202,18 @@ public class BuildingSystem : MonoBehaviour
     {
         GameObject plr = GameObject.FindGameObjectWithTag("Player");
         Vector2 spawnPos = (Vector2)plr.transform.position + (ship.bottomLeft - lastPlayerPos);
-        return SpawnShip(ship, spawnPos);
+
+        // Spawn the ship objects
+        Ship newShip = SpawnShip(ship, spawnPos);
+
+        // Sit the player if was seating before
+        BuildObject objectAtPlayer = newShip.ship.GetValueAtPosition(plr.transform.position);
+        if (objectAtPlayer != null && objectAtPlayer.build.name == "Control Seat")
+        {
+            Seat seat = objectAtPlayer.gridObject?.GetComponent<Seat>();
+            if (seat != null) seat.Interact();
+        }
+        return newShip;
     }
 
     IEnumerator deleteTimer;

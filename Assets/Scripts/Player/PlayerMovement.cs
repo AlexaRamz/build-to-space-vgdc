@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private InventoryManager plrInv;
     PlayerManager plr;
+    PlayerInteraction plrInt;
 
     private void Start()
     {
@@ -46,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         plr = GetComponent<PlayerManager>();
+        plrInt = GetComponent<PlayerInteraction>();
 
         jetForce = rb.gravityScale * 9f * 2f;
         currentFuel = fuel;
@@ -285,6 +287,11 @@ public class PlayerMovement : MonoBehaviour
         seat.beingUsed = true;
         plrActive = false;
         rb.gravityScale = 0;
+        isGrounded = true;
+
+        anim.SetFloat("Speed", 0);
+        anim.SetBool("Jumping", false);
+        plrInt.canInteract = false;
     }
 
     public void Unsit()
@@ -295,5 +302,7 @@ public class PlayerMovement : MonoBehaviour
         plrActive = true;
         rb.gravityScale = 1.5f;
         transform.rotation = Quaternion.identity;
+        isGrounded = false;
+        plrInt.canInteract = true;
     }
 }

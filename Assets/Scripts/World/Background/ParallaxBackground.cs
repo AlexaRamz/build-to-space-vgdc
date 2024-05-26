@@ -17,9 +17,16 @@ public class ParallaxBackground : MonoBehaviour
     }
     void LateUpdate()
     {
-
         float offsetX = (transform.position.x / transform.localScale.x) / scrollSpeedX;
         float offsetY = (transform.position.y / transform.localScale.y) / scrollSpeedY;
+        if (scrollSpeedX <= 0f)
+        {
+            offsetX = 0f;
+        }
+        if (scrollSpeedY <= 0f)
+        {
+            offsetY = 0f;
+        }
         mat.mainTextureOffset = new Vector2(offsetX, offsetY);
     }
 
