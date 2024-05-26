@@ -203,7 +203,7 @@ Transform:
   m_GameObject: {fileID: 159966492}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35, y: 23.24, z: 0}
+  m_LocalPosition: {x: -9.73, y: 23.24, z: 0}
   m_LocalScale: {x: 9.818873, y: 9.818873, z: 9.818873}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eecb850715cbf46ab7a0179438f37b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 100
+  mass: 150
   scene: {fileID: 102900000, guid: 2f14f8155b4c37045a3990153d440cee, type: 3}
 --- !u!58 &159966496
 CircleCollider2D:
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eecb850715cbf46ab7a0179438f37b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 200
+  mass: 800
   scene: {fileID: 102900000, guid: 2f14f8155b4c37045a3990153d440cee, type: 3}
 --- !u!212 &1438301992
 SpriteRenderer:
@@ -611,6 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b9b9314abbb38041a5fc2f8a446262a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  orbitalAssist: 0
   planets: []
   rigidBodies: []
 --- !u!4 &1919635974 stripped

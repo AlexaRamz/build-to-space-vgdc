@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GravityController : MonoBehaviour
 {
+    public bool orbitalAssist = false;
     private float gravityx;
     private float gravityy; //Records net gravity values
     private float c; //Used in gravity calculation
@@ -40,7 +41,18 @@ public class GravityController : MonoBehaviour
                 gravX += gravityx * gravitationalConstant * currentMass * planetMass / c / c / c;
                 gravY += gravityy * gravitationalConstant * currentMass * planetMass / c / c / c; //Accumulates grav X and Y based upon list of planets, relative to the current transform
             }
-            currentRB.AddForce(new Vector2(gravX, gravY)); //Modifies gravity based upon planet locations - try to modify this global version if it doesnt work: Physics2D.gravity = new Vector2(gravX, gravY);
+            float dotProduct = currentRB.velocity.x * gravX + currentRB.velocity.y * gravY;
+            if (dotProduct == 0 && (gravX != 0 || gravY != 0) && orbitalAssist) //Checks for parallel, only if orbital assist is enabled
+            {
+                currentRB.AddForce(new Vector2(-gravY, gravX)); //Orbital assist when perpendicular to gravity (parallel)
+                currentRB.AddForce(new Vector2(gravX, gravY)); //Modifies gravity based upon planet locations - try to modify this global version if it doesnt work: Physics2D.gravity = new Vector2(gravX, gravY);
+
+            }
+            else
+            {
+                currentRB.AddForce(new Vector2(gravX, gravY)); //Modifies gravity based upon planet locations - try to modify this global version if it doesnt work: Physics2D.gravity = new Vector2(gravX, gravY);
+
+            }
         }
     }
 }
