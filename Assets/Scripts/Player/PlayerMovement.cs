@@ -41,6 +41,20 @@ public class PlayerMovement : MonoBehaviour
     PlayerManager plr;
     PlayerInteraction plrInt;
 
+    private float _worldGravityScale = 1.5f;
+    public float worldGravityScale
+    {
+        get
+        {
+            return _worldGravityScale;
+        }
+        set
+        {
+            _worldGravityScale = value;
+            rb.gravityScale = worldGravityScale;
+        }
+    }
+
     private void Start()
     {
         Instance = this;
@@ -49,8 +63,8 @@ public class PlayerMovement : MonoBehaviour
         plr = GetComponent<PlayerManager>();
         plrInt = GetComponent<PlayerInteraction>();
 
-        jetForce = rb.gravityScale * 9f * 2f;
         currentFuel = fuel;
+        jetForce = 1.5f * 18f;
     }
     private void OnEnable()
     {
@@ -300,7 +314,7 @@ public class PlayerMovement : MonoBehaviour
         seat.beingUsed = false;
         seat = null;
         plrActive = true;
-        rb.gravityScale = 1.5f;
+        rb.gravityScale = worldGravityScale;
         transform.rotation = Quaternion.identity;
         isGrounded = false;
         plrInt.canInteract = true;

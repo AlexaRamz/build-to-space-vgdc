@@ -17,11 +17,14 @@ public class TransitionManager : MonoBehaviour
     private void Start()
     {
         plr = GameObject.FindGameObjectWithTag("Player");
-        if (currentShip != null)
+        if (SceneManager.GetActiveScene().name == "SpaceScene")
         {
-            Ship ship = BuildingSystem.Instance.RespawnShipAtPlayer(currentShip, lastPlayerPos);
-            ship.ChangeGravityScale(0f);
-            currentShip = null;
+            plr.GetComponent<PlayerMovement>().worldGravityScale = 0f;
+            if (currentShip != null)
+            {
+                Ship ship = BuildingSystem.Instance.RespawnShipAtPlayer(currentShip, lastPlayerPos);
+                currentShip = null;
+            }
         }
     }
     public void LoadSpace()

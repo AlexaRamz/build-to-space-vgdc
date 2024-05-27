@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
-    private GameObject player => PlayerMovement.Instance.gameObject;
+    private PlayerMovement plr => PlayerMovement.Instance;
     private Rigidbody2D rb;
     public BuildGrid ship;
     public int width => ship.Width;
@@ -18,6 +18,7 @@ public class Ship : MonoBehaviour
     public void SetUpShip(BuildGrid thisShip)
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = plr.worldGravityScale;
         ship = thisShip;
         ShipBuilding.loadedShips.Add(this);
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -67,12 +68,12 @@ public class Ship : MonoBehaviour
     private void FixedUpdate()
     {
         rb.mass = ship.count;
-        if (player != null && ship.PositionIsWithinGrid(player.transform.position)) //Player can hold right click to fly the ship while inside of it
+        if (plr != null && ship.PositionIsWithinGrid(plr.transform.position)) //Player can hold right click to fly the ship while inside of it
         {
             if (Input.GetMouseButton(1))
             {
                 Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector2 toMouse = position - (Vector2)player.transform.position;
+                Vector2 toMouse = position - (Vector2)plr.transform.position;
                 toMouse = toMouse.normalized;
                 rb.AddForce(toMouse * 0.1f * rb.mass, ForceMode2D.Impulse);
                 ///Searches for thrusters to apply force using

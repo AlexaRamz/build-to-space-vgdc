@@ -231,7 +231,7 @@ public class BuildingSystem : MonoBehaviour
         if (deleteTimer != null)
             StopCoroutine(deleteTimer);
     }
-    private void Update()
+    private void LateUpdate()
     {
         if (!building) return;
 
