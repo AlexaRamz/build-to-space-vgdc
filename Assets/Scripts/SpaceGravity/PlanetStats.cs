@@ -13,7 +13,10 @@ public class PlanetStats : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        string sceneString = System.IO.Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(scene));
-        SceneManager.LoadScene(sceneString); //Loads level when collided with
+        if (scene != null)
+        {
+            string sceneString = System.IO.Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(scene));
+            SceneManager.LoadScene(sceneString); //Loads level when collided with
+        }
     }
 }
