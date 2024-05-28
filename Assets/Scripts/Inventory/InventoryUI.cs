@@ -18,12 +18,12 @@ public class InventoryUI : MonoBehaviour
     public void OnEnable()
     {
         currentIndex = -1;
-        plrInv.updateUIEvent += UpdateAll;
+        plrInv.inventoryModifiedEvent += UpdateAll;
         UpdateAll();
     }
     public void OnDisable()
     {
-        plrInv.updateUIEvent -= UpdateAll;
+        plrInv.inventoryModifiedEvent -= UpdateAll;
     }
     void UpdateAll()
     {

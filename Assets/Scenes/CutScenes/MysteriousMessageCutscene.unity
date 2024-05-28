@@ -123,6 +123,68 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &18174500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 18174501}
+  - component: {fileID: 18174502}
+  m_Layer: 0
+  m_Name: CommanderDialogueActivator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &18174501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18174500}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &18174502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18174500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e435af769e05c945bb9d8d71db83fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: {fileID: 11400000, guid: 615004588713b9e4f85171325d79131e, type: 2}
+  speaker: {fileID: 11400000, guid: 63b9d2c9712b256449ff47a0c29f046b, type: 2}
+  eventOnEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1673643091}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: TutorialScene
+          m_BoolArgument: 0
+        m_CallState: 2
+  eventDelay: 0
 --- !u!1 &377595966
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +225,8 @@ PlayableDirector:
     value: {fileID: 1554919471}
   - key: {fileID: 4952335487849287761, guid: 3ad95cf42e1f6ae47800063fdad0288e, type: 2}
     value: {fileID: 1554919471}
+  - key: {fileID: -8960454735016297202, guid: 3ad95cf42e1f6ae47800063fdad0288e, type: 2}
+    value: {fileID: 18174500}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &377595968
@@ -5523,6 +5587,17 @@ Transform:
   - {fileID: 877996239}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1673643091 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4836291696712959075, guid: eb54a7484204c784593c890000596db4, type: 3}
+  m_PrefabInstance: {fileID: 813948469}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ab437450324b54f987ca1bbbee9d28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2092874684
 GameObject:
   m_ObjectHideFlags: 0
@@ -5707,17 +5782,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1077212453926770702, guid: e94149cb0d200014a9cba031674a431b, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 727221376, guid: 8165a17a4c08a6747818bb8b94558358, type: 3}
     - target: {fileID: 5277648603080901286, guid: e94149cb0d200014a9cba031674a431b, type: 3}
       propertyPath: m_Name
       value: Player(Cutscene)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5546572251557071023, guid: e94149cb0d200014a9cba031674a431b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.0625
       objectReference: {fileID: 0}
     - target: {fileID: 8369050742537028864, guid: e94149cb0d200014a9cba031674a431b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5759,10 +5826,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8710714915402654380, guid: e94149cb0d200014a9cba031674a431b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.0625
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5786,3 +5849,4 @@ SceneRoots:
   - {fileID: 813948469}
   - {fileID: 377595968}
   - {fileID: 1554919470}
+  - {fileID: 18174501}

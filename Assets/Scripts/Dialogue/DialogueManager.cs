@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -22,7 +23,8 @@ public class DialogueManager : MonoBehaviour
     //public int maxLetters = 30;
 
     [SerializeField] private MenuManager menuManager;
-    private Action _actionOnEnd;
+    UnityEvent eventOnEnd;
+    float eventDelay;
 
     public static DialogueManager Instance;
 
@@ -35,9 +37,17 @@ public class DialogueManager : MonoBehaviour
         menuManager.menuClosedEvent.AddListener(OnDialogueClosed);
         sentences = new Queue<TextIconSet>();
     }
-    public void StartDialogue(Dialogue dialogue, NPC speaker, Action actionOnEnd=null)
+
+    public void StartDialogue(Dialogue dialogue, NPC speaker, UnityAction actionOnEnd, float actionDelay = 0.1f)
     {
-        _actionOnEnd = actionOnEnd;
+        UnityEvent myEvent = new UnityEvent();
+        myEvent.AddListener(actionOnEnd);
+        StartDialogue(dialogue, speaker, myEvent, actionDelay);
+    }
+    public void StartDialogue(Dialogue dialogue, NPC speaker, UnityEvent eventOnEnd = null, float eventDelay = 0.1f)
+    {
+        this.eventOnEnd = eventOnEnd;
+        this.eventDelay = eventDelay;
         currentDialogue = dialogue;
         currentSpeaker = speaker;
 
@@ -81,9 +91,9 @@ public class DialogueManager : MonoBehaviour
     }
     IEnumerator EndDelay()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(eventDelay);
         talking = false;
-        if (_actionOnEnd != null) _actionOnEnd();
+        eventOnEnd?.Invoke();
     }
     List<char> pauseChars = new List<char>{ '.', ',', '!', '?' };
     IEnumerator TypeText(string sentence)

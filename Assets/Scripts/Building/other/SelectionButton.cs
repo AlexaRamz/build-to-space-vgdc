@@ -12,6 +12,9 @@ public class SelectionButton : MonoBehaviour
 
     public void SetSelection(bool selectionBool)
     {
-        selectionImage.color = new Color(selectionImage.color.r, selectionImage.color.g, selectionImage.color.b, selectionBool ? 1 : 0);
+        if (selectionImage != null)
+        {
+            selectionImage.color = new Color(selectionImage.color.r, selectionImage.color.g, selectionImage.color.b, selectionBool ? 1 : 0);
+        }
     }
 }

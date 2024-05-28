@@ -13,15 +13,10 @@ MonoBehaviour:
   m_Name: Discovery Test
   m_EditorClassIdentifier: 
   targetName: HelpBot (1)
-  TargetLocation: {fileID: 0}
   moneyReward: 2
   researchReward: 1
   informationText: Find Help Bot
   victoryText: You found Help Bot!
-  questType: 0
-  requirement: 0
-  nextQuestIndex: 0
-  available: 1
-  active: 0
-  completed: 1
+  questType: 1
+  requiredToDestroy: 0
   requiredItems: []

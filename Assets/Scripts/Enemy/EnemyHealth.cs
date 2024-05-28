@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static EnemyMove;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class EnemyHealth : MonoBehaviour
     public GameObject createOnDeath;
     [Tooltip("Requires the death object to only spawn on the ground.")]
     public bool snapOnDeathCreationToGround;
-
+    [SerializeField] QuestManager questManager;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +32,6 @@ public class EnemyHealth : MonoBehaviour
         {
             if (snapOnDeathCreationToGround)
             {
-                Debug.Log("cheese");
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
                 if (hit.collider != null)
                 { 
@@ -43,6 +41,7 @@ public class EnemyHealth : MonoBehaviour
             else
                 Instantiate(createOnDeath, transform.position, transform.rotation, transform.parent);
         }
+        questManager.UpdateHuntQuests(gameObject.name);
         Destroy(gameObject);
     }
     public void TakeDamage(int amount)

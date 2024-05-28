@@ -29,7 +29,9 @@ public class TutorialManager : MonoBehaviour
         dialogueManager = DialogueManager.Instance;
         menuManager.ShowMenu("SkipPrompt");
         bot2.dialogue = bot2Dialogues[0];
-        bot2.eventOnEnd = BuildPopUp2;
+
+        bot2.eventOnEnd.RemoveAllListeners();
+        bot2.eventOnEnd.AddListener(BuildPopUp2);
     }
     public void InteractInfo()
     {
@@ -43,7 +45,9 @@ public class TutorialManager : MonoBehaviour
     public void HeadVRArea()
     {
         bot1.dialogue = bot1Dialogues[0];
-        bot1.eventOnEnd = BuildPopUp;
+
+        bot1.eventOnEnd.RemoveAllListeners();
+        bot1.eventOnEnd.AddListener(BuildPopUp);
     }
 
     public void BuildPopUp()
@@ -58,13 +62,17 @@ public class TutorialManager : MonoBehaviour
     public void BuildPopUp2()
     {
         bot2.dialogue = bot2Dialogues[1];
-        bot2.eventOnEnd = FlyPopUp;
+
+        bot2.eventOnEnd.RemoveAllListeners();
+        bot2.eventOnEnd.AddListener(FlyPopUp);
         menuManager.ShowMenu("BuildInfo");
     }
     public void FlyPopUp()
     {
         bot2.dialogue = bot2Dialogues[2];
-        bot2.eventOnEnd = ExitPopUp;
+
+        bot2.eventOnEnd.RemoveAllListeners();
+        bot2.eventOnEnd.AddListener(ExitPopUp);
         menuManager.ShowMenu("FlyInfo");
     }
     public void ExitPopUp()
@@ -80,7 +88,9 @@ public class TutorialManager : MonoBehaviour
         if (awaitingMenuInput && Input.GetKeyDown(KeyCode.M))
         {
             bot1.dialogue = bot1Dialogues[1];
-            bot1.eventOnEnd = GoRightPopUp;
+
+            bot2.eventOnEnd.RemoveAllListeners();
+            bot1.eventOnEnd.AddListener(GoRightPopUp);
             awaitingMenuInput = false;
         }
     }

@@ -2,13 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DialogueTrigger : Interactable
 {
     public NPC speaker;
     DialogueManager dialogueManager;
     public Dialogue dialogue;
-    public Action eventOnEnd;
+    public UnityEvent eventOnEnd;
+    public float eventDelay;
 
     void Start()
     {
@@ -20,7 +22,7 @@ public class DialogueTrigger : Interactable
         if (dialogue == null)
         {
             Dialogue randomDialogue = speaker.dialogues[UnityEngine.Random.Range(0, speaker.dialogues.Count)];
-            dialogueManager.StartDialogue(randomDialogue, speaker, eventOnEnd);
+            dialogueManager.StartDialogue(randomDialogue, speaker, eventOnEnd, eventDelay);
         }
         else
         {

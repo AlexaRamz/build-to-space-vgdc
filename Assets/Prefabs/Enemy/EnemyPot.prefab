@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 3504956070199138113}
   m_Layer: 8
   m_Name: EnemyPot
-  m_TagString: NPC
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -370,3 +370,4 @@ MonoBehaviour:
   currentHealth: 15
   createOnDeath: {fileID: 0}
   snapOnDeathCreationToGround: 0
+  questManager: {fileID: 0}

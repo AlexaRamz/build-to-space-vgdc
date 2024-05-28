@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6781986251657850989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5581298979424577930}
+  - component: {fileID: 6939341508283735913}
+  m_Layer: 3
+  m_Name: MoonQuests
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5581298979424577930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781986251657850989}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.02, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6939341508283735913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781986251657850989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae4b00cc9345af43afa93140fb4905c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commander: {fileID: 11400000, guid: 63b9d2c9712b256449ff47a0c29f046b, type: 2}
+  commanderDialogues:
+  - {fileID: 11400000, guid: 6fab6c77279c51f41bdfeda2d6f0860b, type: 2}
+  - {fileID: 11400000, guid: 615004588713b9e4f85171325d79131e, type: 2}
+  - {fileID: 11400000, guid: d77a7c33370464b4ba8c474c3757b87f, type: 2}
+  questManager: {fileID: 11400000, guid: f118572802b9eac48b99848c2086085c, type: 2}
+  headToBase: {fileID: 11400000, guid: 1e24f46fdb7a43747a72b1fb161c1342, type: 2}
+  bunkerDoor: {fileID: 0}

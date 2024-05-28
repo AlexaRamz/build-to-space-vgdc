@@ -33,6 +33,9 @@ MonoBehaviour:
   - text: "Regarding the \u2018Moon\u2019, we had no idea what they were talkin\u2019
       about at first"
     emotion: 0
+  - text: "\u201CBut I guess control pulled some old records from the archives, something
+      about some mission for moon colonization we attempted a WHILE back.\u201D"
+    emotion: 0
   - text: "Most of the info about the project was scrubbed, so we don\u2019t know
       much about what\u2019s out there, but our best guess is that it MIGHT be some
       malfunctioning tech from back that\u2019s reaching out."

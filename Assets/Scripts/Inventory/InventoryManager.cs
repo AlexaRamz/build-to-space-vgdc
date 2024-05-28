@@ -28,7 +28,7 @@ public class InventoryManager : ScriptableObject
     public event UnityAction toolAnimEvent;
     public event UnityAction cancelHoldEvent;
 
-    public event UnityAction updateUIEvent;
+    public event UnityAction inventoryModifiedEvent;
 
 
     private void OnEnable()
@@ -55,12 +55,12 @@ public class InventoryManager : ScriptableObject
         if (info != null)
         {
             info.amount += amount;
-            updateUIEvent?.Invoke();
         }
         else
         {
             items.Add(new ItemAmountInfo(item, amount));
         }
+        inventoryModifiedEvent?.Invoke();
     }
     public void AddAll(List<ItemAmountInfo> items)
     {
@@ -75,7 +75,7 @@ public class InventoryManager : ScriptableObject
         if (info != null && info.amount >= amount)
         {
             info.amount -= amount;
-            updateUIEvent?.Invoke();
+            inventoryModifiedEvent?.Invoke();
             return true;
         }
         return false;

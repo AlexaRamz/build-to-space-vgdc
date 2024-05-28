@@ -10,15 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62485349335e1be4583180be2a696163, type: 3}
-  m_Name: Fetch 1
+  m_Name: Fly to the moon
   m_EditorClassIdentifier: 
   targetName: 
-  moneyReward: 10
-  researchReward: 1
-  informationText: Collect 3 copper
+  moneyReward: 10000
+  researchReward: 10000
+  informationText: Fly to the moon and investigate the origin of the mysterious message.
   victoryText: 
-  questType: 3
+  questType: 0
   requiredToDestroy: 0
-  requiredItems:
-  - item: {fileID: 11400000, guid: d3d82aa29c873014988c70c76be5dcca, type: 2}
-    amount: 3
+  requiredItems: []

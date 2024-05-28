@@ -16,10 +16,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 41af0d812b377ac46b90395f0b9c1710, type: 2}
   - {fileID: 11400000, guid: 89b35ae8b05e44f48a83c88cd85a1abb, type: 2}
   - {fileID: 11400000, guid: 573d448a6528b7a4e83a91e22d090fb3, type: 2}
-  questDatas:
-  - {fileID: 11400000, guid: 41af0d812b377ac46b90395f0b9c1710, type: 2}
-  - {fileID: 11400000, guid: 89b35ae8b05e44f48a83c88cd85a1abb, type: 2}
-  - {fileID: 11400000, guid: 573d448a6528b7a4e83a91e22d090fb3, type: 2}
   questAdded:
     m_PersistentCalls:
       m_Calls: []
+  questCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  UIupdateList:
+    m_PersistentCalls:
+      m_Calls: []
+  UIupdateInfo:
+    m_PersistentCalls:
+      m_Calls: []
+  currentQuestMainData: {fileID: 11400000, guid: 41af0d812b377ac46b90395f0b9c1710, type: 2}
+  plrInventory: {fileID: 11400000, guid: fb3aa85f070e016439bb2475b9d66f2a, type: 2}

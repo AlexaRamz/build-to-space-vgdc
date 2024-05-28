@@ -638,7 +638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5321472459782601414, guid: 48d1a2351f435a84cbe70808e9509c71, type: 3}
       propertyPath: m_Name
-      value: Frog (1)
+      value: Frog
       objectReference: {fileID: 0}
     - target: {fileID: 5321472459782601414, guid: 48d1a2351f435a84cbe70808e9509c71, type: 3}
       propertyPath: m_IsActive
@@ -663,7 +663,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3733227372881481404, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
       propertyPath: m_Name
-      value: Bat (2)
+      value: Bat
       objectReference: {fileID: 0}
     - target: {fileID: 3733227372881481404, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
       propertyPath: m_IsActive
@@ -1232,7 +1232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5321472459782601414, guid: 48d1a2351f435a84cbe70808e9509c71, type: 3}
       propertyPath: m_Name
-      value: Frog (3)
+      value: Frog
       objectReference: {fileID: 0}
     - target: {fileID: 5321472459782601414, guid: 48d1a2351f435a84cbe70808e9509c71, type: 3}
       propertyPath: m_IsActive
@@ -1382,7 +1382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8712675760847440325, guid: 71a742b995ed9234a8eb15e2dfa6f0b9, type: 3}
       propertyPath: m_Name
-      value: Jug (1)
+      value: Jug
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6689,7 +6689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8712675760847440325, guid: 71a742b995ed9234a8eb15e2dfa6f0b9, type: 3}
       propertyPath: m_Name
-      value: Jug (2)
+      value: Jug
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6767,7 +6767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3733227372881481404, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
       propertyPath: m_Name
-      value: Bat (1)
+      value: Bat
       objectReference: {fileID: 0}
     - target: {fileID: 3733227372881481404, guid: 18a8e596bfb4358458126559237eab7c, type: 3}
       propertyPath: m_IsActive
@@ -7713,7 +7713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5321472459782601414, guid: 48d1a2351f435a84cbe70808e9509c71, type: 3}
       propertyPath: m_Name
-      value: Frog (2)
+      value: Frog
       objectReference: {fileID: 0}
     - target: {fileID: 5321472459782601414, guid: 48d1a2351f435a84cbe70808e9509c71, type: 3}
       propertyPath: m_IsActive

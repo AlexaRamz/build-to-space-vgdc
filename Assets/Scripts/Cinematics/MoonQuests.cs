@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MoonQuests : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class MoonQuests : MonoBehaviour
     [SerializeField] Dialogue[] commanderDialogues;
     [SerializeField] QuestManager questManager;
     [SerializeField] QuestData headToBase;
+    [SerializeField] Transform bunkerDoor;
 
     void Start()
     {
@@ -17,11 +19,14 @@ public class MoonQuests : MonoBehaviour
 
     public void CallToBase()
     {
-        dialogueManager.StartDialogue(commanderDialogues[0], commander, HeadToBase);
+        UnityEvent myEvent = new UnityEvent();
+        myEvent.AddListener(HeadToBase);
+        dialogueManager.StartDialogue(commanderDialogues[0], commander, myEvent);
     }
 
     public void HeadToBase()
     {
-        questManager.AddQuest(headToBase);
+        Quest quest = questManager.AddQuestMain(headToBase);
+        quest.targetLocation = bunkerDoor;
     }
 }

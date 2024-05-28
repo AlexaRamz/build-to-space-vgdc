@@ -9,10 +9,8 @@ using UnityEngine.UIElements;
 
 public class QuestFinder : MonoBehaviour
 {
-    //The purpose of this file is to create an arrow on screen/the edge of the screen if the target is off screen, which points to the current quest objective
+    // Purpose is to create an arrow on screen/the edge of the screen if the target is off screen, which points to the current quest objective
     
-    [SerializeField] private MenuManager menuManager;
-    Canvas canvas;
     public float positionOffset = 25f;
     public float fadeTime = 0.475f; //Time in order to fade color in or out
     bool colorStatus = false; //False used for clear, true used for white (default is clear)
@@ -116,7 +114,7 @@ public class QuestFinder : MonoBehaviour
         questMarkerImage.color = End; //Sets to ending color when 
     }
 
-    public void UpdateTarget(Transform newLocation) //Function used for other classes to set the quest target to a new location, so that this function will change the location of the marker
+    public void UpdateTarget(Transform newLocation)
     {
         questTarget = newLocation; 
     }

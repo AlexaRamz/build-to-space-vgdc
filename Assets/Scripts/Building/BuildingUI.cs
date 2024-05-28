@@ -21,12 +21,12 @@ public class BuildingUI : MonoBehaviour
         buildSys = BuildingSystem.Instance;
         SetCatalog(buildSys.buildCatalog);
         buildSys.StartBuilding();
-        plrInv.updateUIEvent += UpdateMaterials;
+        plrInv.inventoryModifiedEvent += UpdateMaterials;
     }
     private void OnDisable()
     {
         buildSys.EndBuilding();
-        plrInv.updateUIEvent -= UpdateMaterials;
+        plrInv.inventoryModifiedEvent -= UpdateMaterials;
     }
     public void SetCatalog(BuildCatalog buildCatalog)
     {
