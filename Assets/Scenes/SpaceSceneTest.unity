@@ -430,7 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eecb850715cbf46ab7a0179438f37b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 800
+  mass: 600
   scene: {fileID: 102900000, guid: 2f14f8155b4c37045a3990153d440cee, type: 3}
 --- !u!212 &1438301992
 SpriteRenderer:
@@ -611,7 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b9b9314abbb38041a5fc2f8a446262a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitalAssist: 0
+  orbitalAssist: 1
   planets: []
   rigidBodies: []
 --- !u!4 &1919635974 stripped
