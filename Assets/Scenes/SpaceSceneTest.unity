@@ -1016,7 +1016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b9b9314abbb38041a5fc2f8a446262a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitalAssist: 1
+  orbitalAssist: 0
   planets: []
   rigidBodies: []
 --- !u!4 &1919635974 stripped
