@@ -10,6 +10,10 @@ public class PlanetStats : MonoBehaviour
     public float mass = 2; //Sets default mass value to 2 for a planet
     [SerializeField]
     public SceneAsset scene;
+    [SerializeField]
+    public float minimumOrbit = 0f;
+    [SerializeField]
+    public float maximumOrbit = 0f;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
