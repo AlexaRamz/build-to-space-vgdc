@@ -21,6 +21,14 @@ public class GravityController : MonoBehaviour
         rigidBodies = FindObjectsOfType<Rigidbody2D>(); //Try to dynamically record all rigid bodies
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            orbitalAssist = !orbitalAssist; //Toggles orbital assist
+        }
+    }
+
     //Logic to update rigid body
     void FixedUpdate()
     {
@@ -54,7 +62,7 @@ public class GravityController : MonoBehaviour
                 }
             }
             float currentSpeed = Mathf.Sqrt((currentRB.velocity.x * currentRB.velocity.x) + (currentRB.velocity.y * currentRB.velocity.y));
-            if (currentSpeed < 15f && orbitalAssist && closestRadius > planets[closestPlanetIndex].GetComponent<PlanetStats>().minimumOrbit && closestRadius < planets[closestPlanetIndex].GetComponent<PlanetStats>().maximumOrbit) //Checks for orbit conditions, maybe make the radius value be dependent on planet
+            if (currentSpeed < 10f && orbitalAssist && closestRadius > planets[closestPlanetIndex].GetComponent<PlanetStats>().minimumOrbit && closestRadius < planets[closestPlanetIndex].GetComponent<PlanetStats>().maximumOrbit) //Checks for orbit conditions, maybe make the radius value be dependent on planet
             {
                 //currentRB.velocity = new Vector2(-10 * orbitGravY, 10 * orbitGravX); //Sets velocity perpendicular to net gravity (maybe make this just for closest planet gravity)
                 float normalGravX = orbitGravX / Mathf.Sqrt((orbitGravX * orbitGravX) + (orbitGravY * orbitGravY));
