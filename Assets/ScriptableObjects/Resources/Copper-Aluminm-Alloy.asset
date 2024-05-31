@@ -17,4 +17,4 @@ MonoBehaviour:
   _image: {fileID: 21300000, guid: 70141d51621e24facbca9196bbde84b4, type: 3}
   _holdPosition: {x: 0, y: 0}
   category: 0
-  tile: {fileID: 11400000, guid: 45903b88f60c58243b1ea37ef4a2e926, type: 2}
+  tile: {fileID: 0}

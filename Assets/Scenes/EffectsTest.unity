@@ -19153,6 +19153,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5709932008423982632, guid: 131c6bb4ff7f893488f2bf7db6ec00c1, type: 3}
+      propertyPath: shipToLoad
+      value: 
+      objectReference: {fileID: 11400000, guid: 477d4cef6cf54f84ebc6afa495b7e7f4, type: 2}
+    - target: {fileID: 5709932008423982632, guid: 131c6bb4ff7f893488f2bf7db6ec00c1, type: 3}
+      propertyPath: currentShip
+      value: 
+      objectReference: {fileID: 11400000, guid: 477d4cef6cf54f84ebc6afa495b7e7f4, type: 2}
     - target: {fileID: 8498314682302831168, guid: 131c6bb4ff7f893488f2bf7db6ec00c1, type: 3}
       propertyPath: m_Name
       value: SkyManager

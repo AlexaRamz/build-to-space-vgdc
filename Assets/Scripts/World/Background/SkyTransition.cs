@@ -8,8 +8,7 @@ public class SkyTransition : MonoBehaviour
     public float minHeight = 0f;
     public float spaceHeight = 800f;
     public float teleportHeight = 1000f;
-    [SerializeField] private SpriteRenderer sky;
-    [SerializeField] private SpriteRenderer overlay;
+    [SerializeField] SpriteRenderer sky;
 
     private void Update()
     {
@@ -25,12 +24,12 @@ public class SkyTransition : MonoBehaviour
         if (currentHeight >= spaceHeight)
         {
             value = (currentHeight - spaceHeight) / (teleportHeight - spaceHeight);
-            float transparency = Mathf.Clamp(value, 0.0f, 1.0f);
-            overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, transparency);
+            TransitionManager.Instance.FadeOverlay(value, spaceColor);
         }
         if (currentHeight >= teleportHeight)
         {
-            TransitionManager.Instance.LoadSpace();
+            TransitionManager.Instance.SaveCurrentShip();
+            SceneLoader.Instance.LoadScene("SpaceScene");
         }
     }
 }

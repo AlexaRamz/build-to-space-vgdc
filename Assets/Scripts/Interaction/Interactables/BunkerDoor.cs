@@ -9,6 +9,7 @@ public class BunkerDoor : Interactable
     [SerializeField] QuestData headToMoonQuest;
 
     public static bool questFulfilled;
+    bool loading;
 
     private void Start()
     {
@@ -20,8 +21,9 @@ public class BunkerDoor : Interactable
     }
     public override void Interact()
     {
-        if (questManager.IsActiveQuest(headToBaseQuest))
+        if (!loading && !questFulfilled && questManager.IsActiveQuest(headToBaseQuest))
         {
+            loading = true;
             SceneLoader.Instance.LoadScene("MysteriousMessageCutscene");
             questFulfilled = true;
         }

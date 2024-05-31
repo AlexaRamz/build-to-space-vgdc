@@ -55,14 +55,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         plr = GetComponent<PlayerManager>();
         plrInt = GetComponent<PlayerInteraction>();
-
+    }
+    private void Start()
+    {
         currentFuel = fuel;
         jetForce = 1.5f * 18f;
     }

@@ -12,29 +12,51 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] Image fadeImage;
 
     public static SceneLoader Instance;
+    bool loading = false;
 
     private void Awake()
     {
         Instance = this;
         StartCoroutine(FadeIn());
     }
-    public void LoadScene(string sceneName)
-    {
-        // Start loading scene asynchronously
-        sceneLoadOperation = SceneManager.LoadSceneAsync(sceneName);
-        sceneLoadOperation.allowSceneActivation = false; // Prevent automatic scene switch
 
-        // Start fade to black coroutine
-        StartCoroutine(FadeToBlack());
+    public void LoadScene(string sceneName, bool withFade = true)
+    {
+        if (loading) return;
+        loading = true;
+
+        if (withFade)
+        {
+            // Start loading scene asynchronously
+            sceneLoadOperation = SceneManager.LoadSceneAsync(sceneName);
+            sceneLoadOperation.allowSceneActivation = false; // Prevent automatic scene switch
+
+            // Start fade to black coroutine
+            StartCoroutine(FadeToBlack());
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneName);
+        }
     }
-    public void LoadScene(int buildIndex)
+    public void LoadScene(int buildIndex, bool withFade = true)
     {
-        // Start loading scene asynchronously
-        sceneLoadOperation = SceneManager.LoadSceneAsync(buildIndex);
-        sceneLoadOperation.allowSceneActivation = false; // Prevent automatic scene switch
+        if (loading) return;
+        loading = true;
 
-        // Start fade to black coroutine
-        StartCoroutine(FadeToBlack());
+        if (withFade)
+        {
+            // Start loading scene asynchronously
+            sceneLoadOperation = SceneManager.LoadSceneAsync(buildIndex);
+            sceneLoadOperation.allowSceneActivation = false; // Prevent automatic scene switch
+
+            // Start fade to black coroutine
+            StartCoroutine(FadeToBlack());
+        }
+        else
+        {
+            SceneManager.LoadScene(buildIndex);
+        }
     }
 
     IEnumerator FadeToBlack()
