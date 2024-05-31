@@ -36,7 +36,6 @@ public class TutorialManager : MonoBehaviour
     public void InteractInfo()
     {
         menuManager.ShowMenu("InteractInfo");
-        Debug.Log("oof");
     }
     public void CommanderDialogue1()
     {

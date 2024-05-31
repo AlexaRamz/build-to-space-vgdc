@@ -160,7 +160,6 @@ public class BuildingSystem : MonoBehaviour
         foreach (KeyValuePair<Vector2Int, BuildObject> p in thisGrid.gridObjects)
         {
             GameObject obj = PlaceBlock(thisGrid.GridtoWorldAligned(p.Key), p.Value, parent);
-            obj.transform.localRotation = Quaternion.Euler(0, 0, obj.transform.localRotation.z);
             p.Value.gridObject = obj;
         }
     }
@@ -192,6 +191,7 @@ public class BuildingSystem : MonoBehaviour
         }
         return null;
     }
+
     public Ship SpawnShip(BuildGrid ship, Vector2 spawnPos)
     {
         Ship newShip = Instantiate(shipPrefab, spawnPos, Quaternion.identity).GetComponent<Ship>();
@@ -306,8 +306,8 @@ public class BuildingSystem : MonoBehaviour
                 if (canPlace)
                 {
                     PlaceObject(alignedPos, selectedGrid, selectedParent);
-                    if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
-                        thisShip.UpdateShip();
+                    if (thisShip != null)
+                        thisShip.UpdateShip(alignedPos);
                 }
             }
             else if (isDeleting)
@@ -316,8 +316,8 @@ public class BuildingSystem : MonoBehaviour
                 bool willCollapse = false;
                 if (!willCollapse && DeleteObject(alignedPos, selectedGrid))
                 {
-                    if (thisShip != null && selectedGrid.PositionIsAtEdge(alignedPos))
-                        thisShip.UpdateShip();
+                    if (thisShip != null)
+                        thisShip.UpdateShip(alignedPos);
                 }
             }
         }

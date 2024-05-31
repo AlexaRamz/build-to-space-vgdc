@@ -9,12 +9,14 @@ public class PlayerManager : MonoBehaviour
     PlayerInteraction plrInt;
     [SerializeField] private MenuManager menuManager;
     [SerializeField] GameObject collectablePrefab;
+    PlayerMovement plrMovement;
 
     private Tool activeTool;
 
     private void Start()
     {
         plrInt = GetComponent<PlayerInteraction>();
+        plrMovement = GetComponent<PlayerMovement>();
     }
     private void OnEnable()
     {
@@ -34,6 +36,63 @@ public class PlayerManager : MonoBehaviour
         inventory.AddItem(item, amount);
     }
 
+    private void FixedUpdate()
+    {
+        /* FLY INPUT */
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            FlyInput(1);
+        }
+        if (Input.GetKey(KeyCode.Alpha2))
+        {
+            FlyInput(2);
+        }
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            FlyInput(3);
+        }
+        if (Input.GetKey(KeyCode.Alpha4))
+        {
+            FlyInput(4);
+        }
+        if (Input.GetKey(KeyCode.Alpha5))
+        {
+            FlyInput(5);
+        }
+        if (Input.GetKey(KeyCode.Alpha6))
+        {
+            FlyInput(6);
+        }
+        if (Input.GetKey(KeyCode.Alpha7))
+        {
+            FlyInput(7);
+        }
+        if (Input.GetKey(KeyCode.Alpha8))
+        {
+            FlyInput(8);
+        }
+        if (Input.GetKey(KeyCode.Alpha9))
+        {
+            FlyInput(9);
+        }
+
+        if (Input.GetKey("up") || Input.GetKey("w"))
+        {
+            FlyTowardInput(0);
+        }
+        if (Input.GetKey("right") || Input.GetKey("d"))
+        {
+            FlyTowardInput(270);
+        }
+        if (Input.GetKey("down") || Input.GetKey("s"))
+        {
+            FlyTowardInput(180);
+        }
+        if (Input.GetKey("left") || Input.GetKey("a"))
+        {
+            FlyTowardInput(90);
+        }
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -41,22 +100,42 @@ public class PlayerManager : MonoBehaviour
             DropItem();
         }
 
-        /* TOOLS-WEAPONS INPUT */
+        /* TOOL INPUT */
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            inventory.SelectTool(0);
+            ToolInput(1);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            inventory.SelectTool(1);
+            ToolInput(2);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            inventory.SelectTool(2);
+            ToolInput(3);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            inventory.SelectTool(3);
+            ToolInput(4);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            ToolInput(5);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            ToolInput(6);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            ToolInput(7);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            ToolInput(8);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            ToolInput(9);
         }
 
         if (plrInt.canInteract && activeTool != null && Input.GetMouseButton(0))
@@ -89,9 +168,38 @@ public class PlayerManager : MonoBehaviour
         {
             menuManager.ShowMenu("Quests");
         }
-        else if (Input.GetKeyDown(KeyCode.RightShift))
+        else if (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift))
         {
             menuManager.CloseCurrentMenu();
+        }
+    }
+    void ToolInput(int input)
+    {
+        if (!plrMovement.sitting)
+        {
+            inventory.SelectTool(input - 1);
+        }
+    }
+    void FlyInput(int input)
+    {
+        if (plrMovement.sitting)
+        {
+            Ship ship = BuildingSystem.Instance.GetShipAtPosition(transform.position);
+            if (ship != null)
+            {
+                ship.ApplyThrust(input - 1);
+            }
+        }
+    }
+    void FlyTowardInput(float degDirection)
+    {
+        if (plrMovement.sitting)
+        {
+            Ship ship = BuildingSystem.Instance.GetShipAtPosition(transform.position);
+            if (ship != null)
+            {
+                ship.ApplyThrustTowards(degDirection);
+            }
         }
     }
 

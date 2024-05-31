@@ -260,7 +260,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else // player not active
         {
-            if (Input.GetKey("up") || Input.GetKey("w") || Input.GetKey("down") || Input.GetKey("s"))
+            if (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift))
             {
                 Unsit();
             }
@@ -293,7 +293,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    bool sitting;
+    public bool sitting;
     Seat seat;
     public void Sit(Seat thisSeat)
     {
