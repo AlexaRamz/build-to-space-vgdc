@@ -15,22 +15,22 @@ MonoBehaviour:
   description: Propells a ship opposite the ejection direction
   rotations:
   - sprite: {fileID: 21300000, guid: 93d8b7bd8f1707947a1330c777e8709e, type: 3}
-    Object: {fileID: 0}
+    Object: {fileID: 9075980653189402645, guid: e8034b61b63ff5e48bb588406b850837, type: 3}
     flipX: 0
     flipY: 0
     DegRotation: 0
   - sprite: {fileID: 21300000, guid: 93d8b7bd8f1707947a1330c777e8709e, type: 3}
-    Object: {fileID: 0}
+    Object: {fileID: 9075980653189402645, guid: e8034b61b63ff5e48bb588406b850837, type: 3}
     flipX: 0
     flipY: 0
     DegRotation: 270
   - sprite: {fileID: 21300000, guid: 93d8b7bd8f1707947a1330c777e8709e, type: 3}
-    Object: {fileID: 0}
+    Object: {fileID: 9075980653189402645, guid: e8034b61b63ff5e48bb588406b850837, type: 3}
     flipX: 0
     flipY: 0
     DegRotation: 180
   - sprite: {fileID: 21300000, guid: 93d8b7bd8f1707947a1330c777e8709e, type: 3}
-    Object: {fileID: 0}
+    Object: {fileID: 9075980653189402645, guid: e8034b61b63ff5e48bb588406b850837, type: 3}
     flipX: 0
     flipY: 0
     DegRotation: 90

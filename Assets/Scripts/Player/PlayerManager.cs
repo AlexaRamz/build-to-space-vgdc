@@ -36,63 +36,6 @@ public class PlayerManager : MonoBehaviour
         inventory.AddItem(item, amount);
     }
 
-    private void FixedUpdate()
-    {
-        /* FLY INPUT */
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            FlyInput(1);
-        }
-        if (Input.GetKey(KeyCode.Alpha2))
-        {
-            FlyInput(2);
-        }
-        if (Input.GetKey(KeyCode.Alpha3))
-        {
-            FlyInput(3);
-        }
-        if (Input.GetKey(KeyCode.Alpha4))
-        {
-            FlyInput(4);
-        }
-        if (Input.GetKey(KeyCode.Alpha5))
-        {
-            FlyInput(5);
-        }
-        if (Input.GetKey(KeyCode.Alpha6))
-        {
-            FlyInput(6);
-        }
-        if (Input.GetKey(KeyCode.Alpha7))
-        {
-            FlyInput(7);
-        }
-        if (Input.GetKey(KeyCode.Alpha8))
-        {
-            FlyInput(8);
-        }
-        if (Input.GetKey(KeyCode.Alpha9))
-        {
-            FlyInput(9);
-        }
-
-        if (Input.GetKey("up") || Input.GetKey("w"))
-        {
-            FlyTowardInput(0);
-        }
-        if (Input.GetKey("right") || Input.GetKey("d"))
-        {
-            FlyTowardInput(270);
-        }
-        if (Input.GetKey("down") || Input.GetKey("s"))
-        {
-            FlyTowardInput(180);
-        }
-        if (Input.GetKey("left") || Input.GetKey("a"))
-        {
-            FlyTowardInput(90);
-        }
-    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -172,6 +115,78 @@ public class PlayerManager : MonoBehaviour
         {
             menuManager.CloseCurrentMenu();
         }
+
+        /* FLY INPUT */
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            FlyInput(1);
+        }
+        if (Input.GetKey(KeyCode.Alpha2))
+        {
+            FlyInput(2);
+        }
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            FlyInput(3);
+        }
+        if (Input.GetKey(KeyCode.Alpha4))
+        {
+            FlyInput(4);
+        }
+        if (Input.GetKey(KeyCode.Alpha5))
+        {
+            FlyInput(5);
+        }
+        if (Input.GetKey(KeyCode.Alpha6))
+        {
+            FlyInput(6);
+        }
+        if (Input.GetKey(KeyCode.Alpha7))
+        {
+            FlyInput(7);
+        }
+        if (Input.GetKey(KeyCode.Alpha8))
+        {
+            FlyInput(8);
+        }
+        if (Input.GetKey(KeyCode.Alpha9))
+        {
+            FlyInput(9);
+        }
+
+        if (Input.GetKeyDown("up") || Input.GetKey("w"))
+        {
+            FlyTowardInput(0);
+        }
+        if (Input.GetKeyDown("right") || Input.GetKey("d"))
+        {
+            FlyTowardInput(270);
+        }
+        if (Input.GetKeyDown("down") || Input.GetKey("s"))
+        {
+            FlyTowardInput(180);
+        }
+        if (Input.GetKeyDown("left") || Input.GetKey("a"))
+        {
+            FlyTowardInput(90);
+        }
+
+        if (Input.GetKeyUp("up") || Input.GetKey("w"))
+        {
+            FlyTowardInputOff(0);
+        }
+        if (Input.GetKeyUp("right") || Input.GetKey("d"))
+        {
+            FlyTowardInputOff(270);
+        }
+        if (Input.GetKeyUp("down") || Input.GetKey("s"))
+        {
+            FlyTowardInputOff(180);
+        }
+        if (Input.GetKeyUp("left") || Input.GetKey("a"))
+        {
+            FlyTowardInputOff(90);
+        }
     }
     void ToolInput(int input)
     {
@@ -187,7 +202,7 @@ public class PlayerManager : MonoBehaviour
             Ship ship = BuildingSystem.Instance.GetShipAtPosition(transform.position);
             if (ship != null)
             {
-                ship.ApplyThrust(input - 1);
+                ship.ToggleThrust(input - 1);
             }
         }
     }
@@ -198,7 +213,18 @@ public class PlayerManager : MonoBehaviour
             Ship ship = BuildingSystem.Instance.GetShipAtPosition(transform.position);
             if (ship != null)
             {
-                ship.ApplyThrustTowards(degDirection);
+                ship.ApplyThrustTowards(degDirection, true);
+            }
+        }
+    }
+    void FlyTowardInputOff(float degDirection)
+    {
+        if (plrMovement.sitting)
+        {
+            Ship ship = BuildingSystem.Instance.GetShipAtPosition(transform.position);
+            if (ship != null)
+            {
+                ship.ApplyThrustTowards(degDirection, false);
             }
         }
     }

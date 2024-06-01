@@ -14,7 +14,7 @@ public class Ship : MonoBehaviour
     BuildingSystem buildSys;
 
     Build rocketBlock;
-    List<KeyValuePair<Vector2Int, BuildObject>> thrusters = new List<KeyValuePair<Vector2Int, BuildObject>>();
+    List<Propulsion> thrusters = new List<Propulsion>();
 
     public void SetUpShip(BuildGrid thisShip)
     {
@@ -35,9 +35,9 @@ public class Ship : MonoBehaviour
         transform.position = ship.bottomLeft;
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, ship.rotation);
 
-        FindThrusters();
-
         buildSys.SpawnObjects(ship, transform);
+
+        FindThrusters();
     }
 
     // Update the ship grid when blocks are added or deleted
@@ -63,8 +63,13 @@ public class Ship : MonoBehaviour
         {
             if (tile.Value != null && tile.Value.build == rocketBlock)
             {
-                Debug.Log("Found a thruster: " + "(" + tile.Key.x + ", " + tile.Key.y + ")");
-                thrusters.Add(tile);
+                Propulsion part = tile.Value.gridObject?.GetComponent<Propulsion>();
+                if (part != null)
+                {
+                    thrusters.Add(part);
+                    part.ship = this;
+                    part.forceAngle = tile.Value.GetRotation().DegRotation;
+                }
             }
         }
     }
@@ -84,33 +89,37 @@ public class Ship : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void ApplyThrust(int thrusterNum)
+    public void ToggleThrust(int thrusterNum)
     {
         if (thrusterNum >= 0 && thrusterNum < thrusters.Count)
         {
-            KeyValuePair<Vector2Int, BuildObject> part = thrusters[thrusterNum];
-            float angle = part.Value.GetRotation().DegRotation;
-            Vector2 initialVector = Vector2.up * 3;
-            Vector2 tilePos = ship.GridtoWorldPos(part.Key);
-            Vector2 forcePoint = new Vector2(tilePos.x + 0.5f * Mathf.Cos((angle) * Mathf.Deg2Rad), tilePos.y + 0.5f * Mathf.Sin((angle) * Mathf.Deg2Rad));
-            rb.AddForceAtPosition(initialVector.RotatedBy((transform.rotation.eulerAngles.z + angle) * Mathf.Deg2Rad),
-                forcePoint, ForceMode2D.Impulse);
+            Propulsion part = thrusters[thrusterNum];
+            part.Interact();
         }
     }
-    public void ApplyThrustTowards(float degDirection)
+    public void ApplyThrustTowards(float degDirection, bool on)
     {
-        foreach (KeyValuePair<Vector2Int, BuildObject> part in thrusters)
+        foreach (Propulsion part in thrusters)
         {
-            float angle = part.Value.GetRotation().DegRotation;
-            if (angle == degDirection)
+            if (part.forceAngle == degDirection)
             {
-                Vector2 initialVector = Vector2.up * 3;
-                Vector2 tilePos = ship.GridtoWorldPos(part.Key);
-                Vector2 forcePoint = new Vector2(tilePos.x + 0.5f * Mathf.Cos((angle) * Mathf.Deg2Rad), tilePos.y + 0.5f * Mathf.Sin((angle) * Mathf.Deg2Rad));
-                rb.AddForceAtPosition(initialVector.RotatedBy((transform.rotation.eulerAngles.z + angle) * Mathf.Deg2Rad),
-                    forcePoint, ForceMode2D.Impulse);
+                if (on)
+                {
+                    part.ThrustOn();
+                }
+                else
+                {
+                    part.ThrustOff();
+                }
             }
         }
+    }
+
+    public void ApplyForce(Vector2 position, float degAngle, float magnitude)
+    {
+        Vector2 direction = new Vector2(Mathf.Cos((degAngle + 90) * Mathf.Deg2Rad), Mathf.Sin((degAngle + 90) * Mathf.Deg2Rad));
+        Debug.Log(degAngle);
+        rb.AddForceAtPosition(direction * magnitude, position, ForceMode2D.Impulse);
     }
 
     private void FixedUpdate()

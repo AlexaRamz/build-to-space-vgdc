@@ -40,7 +40,10 @@ public class PlayerInteraction : MonoBehaviour
         if (currentInteract != newInteract)
         {
             if (currentInteract != null) InteractIconOff(currentInteract);
-            if (newInteract != null) InteractIconOn(newInteract);
+            if (newInteract != null && newInteract.showIcon)
+            {
+                InteractIconOn(newInteract);
+            }
             currentInteract = newInteract;
         }
     }
@@ -121,7 +124,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (canInteract)
         {
-            if ((Input.GetKeyDown(KeyCode.Return)) && currentInteract != null)
+            if ((Input.GetKeyDown(KeyCode.Return)) && currentInteract != null && currentInteract.interactOnEnter)
             {
                 currentInteract.Interact();
             }
