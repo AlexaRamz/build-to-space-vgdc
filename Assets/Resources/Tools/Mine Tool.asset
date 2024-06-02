@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cost: 0
   _description: 
-  _image: {fileID: 21300000, guid: 7f26a42610ccfde40b7c042d1bd36f9f, type: 3}
+  _image: {fileID: 21300000, guid: 2dd0bd09a781ba44caa62da777ab4f61, type: 3}
   _holdPosition: {x: 0, y: 0}
   activationCooldown: 0.25
   prefab: {fileID: 956604068018005096, guid: 64aa6c2f2c792d249892e10f1462a17c, type: 3}

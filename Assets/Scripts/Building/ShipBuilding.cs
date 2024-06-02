@@ -70,7 +70,7 @@ public class ShipBuilding : MonoBehaviour
     }
     private void LoadMainScene()
     {
-        SceneLoader.Instance.LoadScene("TutorialScene"); //Go to the main scene
+        SceneLoader.Instance.LoadScene("MainScene"); //Go to the main scene
     }
     private void LoadCharacterSelect()
     {

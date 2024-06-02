@@ -46,39 +46,39 @@ public class PlayerManager : MonoBehaviour
         /* TOOL INPUT */
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ToolInput(1);
+            NumberInput(1);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ToolInput(2);
+            NumberInput(2);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ToolInput(3);
+            NumberInput(3);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            ToolInput(4);
+            NumberInput(4);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            ToolInput(5);
+            NumberInput(5);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            ToolInput(6);
+            NumberInput(6);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            ToolInput(7);
+            NumberInput(7);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            ToolInput(8);
+            NumberInput(8);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            ToolInput(9);
+            NumberInput(9);
         }
 
         if (plrInt.canInteract && activeTool != null && Input.GetMouseButton(0))
@@ -116,44 +116,6 @@ public class PlayerManager : MonoBehaviour
             menuManager.CloseCurrentMenu();
         }
 
-        /* FLY INPUT */
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            FlyInput(1);
-        }
-        if (Input.GetKey(KeyCode.Alpha2))
-        {
-            FlyInput(2);
-        }
-        if (Input.GetKey(KeyCode.Alpha3))
-        {
-            FlyInput(3);
-        }
-        if (Input.GetKey(KeyCode.Alpha4))
-        {
-            FlyInput(4);
-        }
-        if (Input.GetKey(KeyCode.Alpha5))
-        {
-            FlyInput(5);
-        }
-        if (Input.GetKey(KeyCode.Alpha6))
-        {
-            FlyInput(6);
-        }
-        if (Input.GetKey(KeyCode.Alpha7))
-        {
-            FlyInput(7);
-        }
-        if (Input.GetKey(KeyCode.Alpha8))
-        {
-            FlyInput(8);
-        }
-        if (Input.GetKey(KeyCode.Alpha9))
-        {
-            FlyInput(9);
-        }
-
         if (Input.GetKeyDown("up") || Input.GetKey("w"))
         {
             FlyTowardInput(0);
@@ -188,16 +150,13 @@ public class PlayerManager : MonoBehaviour
             FlyTowardInputOff(90);
         }
     }
-    void ToolInput(int input)
+    void NumberInput(int input)
     {
         if (!plrMovement.sitting)
         {
             inventory.SelectTool(input - 1);
         }
-    }
-    void FlyInput(int input)
-    {
-        if (plrMovement.sitting)
+        else
         {
             Ship ship = BuildingSystem.Instance.GetShipAtPosition(transform.position);
             if (ship != null)
@@ -206,6 +165,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
+
     void FlyTowardInput(float degDirection)
     {
         if (plrMovement.sitting)

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cost: 20
   _description: Blast away enemies with this high powered weapon
-  _image: {fileID: 21300000, guid: 4d8441ffb5854b54bbe864b233a1473e, type: 3}
+  _image: {fileID: 21300000, guid: d474ea169bf41914cb991b0ef5ae7ef3, type: 3}
   _holdPosition: {x: 0, y: 0}
   activationCooldown: 0.25
-  prefab: {fileID: 956604068018005096, guid: 18bc7c8705e5d394d955090d8babc214, type: 3}
+  prefab: {fileID: 3739972511456777333, guid: e2996d5177cded847ba0cadb099fb2e9, type: 3}
   bulletDamage: 3
   bulletSpeed: 10
   bulletLifetime: 3

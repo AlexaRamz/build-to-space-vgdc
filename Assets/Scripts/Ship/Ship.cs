@@ -118,7 +118,6 @@ public class Ship : MonoBehaviour
     public void ApplyForce(Vector2 position, float degAngle, float magnitude)
     {
         Vector2 direction = new Vector2(Mathf.Cos((degAngle + 90) * Mathf.Deg2Rad), Mathf.Sin((degAngle + 90) * Mathf.Deg2Rad));
-        Debug.Log(degAngle);
         rb.AddForceAtPosition(direction * magnitude, position, ForceMode2D.Impulse);
     }
 

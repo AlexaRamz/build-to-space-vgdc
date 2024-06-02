@@ -7,7 +7,6 @@ public class GunShoot : Tool
     private GunData gunData;
     [SerializeField]
     private Transform bulletOrigin;
-    SpriteRenderer spriteRender;
     Transform plr;
     AudioManager audioManager;
 
@@ -25,14 +24,11 @@ public class GunShoot : Tool
                 return;
             }
             gunData = (GunData)value;
-            Setup();
         }
     }
 
-    void Setup()
+    void Start()
     {
-        spriteRender = GetComponent<SpriteRenderer>();
-        spriteRender.sprite = gunData.image;
         plr = GameObject.Find("Player").transform;
         audioManager = GameObject.Find("AudioManager")?.GetComponent<AudioManager>();
     }
@@ -58,6 +54,7 @@ public class GunShoot : Tool
 
     void LateUpdate()
     {
+        plr.GetComponent<PlayerMovement>().UpdateToolFlipY();
         Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - plr.position).normalized;
         angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);

@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class TerrainTool : Tool
 {
+    PlayerMovement plrMove;
+
+    void Start()
+    {
+        plrMove = GameObject.Find("Player").GetComponent<PlayerMovement>();
+    }
+
     void Mine()
     {
         TerrainManager.Instance.DeleteAtMouse();
@@ -15,5 +22,10 @@ public class TerrainTool : Tool
 
         Mine();
         return true;
+    }
+
+    void Update()
+    {
+        plrMove.GetComponent<PlayerMovement>().UpdateToolFlipX();
     }
 }

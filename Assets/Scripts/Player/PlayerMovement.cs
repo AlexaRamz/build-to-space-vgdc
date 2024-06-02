@@ -185,10 +185,6 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (distance > 0) faceDirection = 1;
                     else faceDirection = -1;
-                    if (holdingTool)
-                    {
-                        plr.holdOrigin.localScale = new Vector3(1, faceDirection, 1);
-                    }
                 }
             }
             anim.SetFloat("Horizontal", faceDirection);
@@ -279,6 +275,15 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector2.up * jetForce);
             currentFuel -= fuelBurnRate * Time.deltaTime;
         }
+    }
+
+    public void UpdateToolFlipY()
+    {
+        plr.holdOrigin.localScale = new Vector3(1, faceDirection, 1);
+    }
+    public void UpdateToolFlipX()
+    {
+        plr.holdOrigin.localScale = new Vector3(faceDirection, 1, 1);
     }
 
     void RefillFuel()
