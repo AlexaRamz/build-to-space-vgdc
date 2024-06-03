@@ -1402,6 +1402,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Earth
       objectReference: {fileID: 0}
+    - target: {fileID: 7523222375114268705, guid: 05221440152fcc1438e334754af5e459, type: 3}
+      propertyPath: transitionBufferSize
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8121202293796397392, guid: 05221440152fcc1438e334754af5e459, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.3

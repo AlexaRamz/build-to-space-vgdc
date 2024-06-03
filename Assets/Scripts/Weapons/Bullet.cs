@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Bullet : MonoBehaviour
 {
@@ -75,7 +74,8 @@ public class Bullet : MonoBehaviour
     }
     void DestroySelf()
     {
-        Instantiate(particlesPrefab, transform.position, Quaternion.identity);
+        if (particlesPrefab != null)
+            Instantiate(particlesPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

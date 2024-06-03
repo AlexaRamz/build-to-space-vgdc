@@ -56,9 +56,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1259575674437576835, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
+      propertyPath: transitionBufferSize
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2190946067221672334, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: mass
-      value: 5000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2190946067221672334, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: maximumOrbit

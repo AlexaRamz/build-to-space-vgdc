@@ -6,27 +6,32 @@ using UnityEngine;
 public class Character : ScriptableObject
 {
     public Sprite hair;
+    public Color hairColor;
     public Sprite hat;
+    public Color hatColor;
     public Sprite suit;
 
-    public void UpdateChar(GameObject plr, Sprite newHair, Sprite newHat)
-    {
-        plr.transform.Find("Hair").GetComponent<SpriteRenderer>().sprite = newHair;
-        plr.transform.Find("Hat").GetComponent<SpriteRenderer>().sprite = newHat;
-    }
     public void LoadChar(GameObject plr)
     {
-        plr.transform.Find("Hair").GetComponent<SpriteRenderer>().sprite = hair;
-        plr.transform.Find("Hat").GetComponent<SpriteRenderer>().sprite = hat;
+        SpriteRenderer hairSprite = plr.transform.Find("Hair").GetComponent<SpriteRenderer>();
+        hairSprite.sprite = hair;
+        hairSprite.color = hairColor;
+        SpriteRenderer hatSprite = plr.transform.Find("Hat").GetComponent<SpriteRenderer>();
+        hatSprite.sprite = hat;
+        hatSprite.color = hatColor;
     }
-    public void SaveChar(Sprite newHair, Sprite newHat)
+    public void SaveChar(Sprite newHair, Sprite newHat, Color newHairColor, Color newHatColor)
     {
         hair = newHair;
         hat = newHat;
+        hairColor = newHairColor;
+        hatColor = newHatColor;
     }
     public void ClearSave()
     {
         hair = null;
         hat = null;
+        hairColor = new Color(1f, 1f, 1f);
+        hatColor = new Color(1f, 1f, 1f);
     }
 }

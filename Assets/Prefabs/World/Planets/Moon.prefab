@@ -62,11 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1259575674437576835, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: transitionBufferSize
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2190946067221672334, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: mass
-      value: 7000
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2190946067221672334, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: maximumOrbit

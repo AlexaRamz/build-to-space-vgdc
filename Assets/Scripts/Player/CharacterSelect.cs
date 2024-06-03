@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CharacterSelect : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class CharacterSelect : MonoBehaviour
     int currentHatIndex = 0;
     public Character plrChar;
     public GameObject plrModel;
+    [SerializeField] Slider hueSlider;
+    [SerializeField] SelectionButton[] colorButtons;
+
+    int selectedColor = 0;
 
     private void Awake()
     {
@@ -18,7 +23,7 @@ public class CharacterSelect : MonoBehaviour
     }
     public void Save()
     {
-        plrChar.SaveChar(hairList[currentHairIndex], hatList[currentHatIndex]);
+        plrChar.SaveChar(hairList[currentHairIndex], hatList[currentHatIndex], colorButtons[1].image.color, colorButtons[0].image.color);
     }
     public void SaveChar()
     {
@@ -27,7 +32,8 @@ public class CharacterSelect : MonoBehaviour
     }
     public void UpdateChar()
     {
-        plrChar.UpdateChar(plrModel, hairList[currentHairIndex], hatList[currentHatIndex]);
+        Save();
+        plrChar.LoadChar(plrModel);
     }
     public void SwitchHairLeft()
     {
@@ -76,5 +82,16 @@ public class CharacterSelect : MonoBehaviour
             currentHatIndex = 0;
         }
         UpdateChar();
+    }
+    public void OnHueChanged()
+    {
+        colorButtons[selectedColor].image.color = Color.HSVToRGB(hueSlider.value, 1f, 1f);
+        UpdateChar();
+    }
+    public void SelectColor(int btnNo)
+    {
+        colorButtons[selectedColor].SetSelection(false);
+        selectedColor = btnNo;
+        colorButtons[selectedColor].SetSelection(true);
     }
 }
