@@ -19,7 +19,6 @@ public class TerrainManager : MonoBehaviour
     {
         buildSys = BuildingSystem.Instance;
     }
-
     public void AddGroundTiles()
     {
         if (ground == null) return;
@@ -41,7 +40,6 @@ public class TerrainManager : MonoBehaviour
             }
         }
     }
-
     public static bool HasAdjacentTile(Vector3Int cellPosition, Tilemap tilemap)
     {
         Vector3Int[] neighborOffsets = { Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left };

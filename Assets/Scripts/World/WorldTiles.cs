@@ -6,6 +6,11 @@ using UnityEngine.Tilemaps;
 public class WorldTiles : ScriptableObject
 {
     public Tile DeadBush;
-    public RuleTile Cracked;
+    public RuleTile Dirt;
     public RuleTile Purple;
+    public RuleTile Stone;
+    public RuleTile CopperOre;
+    public RuleTile IronOre;
+    public RuleTile AluminumOre;
+    public RuleTile CoalOre;
 }

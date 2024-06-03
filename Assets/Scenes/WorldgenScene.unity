@@ -5530,7 +5530,7 @@ GameObject:
   - component: {fileID: 1684301513}
   - component: {fileID: 1684301515}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: World
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6272,6 +6272,10 @@ PrefabInstance:
     - target: {fileID: 4944114684345726257, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117925600914632305, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 45.870117
       objectReference: {fileID: 0}
     - target: {fileID: 5255348880803981632, guid: cd838eae897fd0846a4fa30d9aa3047e, type: 3}
       propertyPath: m_AnchorMax.y

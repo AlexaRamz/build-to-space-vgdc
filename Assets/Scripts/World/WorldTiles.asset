@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: WorldTiles
   m_EditorClassIdentifier: 
   DeadBush: {fileID: 11400000, guid: 269bebaf9b16ab149b7253774694afce, type: 2}
-  Cracked: {fileID: 11400000, guid: f117e5ddd82ddb042be9300d3a46e1f8, type: 2}
-  Purple: {fileID: 11400000, guid: 197c0afba8ae37a4bbf567ae7cc78a1f, type: 2}
+  Dirt: {fileID: 11400000, guid: 4916826dee6abed47b2fdf4172a576bc, type: 2}
+  Purple: {fileID: 11400000, guid: f02ecfbb47327cd40b5c9e5e52ed383a, type: 2}
+  Stone: {fileID: 11400000, guid: f117e5ddd82ddb042be9300d3a46e1f8, type: 2}
+  CopperOre: {fileID: 11400000, guid: 197c0afba8ae37a4bbf567ae7cc78a1f, type: 2}
+  IronOre: {fileID: 11400000, guid: 5e048132355943149beceadab6f9f23e, type: 2}
+  AluminumOre: {fileID: 11400000, guid: 60a432b5e4875624693d587025a08450, type: 2}
+  CoalOre: {fileID: 11400000, guid: e96a94d80068a2643a37cfadf9ff4688, type: 2}

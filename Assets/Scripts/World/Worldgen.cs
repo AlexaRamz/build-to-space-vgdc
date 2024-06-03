@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
 
 public class Worldgen : MonoBehaviour
@@ -27,34 +28,47 @@ public class Worldgen : MonoBehaviour
         
     }
     private const int WorldWidth = 400;
-    private const int WorldHeight = 100;
+    private const int WorldHeight = 150;
     private void GenerateWorld()
     {
+        float stoneLayer = 0.85f; //How high up does stone start spawning?
+
         float randSeed = Random.Range(0, 256f);
-        float smoothness = 40f;
+        float smoothness = 80f;
         float caveSmoothnessX = 24f;
         float caveSmoothnessY = 20f;
-        float minHeightPercent = 0.8f;
-        float caveSize = 0.075f;
+        float minHeightPercent = 0.9f;
         float caveFrequency = 0.42f;
         //This generates the shape of the world, including background tiles and caves.
-        for (int i = 0; i < WorldWidth; i++)
+        for (int j = 0; j < WorldHeight; j++)
         {
-            float elevationNoise = minHeightPercent + (1 - minHeightPercent) * Mathf.PerlinNoise1D((float)(i + randSeed) / smoothness);
-            for (int j = 0; j < WorldHeight; j++)
+            float caveSize = 0.075f;
+            float heightPercent = (float)j / WorldHeight;
+            if (heightPercent < 0.6f)
             {
-                float heightPercent = ((float)j / WorldHeight);
+                float thinCaves = Mathf.Sqrt(heightPercent / 0.6f);
+                caveSize *= thinCaves;
+            }
+            for (int i = 0; i < WorldWidth; i++)
+            {
+                float elevationNoise = minHeightPercent + (1 - minHeightPercent) * Mathf.PerlinNoise1D((float)(i + randSeed) / smoothness);
                 float indentNoise = Mathf.PerlinNoise(i / caveSmoothnessX, j / caveSmoothnessY);
                 float diffElevation = Mathf.Clamp(heightPercent - elevationNoise, -1, 1);
                 bool notACave = (indentNoise > caveFrequency + caveSize || indentNoise < caveFrequency - caveSize);
                 if (diffElevation <= 0)
                 {
                     Vector3Int pos = new Vector3Int(i, j);
+                    var TileType = Tiles.Dirt;
+                    float stoneLayerRandomness = Mathf.Abs(Mathf.PerlinNoise(i / 25f, j / 15f));
+                    if(heightPercent < stoneLayer + 0.05f * stoneLayerRandomness)
+                    {
+                        TileType = Tiles.Stone;
+                    }
                     if (notACave)
                     {
-                        Foreground.SetTile(pos, Tiles.Cracked);
+                        Foreground.SetTile(pos, TileType);
                     }
-                    Background.SetTile(pos, Tiles.Cracked);
+                    Background.SetTile(pos, TileType);
                     Background.SetColor(pos, Color.gray);
                 }
             }
@@ -68,7 +82,7 @@ public class Worldgen : MonoBehaviour
                 Vector3Int belowLPos = new Vector3Int(i - 1, j - 1);
                 Vector3Int belowPos = new Vector3Int(i, j - 1);
                 Vector3Int pos = new Vector3Int(i, j);
-                if (Foreground.HasTile(belowPos) && !Background.HasTile(belowPos))
+                if (Foreground.HasTile(belowPos) && !Background.HasTile(pos))
                 {
                     if (Foreground.HasTile(belowLPos) && Foreground.HasTile(belowRPos) && Random.Range(0, 1f) < 0.1f)
                         Background.SetTile(pos, Tiles.DeadBush);
@@ -76,23 +90,28 @@ public class Worldgen : MonoBehaviour
                 }
             }
         }
-        //Generate ores... since there are no ores for now, I'm generating purple tiles.
-        for (int i = 0; i < WorldWidth; i++)
+
+
+        PlaceOres(80, new Vector2Int(100, 150), 0.85f, Tiles.CoalOre);
+        PlaceOres(60, new Vector2Int(100, 200), 0.75f, Tiles.CopperOre);
+        PlaceOres(40, new Vector2Int(100, 200), 0.6f, Tiles.IronOre, 0.02f);
+        PlaceOres(20, new Vector2Int(100, 250), 0.4f, Tiles.AluminumOre, -0.03f); //Having a negative centering bias makes it generate in less clumpy, more worm-like shapes!
+    }
+    private void PlaceOres(float totalVeins, Vector2Int veinSize, float maximumHeightPercent, TileBase type, float centeringBias = 0.03f)
+    {
+        while(totalVeins > 0)
         {
-            for (int j = 0; j < WorldHeight; j++)
+            Vector3Int pos = new Vector3Int((int)(WorldWidth * Random.Range(0, 1f)), (int)(WorldHeight * Random.Range(0, maximumHeightPercent)));
+            if (Foreground.HasTile(pos))
             {
-                Vector3Int pos = new Vector3Int(i, j);
-                if (Foreground.HasTile(pos))
-                {
-                    if (Random.Range(0, 1f) < 0.005f)
-                    {
-                        GenerateOre(i, j, Random.Range(100, 200));
-                    }
-                }
+                GenerateOre(pos.x, pos.y, Random.Range(veinSize.x, veinSize.y), type, centeringBias);
+                totalVeins--;
             }
+            else
+                totalVeins -= 0.1f; //If we fail to generate an ore, make it count as using 1/10th of an ore slot
         }
     }
-    private void GenerateOre(int i, int j, int size, float centeringBias = 0.03f)
+    private void GenerateOre(int i, int j, int size, TileBase oreType, float centeringBias = 0.03f)
     {
         Vector3 center = new Vector3(i, j);
         Vector3 pos = new Vector3(i, j);
@@ -101,7 +120,7 @@ public class Worldgen : MonoBehaviour
             Vector3Int IntPos = new Vector3Int((int)pos.x, (int)pos.y);
             if (Foreground.HasTile(IntPos))
             {
-                Foreground.SetTile(IntPos, Tiles.Purple);
+                Foreground.SetTile(IntPos, oreType);
             }
             pos.x += Random.Range(-.5f, .5f);
             pos.y += Random.Range(-.5f, .5f);
