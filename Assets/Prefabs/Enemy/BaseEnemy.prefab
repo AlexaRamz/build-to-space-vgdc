@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6799214208123682920}
   - component: {fileID: 2361038564699116075}
   - component: {fileID: 2648269364622787934}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: BaseEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4699389680718928952}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: FiringPoint
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
@@ -311,7 +311,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8232109242512837218}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: TypeIdentifier
   m_TagString: BaseEnemy
   m_Icon: {fileID: 0}

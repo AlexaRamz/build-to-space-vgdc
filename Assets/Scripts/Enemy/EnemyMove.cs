@@ -236,7 +236,7 @@ public class EnemyMove : MonoBehaviour
     }
     public bool CanReachPosition(PathNode pos)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, (pos.getPos()-new Vector2(transform.position.x,transform.position.y)).normalized,Vector2.Distance(transform.position,pos.getPos()), ~LayerMask.GetMask("NPC", "Player"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (pos.getPos()-new Vector2(transform.position.x,transform.position.y)).normalized,Vector2.Distance(transform.position,pos.getPos()), ~LayerMask.GetMask("Enemy", "Player", "Forcefield"));
 
         if (hit.collider != null)
         {
@@ -259,7 +259,7 @@ public class EnemyMove : MonoBehaviour
                     targ = new Vector2(spawnPosition.x + Random.Range(-maxWanderDistance / 2, maxWanderDistance / 2), spawnPosition.y );
                 }
 
-                RaycastHit2D hit = Physics2D.Raycast(targ,Vector2.down,float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
+                RaycastHit2D hit = Physics2D.Raycast(targ,Vector2.down,float.MaxValue, ~LayerMask.GetMask("Enemy", "Player", "Forcefield"));
 
                 if (hit.collider == null)
                 {
@@ -313,7 +313,7 @@ public class EnemyMove : MonoBehaviour
 
             if(moveType==MovementFlare.Hop)
             {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("Enemy", "Player", "Forcefield"));
 
                 if (hit.collider == null)
                 {
@@ -361,7 +361,7 @@ public class EnemyMove : MonoBehaviour
 
             if (moveType == MovementFlare.Hop)
             {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("Enemy", "Player", "Forcefield"));
 
                 if (hit.collider == null)
                 {
@@ -402,7 +402,7 @@ public class EnemyMove : MonoBehaviour
             if(moveType!=MovementFlare.Fly)
             {
                 //We shouldnt fly, so lets map our targ pos downwards to the ground.
-                RaycastHit2D hit = Physics2D.Raycast(targPos, Vector2.down, float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
+                RaycastHit2D hit = Physics2D.Raycast(targPos, Vector2.down, float.MaxValue, ~LayerMask.GetMask("Enemy", "Player", "Forcefield"));
 
                 if (hit.collider == null)
                 {
@@ -417,7 +417,7 @@ public class EnemyMove : MonoBehaviour
 
             if (moveType == MovementFlare.Hop)
             {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("NPC", "Player"));
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, float.MaxValue, ~LayerMask.GetMask("Enemy", "Player", "Forcefield"));
 
                 if (hit.collider == null)
                 {

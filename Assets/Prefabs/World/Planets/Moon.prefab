@@ -64,6 +64,18 @@ PrefabInstance:
       propertyPath: transitionBufferSize
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2190946067221672334, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
+      propertyPath: mass
+      value: 7000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190946067221672334, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
+      propertyPath: maximumOrbit
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190946067221672334, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
+      propertyPath: minimumOrbit
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4009159811084996620, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: m_Color.b
       value: 0.9169811

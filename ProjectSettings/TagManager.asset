@@ -16,6 +16,7 @@ TagManager:
   - BaseEnemy
   - Source
   - Machine
+  - Planet
   layers:
   - Default
   - TransparentFX
@@ -26,8 +27,8 @@ TagManager:
   - NoCollision
   - Ground
   - NPC
-  - 
-  - 
+  - Forcefield
+  - Enemy
   - 
   - 
   - 

@@ -134,7 +134,7 @@ public class EnemyAttackJugFix : MonoBehaviour
     public bool HasClearShot()
     {
         Vector2 pos = player.transform.position;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, (pos - new Vector2(transform.position.x, transform.position.y)).normalized, Vector2.Distance(transform.position, pos), ~LayerMask.GetMask("NPC", "Player"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (pos - new Vector2(transform.position.x, transform.position.y)).normalized, Vector2.Distance(transform.position, pos), ~LayerMask.GetMask("Enemy", "Player", "ForceField"));
 
         if (hit.collider != null)
         {

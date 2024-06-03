@@ -32,9 +32,9 @@ public class forcefield : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        Rigidbody2D objectRb = other.GetComponent<Rigidbody2D>();
+        Rigidbody2D objectRb = other.gameObject.GetComponent<Rigidbody2D>();
 
         if (objectRb != null)
         {
