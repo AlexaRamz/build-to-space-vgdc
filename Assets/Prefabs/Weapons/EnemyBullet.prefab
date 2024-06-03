@@ -169,3 +169,4 @@ MonoBehaviour:
   DoesntDespawn: 0
   OnlyDespawnWhenNotVisible: 0
   ChasePlayers: 0
+  particlesPrefab: {fileID: 3223652384140640870, guid: 11df25d99b2f5cf4c81db6d4f5d89ee3, type: 3}

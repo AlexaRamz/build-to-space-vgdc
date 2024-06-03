@@ -408,7 +408,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5544982201108194722
 RectTransform:
   m_ObjectHideFlags: 0
@@ -836,6 +836,8 @@ MonoBehaviour:
   fuelBurnRate: 20
   fuelRefillRate: 5
   plrInv: {fileID: 11400000, guid: fb3aa85f070e016439bb2475b9d66f2a, type: 2}
+  faceDirection: 1
+  sitting: 0
 --- !u!114 &2300245366427090686
 MonoBehaviour:
   m_ObjectHideFlags: 0

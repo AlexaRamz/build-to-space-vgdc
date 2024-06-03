@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
     bool jumpButton = false;
     bool canJump = false;
 
-    int faceDirection = 1;
+    public int faceDirection = 1;
 
     void Update()
     {

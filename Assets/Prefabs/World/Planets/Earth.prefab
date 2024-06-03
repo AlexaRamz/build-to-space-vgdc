@@ -9,12 +9,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 696226094645619186, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 696226094645619186, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 696226094645619186, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.5
+      value: 16.8
       objectReference: {fileID: 0}
     - target: {fileID: 696226094645619186, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -21.5
+      value: 5.3
       objectReference: {fileID: 0}
     - target: {fileID: 696226094645619186, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -50,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190946067221672334, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: mass
-      value: 35000
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 2190946067221672334, guid: 9df3745bd9bb9dc4cbf32c11f5b300b9, type: 3}
       propertyPath: maximumOrbit

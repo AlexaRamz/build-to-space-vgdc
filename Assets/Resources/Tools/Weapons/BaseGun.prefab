@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletOrigin: {fileID: 4625293298293173789}
+  rotationSpeed: 10
 --- !u!1 &7098233175639755344
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,8 +7,10 @@ public class GunShoot : Tool
     private GunData gunData;
     [SerializeField]
     private Transform bulletOrigin;
-    Transform plr;
+    PlayerMovement plrMove;
     AudioManager audioManager;
+    public float rotationSpeed = 10f;
+    int lastFacingDir;
 
     public override ToolData data
     {
@@ -29,8 +31,9 @@ public class GunShoot : Tool
 
     void Start()
     {
-        plr = GameObject.Find("Player").transform;
+        plrMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         audioManager = GameObject.Find("AudioManager")?.GetComponent<AudioManager>();
+        lastFacingDir = plrMove.faceDirection;
     }
 
     public override bool Use()
@@ -43,10 +46,9 @@ public class GunShoot : Tool
         return true;
     }
 
-    float angle;
     public void Shoot()
     {
-        Bullet bullet = Instantiate(gunData.bulletPrefab, bulletOrigin.position, Quaternion.Euler(0, 0, angle - 90)).GetComponent<Bullet>();
+        Bullet bullet = Instantiate(gunData.bulletPrefab, bulletOrigin.position, Quaternion.Euler(0, 0, transform.eulerAngles.z - 90)).GetComponent<Bullet>();
         bullet.speed = gunData.bulletSpeed;
         bullet.lifeTime = gunData.bulletLifetime;
         bullet.damage = gunData.bulletDamage;
@@ -54,9 +56,27 @@ public class GunShoot : Tool
 
     void LateUpdate()
     {
-        plr.GetComponent<PlayerMovement>().UpdateToolFlipY();
-        Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - plr.position).normalized;
-        angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        plrMove.UpdateToolFlipY();
+        float currentAngle = transform.eulerAngles.z;
+        if (plrMove.faceDirection != lastFacingDir)
+        {
+            currentAngle += 180;
+        }
+
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 dir = mousePos - (Vector2)transform.position;
+        float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        if (plrMove.faceDirection < 0)
+        {
+            targetAngle = Mathf.Sign(targetAngle) * Mathf.Clamp(Mathf.Abs(targetAngle), 90, 180);
+        }
+        else
+        {
+            targetAngle = Mathf.Sign(targetAngle) * Mathf.Clamp(Mathf.Abs(targetAngle), 0, 90);
+        }
+        float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);
+
+        lastFacingDir = plrMove.faceDirection;
     }
 }

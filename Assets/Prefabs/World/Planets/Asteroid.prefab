@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eecb850715cbf46ab7a0179438f37b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 2000
+  mass: 1000
   minimumOrbit: 0
   maximumOrbit: 0
 --- !u!58 &7690139425379146768

@@ -161,5 +161,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14fd3244f67df4b409320e287356aa97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BulletOrigin: 0
   speed: 10
   lifeTime: 3
+  damage: 2
+  ConstantVelocity: 1
+  DoesntDespawn: 0
+  OnlyDespawnWhenNotVisible: 0
+  ChasePlayers: 0
+  particlesPrefab: {fileID: 3223652384140640870, guid: 11df25d99b2f5cf4c81db6d4f5d89ee3, type: 3}

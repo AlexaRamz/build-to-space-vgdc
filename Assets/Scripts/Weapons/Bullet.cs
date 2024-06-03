@@ -25,6 +25,8 @@ public class Bullet : MonoBehaviour
     public bool OnlyDespawnWhenNotVisible;
     public bool ChasePlayers;
 
+    [SerializeField] GameObject particlesPrefab;
+
 
     GameObject player;
     private void Start()
@@ -71,6 +73,11 @@ public class Bullet : MonoBehaviour
 
         }
     }
+    void DestroySelf()
+    {
+        Instantiate(particlesPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+    }
 
     // Handle bullet collisions
     private void OnTriggerEnter2D(Collider2D other)
@@ -85,7 +92,7 @@ public class Bullet : MonoBehaviour
                     {
                         other.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
                     }
-                    Destroy(gameObject);
+                    DestroySelf();
                 }
 
             }
@@ -97,7 +104,7 @@ public class Bullet : MonoBehaviour
                     {
                         other.gameObject.GetComponent<PlayerHealth>().TakeDamage(damage);
                     }
-                    Destroy(gameObject);
+                    DestroySelf();
                 }
             }
         }

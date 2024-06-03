@@ -9,14 +9,13 @@ public class Turret : MonoBehaviour
     [SerializeField] private Transform firingPoint;
     [Range(0.1f, 1f)]
     [SerializeField] private float fireRate = 0.2f;
+    public float rotationSpeed = 10f;
 
     private Rigidbody2D rb;
     private float mx;
     private float my;
 
     private float fireTimer;
-
-    private Vector2 mousePos;
 
     // Start is called before the first frame update
     private void Start()
@@ -27,12 +26,12 @@ public class Turret : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 dir = mousePos - (Vector2)transform.position;
+        float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
 
-        float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x)
-                      * Mathf.Rad2Deg - 90f;
-
-        transform.localRotation = Quaternion.Euler(0,0,angle);
+        float newAngle = Mathf.LerpAngle(transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);
 
         // NTS: Double check if click and hold fire is allowed (use GetMouseButton instead)
         if(Input.GetMouseButton(1) && fireTimer <= 0f)
